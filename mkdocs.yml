@@ -1,0 +1,11 @@
+site_name: mxt的学习笔记
+nav: 
+  - 主页: index.md
+  - 复习笔记:
+    - Java: 'Tutorial/Java.md'
+    - 算法复习: 'Tutorial/算法复习计划.md'
+    - 数据库: 'Tutorial/SQL.md'
+  - 关于我: about.md
+
+theme:
+  name: material
