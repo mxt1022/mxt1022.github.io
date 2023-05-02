@@ -8,4 +8,10 @@ nav:
   - 关于我: about.md
 
 theme:
-  name: material
+  name: 'material'
+  language: 'zh' #配置语言
+  palette: # 颜色
+    primary: 'dark red'
+    accent: 'indigo'
+  feature:
+    tabs: true #横向导航 
