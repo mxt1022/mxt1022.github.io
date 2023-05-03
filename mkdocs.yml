@@ -7,6 +7,10 @@ nav:
     - 数据库: 'Tutorial/SQL.md'
   - python学习相关:
     - py速成练习: 'Tutorial/py速成练习'
+  - lab:
+    - 计算机网络: 'lab/net/计算机网络第三次实验/2023_4_26 计算机网络.md'
+    #- 数据库:
+    #- other:
   - 关于我: about.md
 
 #主题
