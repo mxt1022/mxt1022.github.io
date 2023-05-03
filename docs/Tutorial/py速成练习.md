@@ -331,3 +331,54 @@
 
 ### DAY8
 
+1. 统计单词的出现数量：
+   ```python
+   l=input().split()
+   word=sorted(set(l))#对其进行排序，由于是set集合所以不重复
+   for i in word:
+       print("{0}:{1}".format(i,l.count(i)))
+   #使用pprint(本质与上面同理)
+   from pprint import pprint
+   p=input().split()
+   pprint({i:p.count(i) for i in p})
+   ```
+
+2. 直接计算平方：
+
+   ```python
+   n=input()
+   print(int(n)**2)
+   # a^b的运算：
+   a,b=input().split()
+   print(int(a)**int(b))
+   ```
+
+3. 打印python的官方文档：
+   ```python
+   print(str.__doc__)
+   print(sorted.__doc__)
+   def pow(a,b):
+       #this is a pow program
+       return int(a)**int(b)
+   print(pow(2,3))
+   print(pow.__doc__)
+   ```
+
+4. 类名与成员变量一致：
+   ```python
+   class algo:
+       name="algo"
+       def __init__(self,name):
+           self.name=name
+   dp=algo("dpp")
+   print("{0},{1}".format(dp.name,algo.name))
+   merge=algo("me")
+   print("{0},{1}".format(merge.name,algo.name))
+   
+   #输出：
+   dpp,algo
+   me,algo
+   ```
+
+### DAY9
+
