@@ -73,7 +73,6 @@ select PNAME,QTY
 from SPJ,P
 where JNO='J2',SPJ.PNO=P.pno
 ```
-
 ```sql
 select JNO
 from SPJ,S
@@ -83,7 +82,7 @@ where SPJ.SNO=S.SNO and SPJ.SNO not in(
 	where SPJ.SNO=S.SNO and CITY='天津' 
 )
 ```
-------------------
+
 ```sql
 select SNO
 FROM Student 
