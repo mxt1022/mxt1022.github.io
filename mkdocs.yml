@@ -1,6 +1,8 @@
 site_name: mxt的学习笔记
 nav: 
   - 主页: index.md
+  - 学习笔记: 
+    - CS61A: 'CS/CS61A学习笔记.md'
   - 复习笔记:
     - Java: 'Tutorial/Java.md'
     - 算法复习: 'Tutorial/算法复习计划.md'
@@ -8,7 +10,10 @@ nav:
   - python学习相关:
     - py速成练习: 'Tutorial/py速成练习'
   - lab:
-    - 计算机网络: 'lab/net/计算机网络第三次实验/2023_4_26 计算机网络.md'
+    - 计算机网络: 
+      - 第三次实验: 'lab/net/计算机网络第三次实验/2023_4_26 计算机网络.md'
+    - 数据库应用:
+      - 第七章实验: 'lab/dbapp/第七章/2023_4_27实验报告.md'
     #- 数据库:
     #- other:
   - 关于我: about.md
