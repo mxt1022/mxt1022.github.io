@@ -382,3 +382,79 @@
 
 ### DAY9
 
+1. 定义一个函数计算a+b：
+   ```python
+   def s(a,b):
+       return int(a)+int(b)
+   x,y=input().split()
+   print(s(x,y))
+   #lambda表达式
+   sum = lambda n1,n2 : n1 + n2      # here lambda is use to define little function as sum
+   print(sum(1,2))
+   ```
+
+2. 定义一个能够把数字转换成字符串的函数：
+   ```python
+   def prtstr(x):
+       print(str(x))
+   a=input()
+   prtstr(a)
+   #lambda表达式
+   conv = lambda x : str(x)
+   n = conv(10)
+   print(n)
+   print(type(n))            # checks the type of the variable
+   ```
+
+3. 定义一个接收两个字符串整数然后返回a+b的函数：
+
+   ```python
+   def su(a,b):
+       print(int(a)+int(b))
+   su("2","3")
+   #lambda表达式
+   sum = lambda s1,s2 : int(s1) + int(s2)
+   print(sum("10","45"))      # 55
+   ```
+
+4. 定义一个接收两个字符串整数然后输出两个数的函数：
+
+   ```python
+   def prt(a,b):
+   	print(a+b)
+   prt(a,b)
+   #lambda表达式
+   sum = lambda s1,s2 : s1 + s2
+   print(sum("10","45"))        # 1045
+   ```
+
+5. 打印较长的字符串，如果一样长就逐行打印
+
+   ```python
+   def prt(a,b):
+       if(len(a)>len(b)):
+           print(a)
+       elif(len(a)<len(b)):
+           print(b)
+       else:
+           print(a)
+           print(b)
+           
+   prt("hello","waaaa")
+   #lambda表达式
+   def printVal(s1,s2):
+       len1 = len(s1)
+       len2 = len(s2)
+       if len1 > len2:
+           print(s1)
+       elif len1 < len2:
+           print(s2)
+       else:
+           print(s1)
+           print(s2)
+   
+   s1,s2=input().split()
+   printVal(s1,s2)
+   ```
+
+   
