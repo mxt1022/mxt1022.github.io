@@ -7,6 +7,7 @@ nav:
     - py速成练习: 'Tutorial/py速成练习'
   - 小项目:
     - 二维码识别与网站打开: 'project/二维码识别与打开网站/project.md'
+    - 人脸睡意检测: 'project/睡意检测/project.md'
   - lab:
     - 计算机网络: 
       - 第二次实验: 'lab/net/计算机网络第二次实验/计算机网络第二次实验报告.md'
