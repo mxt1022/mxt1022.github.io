@@ -48,8 +48,8 @@ theme:
       toggle:
         icon: material/weather-night
         name: Switch to light mode
-  font:
-    text: 'Ubuntu'
+  font: #字体
+    text: 'Ubuntu' 
     code: 'Ubuntu Mono'
   feature:
     tabs: true  # 横向导航
@@ -58,12 +58,12 @@ theme:
 markdown_extensions:
 
   # Python Markdown
-  - abbr
-  - admonition
-  - attr_list
-  - def_list
-  - footnotes
-  - md_in_html
+  - abbr # 作用为解析缩写
+  - admonition #作用为解析警告
+  - attr_list #作用为解析属性列表
+  - def_list #作用为解析定义列表
+  - footnotes #作用为解析脚注
+  - md_in_html #作用为解析html
   - toc:
       permalink: true
 
