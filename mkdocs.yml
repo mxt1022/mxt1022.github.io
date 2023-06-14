@@ -15,6 +15,9 @@ nav:
       - 第三次实验: 'lab/net/计算机网络第三次实验/2023_4_26 计算机网络.md'
     - 数据库应用:
       - 第七章实验: 'lab/dbapp/第七章/2023_4_27实验报告.md'
+  - 课程相关:
+    - 计算机图形学:
+      - 复习参考: 'leason/CG/test.md'
   - 杂项:
     - Java: 'Tutorial/Java.md'
     - 算法复习: 'Tutorial/算法复习计划.md'
