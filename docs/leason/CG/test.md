@@ -520,6 +520,7 @@ void fill8(int seedx,int seedy,int fcolor,int bcolor,CDC*pDC){
     }
 }
 //询问堆栈当中最多有几个像素的时候，需要从头开始一个一个进入堆栈，进行判定（人工循环）。
+//注意堆栈是不走到头不退栈的
 ```
 
 $t·P_a+(1-t)·P_b，或者形式为：P_1+(P_2-P_1)·t$
