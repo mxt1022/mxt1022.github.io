@@ -129,12 +129,12 @@ void dda_wu(int x1,int y1,int x2,int y2;int color,CDC* pDC){
 }
 ```
 
-### `1/4圆画法`
+### `1/8圆画法`
 
 ###### 函数版：
 
 ```c++
-void midpointcircle(int xc,int yc,int r,int color,CDC*pDC){
+void midpointcircle(int xc,int yc,int r,int color,CDC*pDC){//中点划线（这里是2*x+3和2*(x-y)+5）
     int x=0,y=r,d=1-r;
     WholeCircle(xc,yc,x,y,color);
     while(x<=y){
@@ -150,7 +150,7 @@ void midpointcircle(int xc,int yc,int r,int color,CDC*pDC){
         WholeCircle(xc,yc,x,y,color)
     }
 }
-void WholeCircle(int xc,int yc,int x,int y,int color,CDC*pDC)){
+void WholeCircle(int xc,int yc,int x,int y,int color,CDC*pDC){//改变的只有后面的参数
 	pDC->SetPixel(xc+x,yc+y,color);
     pDC->SetPixel(xc-x,yc+y,color);
     pDC->SetPixel(xc+x,yc-y,color);
@@ -165,7 +165,7 @@ void WholeCircle(int xc,int yc,int x,int y,int color,CDC*pDC)){
 ### `Bresenham画圆算法`
 
 ```c++
-void BresenhamCircle(int xc,int yc,int r,int color，CDC*pDC){
+void BresenhamCircle(int xc,int yc,int r,int color，CDC*pDC){//d0是3-2*r(后面的更改项分别是前面的两倍，4*x+6和4*(x-y)+10)
 	int x=0,y=r,d=3-2*r;
     while(x<y){
 		WholeCircle(xc,yc,x,y,color,pDC);
