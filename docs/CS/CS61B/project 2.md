@@ -10,6 +10,7 @@
 eg:`import edu.princeton.cs.algs4.stddraw`
 具体的解法可以参考[这个网站](https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/StdDraw.html)
 共有两种解决办法：
-1. 通过复制文件StdDraw.java到当前目录下
+1. 通过复制文件StdDraw.java到当前目录下：
+    [StdDraw.java](https://introcs.cs.princeton.edu/java/stdlib/StdDraw.java)
 2. 通过将stdlib.java放入java的classpath中（目前本人也没搞懂究竟要放在哪个路径之下）
 ## 3. 项目总结
