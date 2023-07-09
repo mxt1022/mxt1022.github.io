@@ -12,6 +12,5 @@ https://github.com/mxt1022/algorithmcode
 
 #### 其他：
 
-计算机图形学复习部分正在更新ing（讲题->复习内容讲解）
 
 
