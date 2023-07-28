@@ -457,4 +457,84 @@
    printVal(s1,s2)
    ```
 
-   
+### DAY9
+question 26 函数计算两数之和
+```python
+def sum(a,b):
+    return a+b
+a=1
+b=2
+print(sum(a+b))
+
+```
+
+question 27 函数转换: int->string
+```python
+def convetr(a):
+    return str(a)
+
+print(3)
+
+```
+question 28 接收两个String计算并打印两数之和
+```python
+def sum(a,b):
+    print(int(a)+int(b))
+sum("233",'22')
+
+#lambda表达式 lambda 参数:表达式
+sum=lambda s1,s2:int(s1)+int(s2)
+
+```
+
+question 29 函数接受两个输入的String变量连接并且打印
+```python
+def sum(a,b):
+    print(a+b)
+#sum1 lambda a,b:a+b
+a=input()
+b=input()
+sum(a,b)
+```
+<font color='red'>一定要注意在python3环境运行</font>
+
+question 30 定义一个函数，打印两个输入的String变量当中长的那个
+```python
+def longer(a,b):
+    if(len(a)>len(b)):
+        print(a)
+    elif(len(a)==len(b)):
+        print(a+b)
+    else:
+        print(b)
+
+a,b=input().split()
+longer(a,b)
+```
+
+
+
+### Day10
+question 31 定义一个函数，打印一个$[1,20]$的字典，值是下标的平方
+
+def print_dic():
+    for i in range(1,21):
+        res.append(i*i)
+res=[]
+print_dic()
+print(res)
+
+<font color='red'>Ps:</font>
+1. [python中的list,set,dictionary的区别](https://blog.csdn.net/yz930618/article/details/77170340)
+2. [python中的comprehensions方法快速建立list,set or dictionary](https://www.geeksforgeeks.org/comprehensions-in-python/)
+
+question 32 定义一个函数可以生成字典（具体要求同上），但是函数只可以打印下标(keys)
+
+def print_dic2():
+    for i in range(1,21):
+        res.append(i*i)
+res=dict()
+print_dic2(res.keys())
+
+<font color='red'>Ps:</font>
+[字典推导式：](https://zhuanlan.zhihu.com/p/88235729)
