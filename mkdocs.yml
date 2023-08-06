@@ -39,7 +39,7 @@ theme:
   language: 'zh'  # 配置语言
   palette:
     - primary: 'lingo'  #颜色
-    - accent: 'light-blue'
+    - accent: 'Teal'
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
