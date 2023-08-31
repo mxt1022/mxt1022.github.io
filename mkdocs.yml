@@ -3,8 +3,8 @@ nav:
   - 主页: index.md
   - 国外课程学习记录: 
     - AI相关:
-      - Maching Learning: 'AI/ML/ML.md'
-      - Maching Learning With Python: 'AI/ML/ML_with_py.md'
+      - Machine Learning: 'AI/ML/ML.md'
+      - Machine Learning With Python: 'AI/ML/ML_with_py.md'
     - CS相关:
       - CS61A: 'CS/CS61A/CS61A学习笔记.md'
       - CS61B: 'CS/CS61B/project 2.md'
