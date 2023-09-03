@@ -50,5 +50,14 @@
 ## Chapter 2
 
 ### 2.1 Mathematica项目示例：
-eg: 世界上哪一个地方的人寿命最长（p11）
+eg: 世界上哪一个地方的人寿命最长（p11）（通过自由格式输入可以进行类似于搜索引擎的效果）
+```Wolfram
+data = DeleteCases[
+   Table[{i, CountryData[i, "LifeExpectancy"]}, {i, 
+     CountryData[All]}], {_, _Missing}];
 
+Short[data]
+```
+<font size=2pt color='red'>Delete、Cases用于将一个或者多个数值缺失的数据删除，Short只在屏幕上打印结果的子集</font>
+
+<font size=2pt color='red'>Ps: 通过`Esc`序列（先按`Esc`再按其他符号可以输入特殊符号？）

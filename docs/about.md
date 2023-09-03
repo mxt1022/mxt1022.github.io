@@ -3,9 +3,12 @@
 ### 目前的更新计划
 1. CS方向
 
-    1. CS61A的学习笔记->CS61B的学习笔记（暂定于暑假当中学完CS61B并且拓展性的学习CS170）
+    1. CS61A的学习笔记->CS61B的学习笔记（暂定于暑假当中学完CS61B并且拓展性的学习CS170） <font color='red'>暂时搁置</font>
+    2. 408+离散数学
+
 
 2. AI方向
+    1. 动手学深度学习
 
 3. Lab实验
 
@@ -27,11 +30,14 @@
 
     3. CS61B（JAVA语言+数据结构好像也是刷题？）
 
-    4. （网络当中据说的）刷题神课：
+    4. （网络当中据说的）刷题神课：CS170
 
-      CS170
+    5. CSAPP 3e（Third Edition）
 
 5. 其他内容
+    1. 24考研数学高数武忠祥
+    2. 六级备考
+    3. 408->其他的
 
 Ps: 拓展内容将会通过[`csdiy.wiki`](https://csdiy.wiki/)和[`名校课程评价`](https://conanhujinming.github.io/comments-for-awesome-courses/index.html) 以及所选的选修必修课程进行进一步的拓展学习。
 
