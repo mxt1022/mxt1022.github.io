@@ -8,10 +8,16 @@ nav:
     - CS相关:
       - CS61A: 'CS/CS61A/CS61A学习笔记.md'
       - CS61B: 'CS/CS61B/project 2.md'
+  - 自主学习:
+    - DataWhale:
+      - Leetcode: 'DataWhale/Leetcode/task1.md'
   - 一些工具的学习笔记:
-    - Mathematica: 'CS/Tools/Mathematica/Mathematica.md'
-    - Mathematica编程: 'CS/Tools/Mathematica/Mathe.md'
-    - LaTex: 'CS/Tools/LaTex/Question.md'
+    - Mathmetica:
+      - Mathematica: 'CS/Tools/Mathematica/Mathematica.md'
+      - Mathematica编程: 'CS/Tools/Mathematica/Mathe.md'
+    - LaTex:
+      - LaTex写作常见问题: 'CS/Tools/LaTex/Question.md'
+      - LaTex常用的模板: 'CS/Tools/LaTex/Template.md'
   - 语言学习:
     - python学习相关:
       - py速成练习: 'Tutorial/py速成练习'
