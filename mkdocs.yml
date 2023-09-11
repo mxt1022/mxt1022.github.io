@@ -10,7 +10,7 @@ nav:
       - CS61B: 'CS/CS61B/project 2.md'
   - 自主学习:
     - DataWhale:
-      - Leetcode: 'DataWhale/Leetcode/task1.md'
+      - Leetcode_task1: 'DataWhale/Leetcode/task1.md' 
   - 一些工具的学习笔记:
     - Mathmetica:
       - Mathematica: 'CS/Tools/Mathematica/Mathematica.md'
