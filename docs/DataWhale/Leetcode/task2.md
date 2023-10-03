@@ -96,22 +96,139 @@ class Solution:
 [0189.轮转数组](https://leetcode.cn/problems/rotate-array/)
 解题步骤：
 ```python
-
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        k %= len(nums)  
+        nums[:] = nums[-k:] + nums[:-k]
 ```
 解题思路：
+这道题难点不在思路，在于如何使得Python可以修改nums数组引用的部分
 
 ## 01.02.03
 
-### 练习题目3：
-[]()
+### 练习题目1：
+[0048. 旋转图像](https://leetcode.cn/problems/rotate-image/)
+解题步骤：
+```python
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        n=len(matrix)
+        for i in range(n):
+            for j in range(i, n):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+        for i in range(n):
+            matrix[i] = matrix[i][::-1]
+```
+解题思路：
+该题的难点主要集中在先沿着主对角线，翻转，然后再左右翻转就可以得到反转之后的数组了
+
+### 练习题目2：
+[0054. 螺旋矩阵](https://leetcode.cn/problems/spiral-matrix/)
 解题步骤：
 ```python
 ```
 解题思路：
 
+
+## 01.02.04
+
+### 练习题目1：
+[0066. 加一](https://leetcode.cn/problems/plus-one/)
+解题步骤：
+```python
+class Solution:
+    def plusOne(self, digits: List[int]) -> List[int]:
+        n=len(digits)
+        a=0
+        for i in range(n):
+            a*=10
+            a=a+digits[i]
+        a=str(int(a+1))
+        res=[]
+        for i in range(len(a)):
+            res.append(int(a[i]))
+        return res
+```
+解题思路：
+
+### 练习题目2：
+[0724. 寻找数组的中心下标](https://leetcode.cn/problems/find-pivot-index/)
+解题步骤：
+```python
+class Solution:
+    def pivotIndex(self, nums: List[int]) -> int:
+        su=sum(nums)
+        res=0
+        for i in range(len(nums)):
+            su-=nums[i]
+            if res==su:
+                return i
+            res=res+nums[i]
+        return -1
+```
+解题思路：
+
 ### 练习题目3：
+[0485. 最大连续 1 的个数](https://leetcode.cn/problems/max-consecutive-ones/)
+解题步骤：
+```python
+class Solution:
+    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+        res=0
+        t=0
+        for i in range(len(nums)):
+            if nums[i]==1 :
+                res+=1
+            else:
+                t=max(res,t)
+                res=0
+        return max(res,t)
+```
+解题思路：
+
+### 练习题目2：
 []()
 解题步骤：
 ```python
+
 ```
 解题思路：
+
+### 练习题目2：
+[]()
+解题步骤：
+```python
+
+```
+解题思路：
+
+### 练习题目2：
+[]()
+解题步骤：
+```python
+
+```
+解题思路：
+
+### 练习题目2：
+[]()
+解题步骤：
+```python
+
+```
+解题思路：
+
+### 练习题目2：
+[]()
+解题步骤：
+```python
+
+```
+解题思路：
+
