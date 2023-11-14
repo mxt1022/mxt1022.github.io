@@ -9,3 +9,7 @@
 2. [解决Tomcat的Servelet导入问题](https://blog.csdn.net/qq_53430678/article/details/124554994?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-1-124554994-blog-132279902.235^v38^pc_relevant_anti_vip_base&spm=1001.2101.3001.4242.2&utm_relevant_index=4)
 实际上就是Tomcat 10及以上版本的问题，需要把javax换成jakarta
 3. [html中代码高亮](https://blog.csdn.net/qq_43332570/article/details/107076641)
+
+## 目前遇到还未解决的问题：
+1. idea配置问题，当前的idea目前遇到无法正常的运行具体的项目文件。
+2. 如何具体的创建一个可运行的web项目（基于Mybits和Maven框架）
