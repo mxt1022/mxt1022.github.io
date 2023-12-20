@@ -38,7 +38,7 @@ nav:
       - 配置环境及相关问题: 'lab/web/temp.md'
   - 课程相关:
     - 计算机图形学:
-      - 复习参考: 'leason/CG/test.md'
+      - 复习参考: 'lesson/CG/test.md'
   - 杂项:
     - Java: 'Tutorial/Java.md'
     - 算法复习: 'Tutorial/算法复习计划.md'
