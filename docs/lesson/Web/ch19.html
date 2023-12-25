@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第十九章课后作业</title>
+</head>
+<body>
+<h1>第十九章课后作业</h1>
+
+<h2>1、如何使用Spring MVC的表单标签库？</h2>
+<ol>Spring MVC提供了一个表单标签库（Form Tag Library）来简化在JSP页面中处理表单的过程。这个标签库包含了一系列的标签，用于生成HTML表单元素，并处理表单的数据绑定和验证。下面是使用Spring MVC表单标签库的基本步骤：
+
+    <li> 导入Spring MVC标签库：
+    在JSP页面的顶部导入Spring MVC的表单标签库：
+
+    <pre><code>
+%lt%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+    </code></pre>
+
+    <li>创建表单：
+        使用&ltform:form>标签创建表单，并指定表单的属性，如action、method等：
+    <pre><code>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+
+&lthtml>
+&lthead>
+    &lttitle>Spring MVC Form&ltitle>
+&lt/head>
+&ltbody>
+
+&ltform:form action="/submitForm" method="post" modelAttribute="userForm">
+    <!-- 表单元素 -->
+    &ltlabel for="username">Username:&ltlabel>
+    &ltform:input path="username" id="username" />
+
+    &ltbr/>
+
+    &ltlabel for="password">Password:&ltlabel>
+    &ltform:password path="password" id="password" />
+
+    &ltbr/>
+
+    &ltinput type="submit" value="Submit" />
+&ltform:form>
+
+&lt/body>
+&lt/html>
+
+    </code></pre>
+
+    <li>处理表单提交：
+        在控制器中创建一个与表单相关的JavaBean，并在处理提交的表单数据时使用@ModelAttribute注解：
+    <pre><code>
+@Controller
+public class FormController {
+
+    @GetMapping("/showForm")
+    public String showForm(Model model) {
+        model.addAttribute("userForm", new UserForm());
+        return "form-page";
+    }
+
+    @PostMapping("/submitForm")
+    public String submitForm(@ModelAttribute("userForm") UserForm userForm) {
+        // 处理表单提交逻辑
+        return "result-page";
+    }
+}
+
+    </code></pre>
+
+    <li>创建表单相关的JavaBean：
+    <pre><code>
+public class UserForm {
+    private String username;
+    private String password;
+
+    // getter和setter方法...
+}
+
+    </code></pre>
+<br>在表单页面中使用&ltform:input>和&ltform:password>等标签，可以方便地生成相应的HTML表单元素，并与UserForm中的属性进行绑定。在提交表单时，表单数据将自动绑定到UserForm对象中。
+<br>这样，通过使用Spring MVC的表单标签库，可以更方便地处理表单的生成、数据绑定和验证等操作，提高了开发效率。
+
+</ol>
+
+
+
+
+
+<h2>2、如何实现Spring 验证和JSR 303验证？</h2>
+<ol>
+    Spring验证和JSR 303验证都是用于在应用程序中执行数据验证的机制。Spring验证是Spring框架提供的一种验证机制，
+    <br>而JSR 303验证是Java EE平台中的一种标准验证机制。以下是实现Spring验证和JSR 303验证的基本步骤：
+    <li>Spring验证：
+    <br>创建验证器类：
+    <pre><code>
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.Validator;
+
+public class UserValidator implements Validator {
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return User.class.equals(clazz);
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        User user = (User) target;
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
+        if (user.getUsername().length() < 5 || user.getUsername().length() > 20) {
+            errors.rejectValue("username", "Size.userForm.username");
+        }
+
+        // 其他验证逻辑...
+    }
+}
+
+    </code></pre>
+
+    <br>在控制器中使用验证器：
+    <pre><code>
+@Controller
+public class UserController {
+
+    @Autowired
+    private UserValidator userValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(userValidator);
+    }
+
+    @PostMapping("/submitForm")
+    public String submitForm(@ModelAttribute("userForm") @Validated User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "form-page";
+        }
+
+        // 处理表单提交逻辑
+        return "result-page";
+    }
+}
+
+    </code></pre>
+
+    <li>JSR 303验证：
+    <br> 在实体类上添加验证注解：
+    <pre><code>
+public class User {
+
+    @Size(min = 5, max = 20, message = "Username must be between 5 and 20 characters")
+    private String username;
+
+    // 其他属性和验证注解...
+}
+
+    </code></pre>
+    <br>在控制器中使用@Valid注解：
+    <pre><code>
+        @Controller
+public class UserController {
+
+    @PostMapping("/submitForm")
+    public String submitForm(@ModelAttribute("userForm") @Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "form-page";
+        }
+
+        // 处理表单提交逻辑
+        return "result-page";
+    }
+}
+
+    </code></pre>
+    <br>以上示例中，使用了@Validated注解来触发Spring验证，而JSR 303验证直接使用了@Valid注解。你可以根据实际需求选择使用其中一种或两者结合使用。
+    <br>要使用JSR 303验证，确保项目中包含了相关的依赖（如Hibernate Validator），并在类路径中包含了验证提供者。
+</ol>
+
+<a href="./20.html">下一章节作业</a>
+
+</body>
+</html>

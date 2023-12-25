@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第二十章课后作业</title>
+</head>
+<body>
+<h1>第二十章课后作业</h1>
+<h2>3、如何使用Kaptcha验证码组件？使用应用示例说明</h2>
+<ol>
+    Kaptcha 是一个Java验证码工具库，用于生成和验证验证码。它支持生成常见的验证码图像，例如数字、字母和算术运算等。
+    <br>在Spring应用程序中，可以使用 Kaptcha 来添加验证码功能，以增强用户身份验证的安全性。以下是一个使用 Kaptcha 的简单示例：
+    <li> 添加依赖：
+        在 Maven 项目中，添加以下依赖到 pom.xml 文件中：
+    <pre><code>
+&ltdependency>
+    &ltgroupId>com.google.code.kaptcha&ltgroupId>
+        &ltartifactId>kaptcha&ltartifactId>
+    &ltversion>2.3.2&ltversion>
+&ltdependency>
+
+    </code></pre>
+    <li>Spring配置：
+    在 Spring 的配置文件中添加 Kaptcha 的配置：
+    <pre><code>
+<!-- Kaptcha 配置 -->
+&ltbean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+    &ltproperty name="config">
+        &ltbean class="com.google.code.kaptcha.util.Config">
+            <!-- 配置参数 -->
+            &ltproperty name="border" value="no"/>
+            &ltproperty name="imageWidth" value="150"/>
+            &ltproperty name="imageHeight" value="50"/>
+            &ltproperty name="textProducerImpl">
+                &ltbean class="com.google.code.kaptcha.text.impl.DefaultTextCreator"/>
+            &ltproperty>
+            &ltproperty name="fontNames" value="Arial, Courier"/>
+        &ltbean>
+    &ltproperty>
+&ltbean>
+
+    </code></pre>
+
+    <li> Controller 使用 Kaptcha：
+    <pre><code>
+import com.google.code.kaptcha.Producer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Map;
+
+@Controller
+public class CaptchaController {
+
+    @Autowired
+    private Producer captchaProducer;
+
+    @GetMapping("/captcha")
+    public void handleRequest(HttpServletResponse response) throws IOException {
+        // 生成验证码字符串
+        String captchaText = captchaProducer.createText();
+
+        // 将验证码字符串放入Session
+        // session.setAttribute("KAPTCHA_SESSION_KEY", captchaText);
+
+        // 生成验证码图片
+        BufferedImage bi = captchaProducer.createImage(captchaText);
+
+        // 将验证码图片写入响应
+        try {
+            ImageIO.write(bi, "jpg", response.getOutputStream());
+            response.flushBuffer();
+        } catch (IOException e) {
+            // 处理异常
+        }
+    }
+}
+
+    </code></pre>
+
+    <li>验证输入的验证码：
+    在登录或注册等需要验证码的地方，获取用户输入的验证码并与生成的验证码进行比对。比对成功则继续进行后续操作，否则返回错误提示。
+    <pre><code>
+@PostMapping("/login")
+public String login(@RequestParam String username, @RequestParam String password, @RequestParam String captcha,
+                    HttpSession session) {
+    // 获取生成的验证码字符串
+    String generatedCaptcha = (String) session.getAttribute("KAPTCHA_SESSION_KEY");
+
+    // 比对验证码
+    if (captcha.equalsIgnoreCase(generatedCaptcha)) {
+        // 验证通过，执行登录逻辑
+        // ...
+        return "redirect:/home";
+    } else {
+        // 验证码错误，返回错误提示
+        // ...
+        return "redirect:/login";
+    }
+}
+
+    </code></pre>
+</ol>
+
+
+<h2>4、如何在表单中使用图像形式的提交按钮？</h2>
+<ol>
+    在HTML中，可以使用&ltinput>元素的type属性来创建图像形式的提交按钮。这通常用于在表单中使用自定义的图像按钮而不是传统的文本按钮。
+    <pre><code>
+&lt!DOCTYPE html>
+&lthtml lang="en">
+&lthead>
+    &ltmeta charset="UTF-8">
+    &ltmeta name="viewport" content="width=device-width, initial-scale=1.0">
+    &lttitle>Image Submit Button&lt/title>
+        &lt/head>
+&ltbody>
+
+&ltform action="/submitForm" method="post">
+    <!-- 其他表单元素 -->
+    &ltinput type="text" name="username" placeholder="Username" required>
+    &ltbr>
+    &ltinput type="password" name="password" placeholder="Password" required>
+    &ltbr>
+
+    <!-- 图像形式的提交按钮 -->
+    &ltinput type="image" src="submit_button_image.png" alt="Submit">
+&lt/form>
+
+&lt/body>
+&lt/html>
+    </code></pre>
+</ol>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第十六章课后作业</title>
+</head>
+<body>
+<h1>第十六章课后作业</h1>
+<h2>3、Spring MVC 配置文件一般有哪些内容？有什么含义？</h2>
+<ol>
+    Spring MVC配置文件包括DispatcherServlet配置（配置DispatcherServlet的初始化参数和映射规则）、
+    <br>Spring MVC配置（定义注解驱动、扫描控制器包、配置视图解析器等）、控制器配置（定义处理请求的控制器类和方法）、
+    <br>视图解析器配置（将逻辑视图名映射为实际视图）、拦截器配置（定义拦截器及其应用路径），通过这些配置实现了对Spring MVC框架的定制和功能扩展，
+    <br>使得应用能够灵活地处理HTTP请求和生成响应。
+</ol>
+
+
+<h2>4、使用Spring MVC框架的时候如何防止前端传入中文出现乱码？</h2>
+<ol>
+    在Spring MVC框架中防止前端传入中文出现乱码，主要需要注意以下几个方面：
+    <li> 请求编码设置：
+        确保在Spring MVC的配置文件中，配置CharacterEncodingFilter以正确设置请求编码。在web.xml中添加如下配置：
+        <pre><code>
+&ltfilter>
+    &ltfilter-name>encodingFilter &ltfilter-name>
+            &ltfilter-class>org.springframework.web.filter.CharacterEncodingFilter&ltfilter-class>
+    &ltinit-param>
+        &ltparam-name>encoding&ltparam-name>
+            &ltparam-value>UTF-8&ltparam-value>
+            &ltinit-param>
+    &ltinit-param>
+        &ltparam-name>forceEncoding&ltparam-name>
+            &ltparam-value>true&ltparam-value>
+            &ltinit-param>
+&ltfilter>
+
+&ltfilter-mapping>
+    &ltfilter-name>encodingFilter&ltfilter-name>
+            &lturl-pattern>/*&lturl-pattern>
+            &ltfilter-mapping>
+
+        </code></pre>
+        上述配置将请求和响应的编码都设置为UTF-8，确保正确处理中文字符。
+    <li> 表单提交编码设置：
+    确保HTML表单的提交方式为POST，并且设置表单的accept-charset属性为UTF-8：
+        <pre><code>
+&ltform method="post" accept-charset="UTF-8">
+    <!-- 表单字段 -->
+&ltform>
+
+        </code></pre>
+    <li>控制器方法参数设置：
+    在控制器的方法参数上使用@RequestParam注解，并设置value属性和produces属性。例如：
+        <pre><code>
+@RequestMapping("/processForm")
+public String processForm(@RequestParam(value = "inputParam", required = false) String inputParam, Model model) {
+    // 处理方法体
+    return "result";
+}
+
+        </code></pre>
+    确保@RequestParam注解的produces属性设置为"text/plain;charset=UTF-8"。
+    通过以上配置，可以有效地防止前端传入中文时出现乱码问题。
+
+</ol>
+
+<h2>7、简述Spring MVC的工作流程</h2>
+<ol>
+    Spring MVC的工作流程可以简要描述为以下几个步骤：
+
+    <li>请求到达DispatcherServlet：
+
+        客户端的请求首先到达Spring MVC的核心控制器，即DispatcherServlet。
+    <li>HandlerMapping选择Controller：
+
+        DispatcherServlet通过HandlerMapping找到能处理该请求的Controller。HandlerMapping负责将请求映射到具体的Controller。
+    <li>Controller处理请求：
+
+        一旦找到了匹配的Controller，DispatcherServlet将请求交给Controller进行处理。Controller执行业务逻辑，可能调用Service层来完成具体的业务操作。
+    <li>Controller返回ModelAndView：
+
+        Controller处理完请求后，返回一个ModelAndView对象，其中包含了模型数据和视图名称。
+    <li>ViewResolver解析视图：
+
+        DispatcherServlet使用ViewResolver解析视图名称，将其转换为具体的视图对象。
+    <li>渲染视图：
+
+        视图对象负责渲染模型数据，生成最终的响应内容。
+    <li>响应返回客户端：
+
+        最终，DispatcherServlet将生成的响应返回给客户端。
+    <br>整个过程中，Spring MVC采用了MVC（Model-View-Controller）模式，其中Model负责数据，View负责渲染，Controller负责处理业务逻辑。通过配置和注解，开发者可以灵活地定制请求的处理流程，使得应用具有更好的可维护性和扩展性。
+</ol>
+
+<a href="./ch17.html">下一章节作业</a>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第十三章课后作业</title>
+</head>
+<body>
+<h1>第十三章课后作业</h1>
+<h2>1、如何使用MyBatis注解方式实现表数据的增、删、改、查？</h2>
+<ol>
+    <li>增加数据（Insert）
+        使用@Insert注解可以将对象插入到数据库表中。
+        <pre><code>
+        import org.apache.ibatis.annotations.Insert;
+
+        public interface UserMapper {
+
+            @Insert("INSERT INTO users (username, password) VALUES (#{username}, #{password})")
+            void insertUser(User user);
+        }
+
+        </code></pre>
+    <li>删除数据（Delete）
+    使用@Delete注解可以从数据库表中删除数据。
+        <pre><code>
+        import org.apache.ibatis.annotations.Delete;
+
+        public interface UserMapper {
+
+            @Delete("DELETE FROM users WHERE id = #{id}")
+            void deleteUserById(int id);
+        }
+
+        </code></pre>
+    <li>更新数据（Update）
+    使用@Update注解可以更新数据库表中的数据。
+        <pre><code>
+import org.apache.ibatis.annotations.Update;
+
+public interface UserMapper {
+
+    @Update("UPDATE users SET username = #{username}, password = #{password} WHERE id = #{id}")
+    void updateUser(User user);
+}
+
+        </code></pre>
+    <li>查询数据（Select）
+    使用@Select注解可以从数据库表中查询数据。
+        <pre><code>
+import org.apache.ibatis.annotations.Select;
+
+public interface UserMapper {
+
+    @Select("SELECT * FROM users WHERE id = #{id}")
+    User getUserById(int id);
+}
+
+        </code></pre>
+    UserMapper 是一个MyBatis的Mapper接口，它定义了与用户表相关的操作。@Insert、@Delete、@Update、@Select 注解分别对应了插入、删除、更新和查询操作。
+    确保在MyBatis配置文件中正确配置了这个Mapper接口，然后就可以在应用中注入UserMapper并使用这些方法了。
+    <li>
+        <pre><code>
+
+        </code></pre>
+</ol>
+
+<a href="./ch14.html">下一章作业</a>
+</body>
+</html>
