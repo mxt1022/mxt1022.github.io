@@ -41,6 +41,8 @@ nav:
       - 课后习题: 'lesson/Web/catelog.md'
     - 计算机图形学:
       - 复习参考: 'lesson/CG/test.md'
+    - 软件工程:
+      - 复习提纲及相关概念: 'lesson/软件工程/review.md'
   - 杂项:
     - Java: 'Tutorial/Java.md'
     - 算法复习: 'Tutorial/算法复习计划.md'
