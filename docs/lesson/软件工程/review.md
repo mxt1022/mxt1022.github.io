@@ -16,7 +16,11 @@
 
 **瀑布模型**
 
+
+
 ![](https://img-blog.csdnimg.cn/faa4859c54e34761b724ae32c120a2d1.png#pic_center)
+
+
 
 >[这张图片是一个瀑布模型的流程图，它可以帮助我们理解瀑布模型的特点。瀑布模型是一种线性和顺序的软件开发过程模型，它有以下特点](https://zhuanlan.zhihu.com/p/145431142)[1](https://zhuanlan.zhihu.com/p/145431142)[2](https://zh.wikipedia.org/wiki/瀑布模型)：
 >
@@ -36,6 +40,8 @@
 >
 
 **快速原型模型**：
+
+
 
 ![](https://img-blog.csdnimg.cn/6acc180e814a4e0187e9f7adbdba4dea.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5b-r5LmQ5rGf5rmW,size_20,color_FFFFFF,t_70,g_se,x_16)
 
@@ -59,7 +65,11 @@
 
 **增量模型**
 
+
+
 ![](https://img-blog.csdnimg.cn/bf3ebc1705a746c8836dee8d3edef843.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5b-r5LmQ5rGf5rmW,size_20,color_FFFFFF,t_70,g_se,x_16)
+
+
 
 >[这张图片是一个增量模型的流程图，它可以帮助我们理解增量模型的特点。增量模型是一种软件开发过程模型，它有以下特点](https://blog.csdn.net/weixin_41413511/article/details/118313702)[1](https://blog.csdn.net/weixin_41413511/article/details/118313702)[2](https://blog.csdn.net/m0_66120671/article/details/130508836)：
 >
@@ -82,6 +92,8 @@
 
 **螺旋模型**
 
+
+
 ![](https://img-blog.csdnimg.cn/60f6b721b17248dea8bb6e771b112325.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5b-r5LmQ5rGf5rmW,size_20,color_FFFFFF,t_70,g_se,x_16)
 
 >[这张图片是一个螺旋模型的流程图，它可以帮助我们理解螺旋模型的特点。螺旋模型是一种演化软件开发过程模型，它兼顾了快速原型的迭代的特征以及瀑布模型的系统化与严格监控。螺旋模型最大的特点在于引入了其他模型不具备的风险分析，使软件在无法排除重大风险时有机会停止，以减小损失。同时，在每个迭代阶段构建原型是螺旋模型用以减小风险的途径。螺旋模型更适合大型的昂贵的系统级的软件应用。](https://blog.csdn.net/lihepeng007/article/details/47953693)[1](https://blog.csdn.net/lihepeng007/article/details/47953693)[2](https://www.syrr.cn/news/531849.html)
@@ -102,7 +114,11 @@
 
 **喷泉模型**
 
+
+
 ![](https://img-blog.csdnimg.cn/7ad485aafc2c4304bf146f81cd85bf87.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5b-r5LmQ5rGf5rmW,size_20,color_FFFFFF,t_70,g_se,x_16)
+
+
 
 >[这张图片是一个喷泉模型的流程图，它可以帮助我们理解喷泉模型的特点。喷泉模型是一种以用户需求为动力，以对象为驱动的模型，主要用于描述面向对象的软件开发过程。该模型认为软件开发过程自下而上周期的各阶段是相互重叠和多次反复的，就像水喷上去又可以落下来，类似一个喷泉。各个开发阶段没有特定的次序要求，并且可以交互进行，可以在某个开发阶段中随时补充其他任何开发阶段中的遗漏。](https://blog.csdn.net/chen1083376511/article/details/127139625)[1](https://blog.csdn.net/chen1083376511/article/details/127139625)[2](https://blog.csdn.net/weixin_43258908/article/details/103524870)
 >
@@ -240,7 +256,7 @@
 
 
 
-![image-20240104194135905](C:\Users\mxt\AppData\Roaming\Typora\typora-user-images\image-20240104194135905.png)
+![image-20240104194135905](https://unlome.oss-cn-beijing.aliyuncs.com/img/image-20240104194135905.png)
 
    <font color='red'>
 
