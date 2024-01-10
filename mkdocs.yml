@@ -44,6 +44,8 @@ nav:
     - 软件工程:
       - 复习提纲及相关概念: 'lesson/软件工程/review.md'
       - 完整版的复习内容: 'lesson/软件工程/new.md'
+    - 操作系统:
+      - 一些较为重要的知识点: 'lesson/OS/index.md'
   - 杂项:
     - Java: 'Tutorial/Java.md'
     - 算法复习: 'Tutorial/算法复习计划.md'
