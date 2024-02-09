@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第七章节课后作业</title>
+</head>
+<body>
+<h1>第七章课后作业</h1>
+<h2>1、XMLHttpRequest对象的常用属性和事件有哪些？</h2>
+XMLHttpRequest 是在JavaScript中执行异步HTTP请求的核心对象。以下是一些常用的 XMLHttpRequest 属性和事件：
+<ol>
+常用属性：<br>
+
+    <li>onreadystatechange：
+
+类型： 事件处理程序<br>
+描述： 当 readyState 属性发生变化时触发的事件。可以通过此事件来检测请求的状态。<br>
+    <li>readyState：
+
+类型： 只读属性<br>
+描述： 表示请求的当前状态，可能的值有：<br>
+0：请求未初始化<br>
+1：服务器连接已建立<br>
+2：请求已接收<br>
+3：请求处理中<br>
+4：请求已完成，且响应已就绪<br>
+    <li>responseText：
+
+类型： 只读属性<br>
+描述： 以字符串形式返回响应主体。<br>
+    <li>responseXML：
+
+类型： 只读属性<br>
+描述： 如果响应的 Content-Type 是 text/xml 或 application/xml，则返回包含响应数据的 XML DOM 文档。<br>
+    <li>status：
+
+类型： 只读属性<br>
+描述： 返回响应的HTTP状态码，例如 200 表示成功，404 表示未找到。<br>
+    <li>statusText：
+
+类型： 只读属性<br>
+描述： 返回HTTP状态码的文本描述，例如 OK 表示成功，Not Found 表示未找到。<br>
+    <li>timeout：
+
+类型： 属性<br>
+描述： 设置请求的超时时间（毫秒），超过此时间请求将被中断。<br>
+    <li>withCredentials：
+
+类型： 属性<br>
+描述： 表示是否应该在请求中包含跨域请求的凭据（如Cookie或HTTP认证）。<br>
+</ol>
+   <ol>
+常用事件：<br>
+
+       <li>onload：
+
+描述： 当请求成功完成时触发。<br>
+       <li>onerror：
+
+描述： 当请求发生错误时触发。<br>
+       <li>ontimeout：
+
+描述： 当请求超时时触发。<br>
+       <li>onprogress：
+
+描述： 在请求过程中周期性地触发，用于追踪进度。<br>
+       <li>onabort：
+
+描述： 当请求被中断时触发。<br>
+这些属性和事件可以帮助开发者追踪和处理异步HTTP请求的不同阶段和状态。
+   </ol>
+
+<h2>2、XMLHttpRequest对象的常用方法有哪些？</h2>
+常用的XMLHttpRequest 方法：
+<ol>
+<li>open(method, url[, async, user, password])：
+
+描述： 初始化一个请求。<br>
+参数：<br>
+method：HTTP请求方法，如 "GET" 或 "POST"。<br>
+url：请求的URL。<br>
+async：可选参数，表示请求是否异步，默认为 true。<br>
+user：可选参数，表示用于认证的用户名。<br>
+password：可选参数，表示用于认证的密码。<br>
+    <li>send([data])：
+
+描述： 发送HTTP请求。<br>
+参数：<br>
+data：可选参数，用于发送的数据。对于 POST 请求，将数据作为请求主体发送。<br>
+    <li>setRequestHeader(name, value)：
+
+描述： 设置HTTP请求头。<br>
+参数：<br>
+name：请求头的名称。<br>
+value：请求头的值。<br>
+    <li>getResponseHeader(name)：
+
+描述： 获取指定的响应头的值。<br>
+参数：<br>
+name：要获取的响应头的名称。<br>
+    <li>getAllResponseHeaders()：
+
+描述： 获取所有的响应头，以字符串形式返回。<br>
+    <li>abort()：
+
+描述： 中止当前的HTTP请求。<br>
+    <li>setTimeOut(timeout)：
+
+描述： 设置请求的超时时间（毫秒）。<br>
+    <li>overrideMimeType(mime)：
+
+描述： 重写响应的MIME类型。这个方法必须在 send() 方法之前调用。<br>
+</ol>
+
+
+<a href="./ch8.html">下一章节课后作业</a>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第十章课后作业</title>
+</head>
+<body>
+<h1>第十章课后作业</h1>
+<h2>1、与JDBC相比MyBatis的有点有哪些》与Hibernate相比呢？</h2>
+MyBatis相对于JDBC的优点：
+<ol>
+<li>简化SQL编写：
+
+MyBatis通过XML或注解的方式将SQL语句与Java代码分离，使得SQL编写更加简洁和可维护。相比于JDBC，不再需要在Java代码中拼接SQL字符串。
+    <li>动态SQL：
+
+MyBatis支持动态SQL，可以根据不同条件动态生成SQL语句，这使得在复杂的查询场景下更加灵活。JDBC通常需要手动构建动态SQL。
+    <li>结果映射：
+
+MyBatis提供了灵活的结果映射机制，可以将查询结果自动映射到Java对象。相比于JDBC，不再需要手动处理ResultSet。
+    <li>参数处理：
+
+MyBatis能够处理输入参数和输出参数的映射，使得与数据库的交互更加方便。JDBC通常需要手动管理参数。
+    <li>缓存支持：
+
+MyBatis支持缓存机制，可以提高查询性能。JDBC通常需要手动实现缓存。
+</ol>
+<ol>
+MyBatis相对于Hibernate的优点：
+
+    <li>更接近SQL：
+
+MyBatis相对于Hibernate更接近SQL语句的书写方式，对于熟悉SQL的开发者更容易上手。Hibernate更倾向于对象关系映射，可能需要更多的学习成本。
+    <li>灵活性和控制性：
+
+MyBatis提供了更多的控制权和灵活性，开发者可以更细粒度地控制SQL的执行。相比之下，Hibernate的控制性相对较低，更注重于自动化和约定。
+    <li>适用于现有数据库：
+
+MyBatis更适合于已有数据库模式的应用，因为它允许开发者更直接地使用现有的SQL语句。Hibernate在这方面可能需要更多的配置和映射工作。
+    <li>轻量级：
+</ol>
+MyBatis相对于Hibernate来说更轻量级，不需要过多的学习成本和配置即可上手使用。
+<h2>5、MyBatis核心组件的生命周期是怎样的？</h2>
+<ol>
+<li>SqlSessionFactoryBuilder生命周期：
+
+SqlSessionFactoryBuilder是用于创建SqlSessionFactory的建造者类。通常，它的实例是在创建SqlSessionFactory之前创建的，创建完毕后就可以被丢弃。
+    <li>SqlSessionFactory生命周期：<br>
+
+SqlSessionFactory是应用程序级别的单例，用于创建SqlSession实例。一般情况下，一个应用程序只需要一个SqlSessionFactory实例。SqlSessionFactory的创建是相对昂贵的操作，因此应该在应用程序启动时创建，并在整个应用程序的生命周期中保持不变。<br>
+SqlSessionFactory的创建通常包括以下步骤：<br>
+使用SqlSessionFactoryBuilder创建Reader对象，读取MyBatis配置文件（通常是mybatis-config.xml）。<br>
+使用读取到的配置文件创建SqlSessionFactory实例。<br>
+    <li>SqlSession生命周期：<br>
+
+SqlSession是与数据库交互的主要入口，它代表一次数据库会话。SqlSession的生命周期较短，应该在需要执行数据库操作时创建，执行完毕后及时关闭。通常，SqlSession的创建和关闭是在方法内部进行的，称为“短暂”模式。<br>
+SqlSession的创建通常包括以下步骤：<br>
+通过SqlSessionFactory的openSession()方法创建SqlSession实例。<br>
+SqlSession的关闭通常包括以下步骤：<br>
+调用SqlSession的close()方法关闭SqlSession。<br>
+    <li>Mapper生命周期：<br>
+
+Mapper是用于执行映射文件中定义的SQL语句的接口。Mapper的生命周期是方法级别的，每次需要执行数据库操作时，都会创建一个新的Mapper实例，执行完毕后即可丢弃。<br>
+Mapper的创建通常包括以下步骤：<br>
+通过SqlSession的getMapper(Class< T > type)方法获取Mapper的实例。<br>
+</ol>
+
+<a href="ch11.html">下一章课后作业</a>
+</body>
+</html>

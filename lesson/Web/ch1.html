@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第一章节课后作业</title>
+</head>
+<body>
+<h1>第一章节作业</h1>
+<h2>1、B/S架构和C/S架构有什么不一样？什么是基于B/S架构的Web应用</h2>
+B/S架构（Browser/Server Architecture）和C/S架构（Client/Server Architecture）是两种不同的软件架构模型，它们在应用程序的组织和交互方面有一些关键区别。
+
+<ol>
+  <li>C/S架构（客户端/服务器架构）：
+<ul>
+<li>客户端（Client）： 用户界面和应用逻辑运行在客户端计算机上。
+<li>服务器（Server）： 数据和应用处理运行在服务器计算机上。
+<li>通信： 客户端和服务器通过网络进行通信。
+</ul>
+  在C/S架构中，应用程序的逻辑和用户界面是分布在客户端和服务器之间的，客户端负责展示和用户输入，而服务器负责处理业务逻辑、存储数据等任务。
+
+<li>B/S架构（浏览器/服务器架构）：
+<ul>
+<li>浏览器（Browser）： 用户界面和应用逻辑运行在Web浏览器中。
+<li>服务器（Server）： 数据和应用处理运行在服务器计算机上。
+<li>通信： 客户端和服务器之间通过HTTP/HTTPS协议进行通信。
+</ul>
+    在B/S架构中，应用程序的用户界面和逻辑全部运行在Web浏览器中，而服务器负责处理业务逻辑、存储数据等任务。用户通过浏览器访问应用程序，所有的交互都是通过Web页面完成的。
+</ol>
+基于B/S架构的Web应用是指使用B/S架构模型开发的Web应用程序。这种类型的应用具有以下特点：
+<ul>
+<li>跨平台性： 由于用户界面在浏览器中运行，可以在各种操作系统上使用，只要浏览器支持。
+<li>易于维护和更新： 由于应用逻辑集中在服务器上，可以在服务器端进行更新和维护，而不需要在每个客户端上进行更改。
+<li>无需安装： 用户无需在本地安装应用程序，只需通过浏览器访问即可使用。
+一些常见的基于B/S架构的Web应用包括电子邮件服务、在线办公套件（如Google Docs）、社交媒体平台等。
+</ul>
+
+
+<h2>2、在Eclipse当中如何设置编码</h2>
+
+    在Eclipse中设置编码方式是为了确保你的项目和文件能够正确地处理和显示不同字符集的文本。以下是在Eclipse中设置编码的步骤：
+<ol>
+    <li>全局编码设置：
+    <ul>
+    <li>打开Eclipse IDE。
+        <li>转到菜单栏，选择 "Window" > "Preferences"。
+        <li>在弹出的窗口中，展开 "General"，然后选择 "Workspace"。
+        <li>在右侧的 "Text file encoding" 下拉框中，选择你希望的编码方式（如UTF-8）。
+        <li>点击 "Apply" 和 "OK" 保存更改。
+    </ul>
+    <li>项目级别的编码设置：
+<ul>
+    <li>在项目资源管理器中，右键点击你的项目，选择 "Properties"。
+    <li>在弹出的窗口中，选择 "Resource"。
+    <li>在 "Text file encoding" 部分，选择你想要的编码方式。
+    <li>点击 "Apply" 和 "OK" 保存更改。
+</ul>
+    <li>文件级别的编码设置：
+<ul>
+    <li>对于单个文件，你可以右键点击文件，选择 "Properties"。
+    <li>在 "Resource" 部分，选择 "Text file encoding"。
+    <li>选择你想要的编码方式，然后点击 "Apply" 和 "OK"。
+</ul>
+    请注意，全局设置会影响所有新项目和文件，而项目级别和文件级别的设置会覆盖全局设置。确保选择的编码方式符合你项目的需求和团队的约定。 UTF-8 是一种通用的编码方式，支持多语言字符。
+</ol>
+
+<h2>3、如何将Tomcat与Eclipse关联</h2>
+<ol>
+<li>下载和安装Tomcat：
+<ul>
+    <li>下载Tomcat服务器，并按照官方文档的指导进行安装。
+    <li>记住Tomcat的安装路径。
+</ul>
+    <li>在Eclipse中配置Tomcat Server：
+<ul>
+    <li>打开Eclipse IDE。
+    <li>转到菜单栏，选择 "Window" > "Preferences"。
+    <li>在左侧导航栏中，展开 "Server"，选择 "Runtime Environments"。
+    <li>点击 "Add..." 按钮，选择 "Apache" > "Tomcat"，然后点击 "Next"。
+    <li>在 "Tomcat installation directory" 中选择你安装Tomcat的路径，然后点击 "Finish"。
+</ul>
+    <li>创建一个Dynamic Web Project：
+<ul>
+    <li>在Eclipse中，选择 "File" > "New" > "Dynamic Web Project"。
+    <li>输入项目的名称，选择 "Target runtime" 为你刚刚配置的Tomcat版本，然后点击 "Finish"。
+</ul>
+    <li>配置项目的Web Deployment Descriptor（web.xml）：
+<ul>
+    <li>打开 "WebContent/WEB-INF" 目录，如果没有 web.xml 文件，可以右键点击 "WEB-INF"，选择 "New" > "Other" > "Web" > "Deployment Descriptor"。
+    <li>确保 web.xml 文件中的Servlet版本和其他配置符合你的项目需求。
+</ul>
+    <li>部署和运行项目：
+<ul>
+    <li>右键点击你的项目，选择 "Run As" > "Run on Server"。
+    <li>选择你的Tomcat服务器，点击 "Finish"。
+    <li>Eclipse会将你的项目部署到Tomcat服务器上并启动Tomcat。
+</ul>
+    <li>查看控制台输出：
+<ul>
+    <li>在Eclipse底部的 "Console" 视图中，你将看到Tomcat服务器的输出信息，包括Web应用的部署情况和访问地址。
+</ul>
+</ol>
+
+<h2>5、在MySQL中如何创建数据库和数据表</h2>
+<ol>
+    <li>创建数据库：<br>
+        数据库是一个用于存储数据的容器。通过创建数据库，你可以在其中组织和存储相关数据。使用CREATE DATABASE语句并指定数据库名称，即可创建一个新的数据库。
+
+    <li>    选择数据库：<br>
+        在创建数据库后，通过使用USE语句，你可以选择要在其中执行操作的数据库。这确保了后续的操作都会在指定的数据库中进行。
+
+    <li>    创建数据表：<br>
+        数据表是数据库中的结构，用于存储数据。通过使用CREATE TABLE语句，你可以定义表的结构，包括列的名称和数据类型。每个列都定义了表中存储的不同类型的信息。
+</ol>
+
+<h2>6、在PostgreSQL中如何创建数据库和数据表</h2>
+<ol>
+    <li>创建数据库：
+        使用CREATE DATABASE语句创建一个数据库。确保为数据库选择一个描述性的名称，以反映其用途。<br>
+
+        <li>连接到数据库：
+        连接到已创建的数据库，这样可以在该数据库上执行操作。这可以通过使用\c命令或CONNECT语句来实现。<br>
+
+        <li>创建数据表：
+        在连接到数据库后，使用CREATE TABLE语句创建数据表。指定表的名称以及每个列的名称和数据类型。这定义了表的结构，决定了表中可以存储的信息类型。<br>
+</ol>
+
+<h2>9、如何使用Navicat Premium连接MySQL数据库服务器</h2>
+<ol>
+    <li>打开Navicat Premium：
+        启动Navicat Premium应用程序。
+
+    <li>    创建新连接：
+<ul>
+     <li>   在Navicat Premium的主界面中，点击左上角的“连接”按钮或选择“连接”菜单。
+    <li>   在弹出的对话框中，选择MySQL作为连接类型。
+</ul>
+    <li>    填写连接信息：
+<ul>
+    <li>    在连接设置页面中，填写以下信息：
+    <li>连接名（Connection Name）： 为你的连接指定一个有意义的名称。
+    <li>主机名（Host Name/IP Address）： MySQL服务器的主机名或IP地址。
+    <li>端口（Port）： MySQL服务器的端口号（默认是3306）。
+    <li>用户名（Username）： 连接MySQL服务器的用户名。
+    <li>密码（Password）： 连接MySQL服务器的密码。
+</ul>
+    <li>选择默认数据库（Optional）：
+        如果你想要连接时默认打开某个特定的数据库，可以在连接设置中选择“Advanced”选项，然后在“Default Database”字段中输入数据库名称。
+
+    <li>    测试连接：
+        在填写完连接信息后，可以点击“Test Connection”按钮来测试连接是否成功。如果一切设置正确，应该会显示连接成功的消息。
+
+    <li>    保存连接：
+        如果测试连接成功，点击“OK”按钮保存连接设置。
+
+    <li>    连接到数据库服务器：
+<ul>
+     <li>   在Navicat Premium主界面左侧的连接列表中，找到刚刚创建的连接。
+    <li>双击连接或者使用右键菜单选择连接，以连接到MySQL数据库服务器。
+</ul>
+    <li>    浏览数据库和执行操作：
+</ol>
+<a href="./ch2.html">下一节课后作业</a>
+</body>
+</html>

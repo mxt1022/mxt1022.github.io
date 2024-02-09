@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第三章节课后作业</title>
+</head>
+<body>
+<h1>第三章节课后作业</h1>
+<h2>1、JSP拥有哪些内置对象，其用途与存取范围又是怎么样子的？</h2>
+<ol>
+<li>request对象：
+
+用途： 代表客户端的HTTP请求，包括请求参数、请求头等信息。
+存取范围： 整个请求过程中，作用范围为一次请求。
+    <li>response对象：
+
+用途： 代表服务器对客户端的HTTP响应，可设置响应头、写入响应体等。
+存取范围： 整个请求过程中，作用范围为一次请求。
+    <li>out对象：
+
+用途： 用于向客户端输出内容，类似于 PrintWriter。
+存取范围： 整个请求过程中，作用范围为一次请求。
+    <li>session对象：
+
+用途： 代表用户的会话，可以存储和检索用户相关的信息。
+存取范围： 整个会话过程中，作用范围为一次用户会话。
+    <li>application对象：
+
+用途： 代表整个Web应用程序，可用于在不同用户间共享信息。
+存取范围： 整个Web应用程序生命周期中，作用范围为整个应用。
+    <li>config对象：
+
+用途： 代表JSP页面的配置信息，通常用于获取初始化参数。
+存取范围： 整个JSP页面的生命周期中，作用范围为整个页面。
+    <li>page对象：
+
+用途： 代表当前JSP页面本身，类似于this关键字。
+存取范围： 整个JSP页面的生命周期中，作用范围为整个页面。
+    <li>pageContext对象：
+
+用途： 提供对JSP页面中各种作用域的访问，包括request、session、application等。
+存取范围： 整个JSP页面的生命周期中，作用范围为整个页面。
+</ol>
+
+<h2>2、依照先后顺序，JSP生命周期分为哪些阶段？</h2>
+JSP（JavaServer Pages）的生命周期分为以下几个阶段，按先后顺序排列：
+<ol>
+<li>编译阶段：
+
+当第一次访问一个 JSP 页面时，容器将 JSP 页面翻译成 Servlet。
+翻译后的 Servlet 类被编译成字节码。
+    <li>初始化阶段：
+
+Servlet 容器实例化 JSP 页面对应的 Servlet 类。
+调用 Servlet 的 init() 方法，用于执行一次性的初始化工作。
+    <li>请求处理阶段：
+
+对每个客户端请求，容器调用 Servlet 的 service() 方法。
+service() 方法决定调用哪个 HTTP 方法对应的处理方法，如 doGet() 或 doPost()。
+    <li>销毁阶段（可选）：
+
+当 JSP 页面或应用程序停止、重新部署或服务器关闭时，容器调用 Servlet 的 destroy() 方法。
+destroy() 方法用于执行一次性的清理工作。
+</ol>
+
+<h2>5、Page指令包含的常用属性有哪些？如何使用？</h2>
+<ol>
+<li>language：
+
+用途： 指定JSP页面使用的脚本语言，默认为Java。
+示例： <%@ page language="java" %>
+    <li>contentType：
+
+用途： 设置响应的内容类型及字符编码。
+示例： <%@ page contentType="text/html; charset=UTF-8" %>
+    <li>import：
+
+用途： 导入Java类或包，使其在JSP页面中可用。
+示例： <%@ page import="java.util.List, java.util.ArrayList" %>
+    <li>session：
+
+用途： 如果设置为 true，允许使用会话对象（session）。
+示例： <%@ page session="true" %>
+    <li>buffer：
+
+用途： 设置缓冲区的大小，控制输出的缓冲行为。
+示例： <%@ page buffer="8kb" %>
+    <li>autoFlush：
+
+用途： 如果设置为 true，缓冲区满时自动刷新。
+示例： <%@ page autoFlush="true" %>
+    <li>isThreadSafe：
+
+用途： 如果设置为 false，禁止生成线程安全的 Servlet。
+示例： <%@ page isThreadSafe="false" %>
+info：
+
+用途： 为JSP页面提供描述信息。
+示例： <%@ page info="This is a JSP page" %>
+    <li>errorPage：
+
+用途： 指定当页面发生异常时跳转的错误页面。
+示例： <%@ page errorPage="/error.jsp" %>
+    <li>isErrorPage：
+
+用途： 如果设置为 true，当前页面可作为其他页面的错误页面。
+示例： <%@ page isErrorPage="true" %>
+    <li>extends：
+
+用途： 指定当前JSP页面生成的Servlet类继承的父类。
+示例： <%@ page extends="com.example.MyCustomServlet" %>
+    <li>import：
+
+用途： 导入Java类或包，使其在JSP页面中可用。
+示例： <%@ page import="java.util.List, java.util.ArrayList" %>
+
+</ol>
+
+
+<h2>3、在JSP内使用Declare Tag (<%!%>)与Script Tag(<%!%>)设革命的变量有什么不一样的地方</h2>
+
+在JSP中，Declare Tag <%! ... %> 用于声明成员变量和方法，这些声明的变量和方法的作用范围是整个JSP页面，类似于Java类中定义的成员.<br>
+
+而 Scriptlet Tag <% ... %> 用于编写Java代码，它的作用范围是在生成的Servlet的 _jspService() 方法中，该方法处理每个请求。<br>
+
+总体来说，Declare Tag适用于定义JSP页面中的全局变量和方法，而Scriptlet Tag用于执行具体的业务逻辑和输出动态内容。最好将业务逻辑和显示逻辑分离，使用EL表达式和标签库等方式来避免在JSP中过多嵌入Java代码，提高可维护性和可读性。<br>
+
+<h2>4、JSP的include指令元素和< jsp:include > 动作元素有何异同？</h2>
+<pre><code>
+JSP的include指令元素和<jsp:include>动作元素都用于包含其他资源（如JSP页面、HTML文件）的内容，但它们有一些异同之处：
+
+相同点：
+    作用： 两者都用于将其他资源的内容嵌入到当前JSP页面中，实现代码的复用和模块化。
+    包含方式： 都是在编译时或运行时将被包含的内容插入到当前页面中，形成最终的页面输出。
+
+不同点：
+    语法和位置：
+    <%@ include file="filename.jsp" %>：include指令是一个静态包含，用于在JSP文件的编译时包含其他文件的内容。它位于JSP文件的任意位置，通常在文件的顶部。
+    &<jsp:include page="filename.jsp" />：<jsp:include>动作元素是一个动态包含，用于在JSP文件的运行时包含其他文件的内容。它通常位于JSP文件中的任意位置，甚至可以嵌套在其他标签内。
+执行时机：
+
+    <%@ include %> 指令在JSP页面的编译阶段执行，将包含的文件内容合并到当前页面。
+    <jsp:include> 动作元素在JSP页面的运行阶段执行，根据条件动态包含其他文件的内容。
+作用域：
+
+    <%@ include %> 指令没有自己的作用域，包含的内容和当前页面共享同一个作用域。
+    <jsp:include> 动作元素可以通过flush属性指定是否刷新响应缓冲区，可以选择在新的请求上包含其他文件，因此具有更灵活的作用域控制。
+异常处理：
+
+    <%@ include %> 指令包含的文件中的异常会影响整个页面的编译和执行。
+    <jsp:include> 动作元素可以使用<jsp:param>标签传递参数，并可以使用<jsp:try>标签进行异常处理。
+    综合而言，<%@ include %> 指令主要用于静态的、在编译时确定的包含，而 <jsp:include> 动作元素提供了更灵活的、在运行时动态确定的包含机制，同时具有更多的控制选项和异常处理能力。
+
+</code></pre>
+
+
+
+<a href="./ch4.html">下一章节课后作业</a>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第十五章课后作业</title>
+</head>
+<body>
+<h1>第十五章课后作业</h1>
+<h2>1、如何理解Spring的依赖注入和控制反转</h2>
+<ol>
+    <li> 控制反转（Inversion of Control，IoC）：
+        控制反转是一种设计原则，它将对组件生命周期和依赖管理的控制从应用程序代码中转移到容器或框架中。在传统的程序设计中，应用程序通常会负责创建和管理对象的生命周期。而在IoC中，这个控制权被颠倒了，由容器负责创建和管理对象的生命周期。
+        Spring的IoC容器是这种控制反转的实现，它负责创建、组装和管理应用程序中的对象。在IoC容器中，你只需配置好应用程序的组件，而不用自己负责它们的创建和管理。
+    <li>依赖注入（Dependency Injection，DI）：
+        依赖注入是IoC的一种具体实现方式。在依赖注入中，对象不再负责自己依赖项（例如其他对象或值）的获取，而是将依赖项从外部注入到对象中。
+        Spring的依赖注入是通过构造函数注入、Setter方法注入或接口注入等方式来实现的。通过使用依赖注入，你可以在不修改类的情况下，更灵活地管理和替换对象之间的依赖关系。
+    使用控制反转：
+    <pre><code>
+// 在传统方式中，程序自己控制对象的创建
+public class MyApp {
+    public static void main(String[] args) {
+        UserService userService = new UserService();
+        userService.process();
+    }
+}
+
+// 使用IoC容器进行控制反转
+public class MyAppWithIoC {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+        UserService userService = context.getBean("userService", UserService.class);
+        userService.process();
+    }
+}
+
+        </code></pre>
+    使用依赖注入：
+    <pre><code>
+// 传统方式，依赖在类内部创建
+public class UserService {
+    private UserDao userDao = new UserDao();
+
+    public void process() {
+        // 使用userDao进行业务逻辑处理
+    }
+}
+
+// 使用依赖注入
+public class UserServiceWithDI {
+    private UserDao userDao;
+
+    // 通过构造函数注入依赖
+    public UserServiceWithDI(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public void process() {
+        // 使用userDao进行业务逻辑处理
+    }
+}
+
+        </code></pre>
+</ol>
+
+
+<h2>3、什么是设值注入？什么是构造注入？</h2>
+
+<ol>设值注入和构造注入都是依赖注入（Dependency Injection，DI）的方式，它们是Spring框架用于实现IoC的两种主要注入方式。
+
+    <li>构造注入（Constructor Injection）：
+    在构造注入中，依赖关系通过目标类的构造函数来注入。通过构造函数，目标类明确声明它所需要的依赖项。Spring容器在实例化目标类时，通过构造函数传递依赖项。
+        <pre><code>
+public class UserService {
+    private UserDao userDao;
+
+    // 构造函数注入
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    // 其他业务方法...
+}
+
+        </code></pre>
+        在上面的示例中，UserService 类通过构造函数接收一个 UserDao 对象，并将其赋给私有成员变量 userDao。在Spring容器中，你可以配置一个bean，将 UserService 的构造函数参数注入为一个 UserDao 的实例。
+    <li>设值注入（Setter Injection）：
+        在设值注入中，依赖关系通过目标类的setter方法来注入。目标类提供一个setter方法，Spring容器使用这个setter方法将依赖项注入到目标类中。
+        示例：
+        <pre><code>
+public class UserService {
+    private UserDao userDao;
+
+    // 设值注入
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    // 其他业务方法...
+}
+
+        </code></pre>
+        在上面的示例中，UserService 类提供了一个 setUserDao 方法，Spring容器会调用这个方法并将一个 UserDao 对象作为参数传递进去。
+        构造注入： 适用于那些在对象创建时就需要设置的依赖关系。构造注入强调目标类对依赖项的强制性要求，并使得目标类在实例化时就是完全可用的。
+
+        设值注入： 适用于那些在对象创建后，需要在运行时动态更改依赖关系的情况。设值注入提供了更灵活的方式，允许在目标类实例化后动态更改依赖项。
+
+        在实际使用中，可以根据具体的情况选择使用构造注入或设值注入，甚至两者结合使用。在Spring中，通常推荐使用构造注入来表达目标类对依赖项的强制性要求，同时使用设值注入来注入可选的或在运行时可能发生变化的依赖项。
+</ol>
+
+
+<h2>4、Spring容器中Bean的生命周期是怎样的？</h2>
+<ol>
+    Spring容器管理Bean的生命周期，它包括Bean的实例化、初始化、使用和销毁等阶段。在Spring中，Bean的生命周期由Spring容器来控制，而不是由程序员手动管理。以下是Spring容器中Bean的典型生命周期：
+    <li>实例化（Instantiation）：
+        当应用程序启动时，Spring容器负责实例化Bean。这通常是通过构造函数来创建Bean的实例。
+    <li>设置Bean属性（Population of Properties）：
+        容器通过Bean的setter方法或直接访问成员变量来设置Bean的属性值。这是依赖注入的一部分，确保Bean拥有必需的依赖项。
+    <li>Bean的初始化（Initialization）：
+        在Bean的所有属性都设置好之后，Spring容器会调用Bean的初始化回调方法。这可以是通过实现InitializingBean接口的afterPropertiesSet方法，或者通过在配置文件中声明的自定义初始化方法。
+    <li>Bean的使用（In Use）：
+        Bean现在可以被应用程序使用。在这个阶段，Bean执行业务逻辑，并与其他Bean协同工作。
+    <li>Bean的销毁（Destruction）：
+        当应用程序关闭时，或者当不再需要某个Bean时，Spring容器会调用Bean的销毁回调方法。这可以是通过实现DisposableBean接口的destroy方法，或者通过在配置文件中声明的自定义销毁方法。
+    <br>
+    xml代码：
+    <pre><code>
+<!-- 配置一个简单的Bean -->
+&ltbean id="exampleBean" class="com.example.ExampleBean" init-method="init" destroy-method="destroy">
+    &ltproperty name="name" value="John Doe"/>
+&ltbean>
+        </code></pre>
+    java代码
+    <pre><code>
+        public class ExampleBean implements InitializingBean, DisposableBean {
+            private String name;
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            // 初始化回调方法
+            public void init() {
+                System.out.println("Bean is being initialized...");
+            }
+
+            // 销毁回调方法
+            public void destroy() {
+                System.out.println("Bean is being destroyed...");
+            }
+
+            // 其他业务逻辑...
+        }
+
+    </code></pre>
+</ol>
+
+<a href="./ch16.html">下一章作业</a>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第六章课后作业</title>
+</head>
+<body>
+<h1>第六章课后作业</h1>
+<h2>2、监听器的作用是什么？有哪些常用的监听器</h2>
+监听器（Listener）是JavaEE中的一种重要组件，用于监听和响应特定事件的发生。它的作用是在特定的事件发生时执行预定义的代码，以实现对应事件的处理逻辑。监听器可以用于各种JavaEE组件，例如Servlet、JSP、Session、ServletContext等。常用的监听器包括：
+<ol>
+<li>ServletRequestListener：
+
+作用： 用于监听与单个HTTP请求的生命周期相关的事件。<br>
+常见方法：<br>
+requestInitialized(ServletRequestEvent event): 在每次HTTP请求被初始化时调用。<br>
+requestDestroyed(ServletRequestEvent event): 在每次HTTP请求被销毁时调用。<br>
+    <li>ServletRequestAttributeListener：<br>
+
+作用： 用于监听与ServletRequest属性的变化相关的事件。<br>
+常见方法：<br>
+attributeAdded(ServletRequestAttributeEvent srae): 在ServletRequest属性被添加时调用。<br>
+attributeRemoved(ServletRequestAttributeEvent srae): 在ServletRequest属性被移除时调用。<br>
+attributeReplaced(ServletRequestAttributeEvent srae): 在ServletRequest属性被替换时调用。<br>
+    <li>HttpSessionListener：
+
+作用： 用于监听与单个HTTP会话的生命周期相关的事件。<br>
+常见方法：<br>
+sessionCreated(HttpSessionEvent se): 在每次HTTP会话被创建时调用。<br>
+sessionDestroyed(HttpSessionEvent se): 在每次HTTP会话被销毁时调用。<br>
+    <li>HttpSessionAttributeListener：
+
+作用： 用于监听与HttpSession属性的变化相关的事件。<br>
+常见方法：<br>
+attributeAdded(HttpSessionBindingEvent se): 在HttpSession属性被添加时调用。<br>
+attributeRemoved(HttpSessionBindingEvent se): 在HttpSession属性被移除时调用。<br>
+attributeReplaced(HttpSessionBindingEvent se): 在HttpSession属性被替换时调用。<br>
+    <li>ServletContextListener：
+
+作用： 用于监听与整个Web应用程序的生命周期相关的事件。<br>
+常见方法：<br>
+contextInitialized(ServletContextEvent sce): 在Web应用程序初始化时调用。<br>
+contextDestroyed(ServletContextEvent sce): 在Web应用程序销毁时调用。<br>
+    <li>ServletContextAttributeListener：
+
+作用： 用于监听与ServletContext属性的变化相关的事件。<br>
+常见方法：<br>
+attributeAdded(ServletContextAttributeEvent event): 在ServletContext属性被添加时调用。<br>
+attributeRemoved(ServletContextAttributeEvent event): 在ServletContext属性被移除时调用。<br>
+attributeReplaced(ServletContextAttributeEvent event): 在ServletContext属性被替换时调用。<br>
+</ol>
+    这些监听器可以通过在部署描述符（如 web.xml）中进行配置，或者使用注解的方式来注册。监听器的使用能够在应用程序的不同阶段进行操作，例如在请求、会话或整个应用程序的生命周期中。
+
+<a href="./ch7.html">下一章节课后作业</a>
+
+</body>
+</html>
