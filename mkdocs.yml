@@ -9,6 +9,8 @@ nav:
       - CS61A: 'CS/CS61A/CS61A学习笔记.md'
       - CS61B: 'CS/CS61B/project 2.md'
   - 自主学习:
+    - kaggle:
+      - 数据处理: 'AI/datacleaning/temp.md'
     - DataWhale:
       - LeetCode:
         - Leetcode_task1: 'DataWhale/Leetcode/task1.md' 
