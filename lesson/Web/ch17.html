@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第十七章课后作业</title>
+</head>
+<body>
+
+<h1>第十七章课后作业</h1>
+
+<h2>1、如何应用@Autowired、@Service 和@Repository进行依赖注入？</h2>
+<ol>
+  在Spring框架中，@Autowired、@Service和@Repository是用于实现依赖注入的关键注解。下面是如何使用它们进行依赖注入的示例：
+
+  <li>使用@Autowired进行依赖注入：
+    @Autowired 注解可以用于构造函数、setter方法、字段或方法上，用于告诉Spring容器要自动注入相应的依赖项。
+    <br>使用在构造函数上：
+        <pre><code>
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    // 其他业务逻辑...
+}
+
+        </code></pre>
+  <br>使用在Setter方法上：
+    <pre><code>
+@Service
+public class UserService {
+
+    private UserRepository userRepository;
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    // 其他业务逻辑...
+}
+        </code></pre>
+<li>使用@Service和@Repository进行标识：
+  @Service 和 @Repository 注解通常用于标识服务类和数据访问层类，以告诉Spring容器这些类是需要被管理的Bean。
+
+  <br> @Service 注解：
+  <pre><code>
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    // 其他业务逻辑...
+}
+        </code></pre>
+  <br>@Repository 注解：
+  <pre><code>
+@Repository
+public class UserRepository {
+
+    // 数据访问逻辑...
+}
+
+        </code></pre>
+  <li>配置注解扫描：
+  确保在Spring配置文件中启用注解扫描，以便Spring容器能够识别和管理带有@Service、@Repository和其他注解的类。
+  <pre><code>
+%tlcontext:component-scan base-package="com.example" />
+
+        </code></pre>
+</ol>
+通过上述配置和注解，Spring容器将自动管理并注入依赖项。@Service、@Repository 注解告诉Spring哪些类需要被管理，
+<br> 而 @Autowired 注解告诉Spring在哪里注入相关的依赖项。这种方式简化了配置，提高了代码的可读性和可维护性。
+
+<h2>2、@RequestParam和@PathVariable的区别是？</h2>
+<ol>
+  @RequestParam 和 @PathVariable 是在Spring框架中用于处理Web请求中的参数的注解，它们在用途和使用场景上有一些区别：
+
+  <li>@RequestParam：
+  @RequestParam 用于从请求的参数中获取值。它主要用于处理查询参数（Query Parameters）或表单参数（Form Parameters）。
+        <pre><code>
+@GetMapping("/example")
+public String exampleMethod(@RequestParam("param1") String param1, @RequestParam("param2") int param2) {
+    // 方法体
+    return "result";
+}
+        </code></pre>
+    在上述例子中，param1 和 param2 是通过查询参数传递给 /example 路径的。
+</ol>
+
+<h2></h2>
+<ol>
+  <li>@PathVariable：
+    @PathVariable 用于从URI路径中获取值。它主要用于处理RESTful风格的URL中的参数。
+        <pre><code>
+@GetMapping("/example/{param1}/{param2}")
+public String exampleMethod(@PathVariable String param1, @PathVariable int param2) {
+    // 方法体
+    return "result";
+}
+
+        </code></pre>
+    <br>在上述例子中，param1 和 param2 是通过URI路径传递给 /example/{param1}/{param2} 路径的。
+
+    <h4>区别总结：</h4>
+    <h6>来源不同：</h6>
+
+    <br>@RequestParam 从请求参数中获取值，适用于查询参数和表单参数。
+    <br>@PathVariable 从URI路径中获取值，适用于RESTful风格的URL。
+    <h6>语法不同：</h6>
+
+    <br>@RequestParam 使用 @RequestParam("paramName") 形式。
+    <br>@PathVariable 使用 @PathVariable 注解并直接在方法参数中指定路径变量名。
+    <h6>使用场景不同：</h6>
+
+    <br>@RequestParam 适用于处理普通的HTTP请求，如表单提交和普通URL查询参数。
+    <br>@PathVariable 适用于RESTful风格的URL，其中路径的一部分用于传递参数。
+    <br>在实际应用中，选择使用哪个取决于具体的业务需求和URL设计。
+    <br>通常，@RequestParam 用于处理传统的表单提交和查询参数，而 @PathVariable 用于处理RESTful风格的URL中的路径参数。
+</ol>
+<a href="./ch18.html">下一章课后作业</a>
+</body>
+</html>
+

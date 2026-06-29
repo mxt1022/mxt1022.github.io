@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第二章课后作业</title>
+</head>
+<body>
+<h1>第二章节课后作业</h1>
+<h2>1、如何用记事本写一个Servlet，并且在Tomcat服务器上运行</h2>
+<ol>
+    <li>准备环境：
+    <ul>
+        <li>确保已经安装Java JDK和Tomcat服务器，并已配置好相应的环境变量。
+    </ul>
+    <li>创建Servlet文件：
+    <ul>
+        <li>使用记事本创建一个以 .java 结尾的文件，编写Servlet代码。保存文件。
+    </ul>
+    <li>编译Servlet：
+    <ul>
+        <li>打开命令提示符，切换到包含你的Servlet文件的目录。
+        <li>使用Java编译器（javac）编译Servlet文件。
+    </ul>
+    <li>复制到Tomcat目录：
+    <ul>
+        <li>复制编译后的 .class 文件到Tomcat的 webapps/your_webapp/WEB-INF/classes 目录。
+    </ul>
+    <li>启动Tomcat服务器：
+    <ul>
+        <li>在命令提示符中，切换到Tomcat的 bin 目录。
+        <li>运行 startup.bat（Windows）或 ./startup.sh（Linux）启动Tomcat。
+    </ul>
+    <li>访问Servlet：
+    <ul>
+        <li>打开浏览器，访问 http://localhost:8080/your_webapp/servlet_url，其中 your_webapp 是你的Web应用程序的名称，servlet_url 是你在Servlet中定义的URL。
+    </ul>
+</ol>
+
+
+<h2>2、Servelt的体系结构是什么样子的</h2>
+
+Java Servlet 是用于在服务器端处理HTTP请求和响应的Java API。Servlet 的体系结构遵循 Java EE（Enterprise Edition）规范，其主要组成部分包括 Servlet 接口、GenericServlet 类、HttpServlet 类等。以下是 Servlet 的简要体系结构：
+<ol>
+<li>Servlet 接口：
+<ul>
+    <li>javax.servlet.Servlet 接口是所有 Servlet 类必须实现的基本接口。
+    <li>定义了Servlet的生命周期方法，如init()、service()、destroy()。
+    <li>Servlet 接口没有直接提供处理HTTP请求和响应的方法，这些方法由具体的Servlet类实现。
+</ul>
+    <li>GenericServlet 类：
+<ul>
+    <li>javax.servlet.GenericServlet 是一个抽象类，实现了 Servlet 接口。
+    <li>提供了通用的Servlet功能，例如初始化、销毁等。
+    <li>通常用作创建自定义Servlet类的基类。
+</ul>
+    <li>HttpServlet 类：
+<ul>
+    <li>javax.servlet.http.HttpServlet 继承自 GenericServlet，专门用于处理HTTP请求和响应。
+    <li>提供了处理不同HTTP方法（GET、POST等）的方法，如doGet()、doPost()。
+    <li>大多数Web应用程序中的Servlet都是继承自 HttpServlet。
+</ul>
+    <li>Servlet容器（Servlet Container）：
+<ul>
+    <li>Servlet 容器是一个Web服务器或应用服务器的组成部分，负责管理和执行Servlet的生命周期。
+    <li>常见的Servlet容器包括Apache Tomcat、Jetty、IBM WebSphere等。
+    <li>Servlet容器负责接收HTTP请求，将请求路由到相应的Servlet，并将Servlet生成的响应返回给客户端。
+</ul>
+    <li>Servlet配置和映射：
+<ul>
+    <li>Servlet通过在 web.xml 文件中的配置进行映射和初始化。
+    <li>web.xml 文件中包含Servlet的声明、映射和其他配置信息。
+</ul>
+    <li>Servlet API：
+<ul>
+    <li>Servlet API 提供了许多类和接口，用于处理HTTP请求和响应、管理会话、获取参数等操作。
+    <li>包括 javax.servlet 和 javax.servlet.http 等包。
+</ul>
+    Servlet体系结构的基本思想是通过Servlet容器提供的生命周期管理和HTTP处理机制，使开发者能够专注于业务逻辑的实现，而不必过多关心底层的HTTP协议和服务器管理细节。通过这种方式，Servlet成为Java Web应用程序的基础组件之一。
+</ol>
+
+<h2>9、什么是异步Servlet？</h2>
+异步 Servlet（Asynchronous Servlet）是 Java Servlet 3.0 规范引入的一个特性，用于支持在Servlet容器中处理异步请求。传统的Servlet处理是同步的，即每个请求都在一个单独的线程中执行，直到请求处理完成后才返回给客户端。而异步 Servlet 允许Servlet在处理请求的同时，将工作委托给其他线程，从而提高服务器的吞吐量和性能。
+
+异步 Servlet 的主要特点包括：
+<ol>
+<li>非阻塞处理： 异步 Servlet 允许一个Servlet在处理请求期间挂起（suspend）请求，然后在稍后的时间继续处理。这样可以让容器释放当前线程，以处理其他请求，提高服务器的并发性。
+
+    <li>提高性能： 异步处理可以更有效地利用服务器资源，因为一个线程在处理一个请求时可以被释放，用于处理其他请求。这对于高并发的应用程序来说尤为重要。
+
+    <li>长连接支持： 异步 Servlet 使得实现长轮询（long polling）和服务器推送（server push）等技术更为容易，以实现实时性更强的Web应用。
+
+    <li>异步事件监听： 异步 Servlet 支持注册事件监听器，以便在异步操作的各个阶段（如开始、完成）收到通知。
+</ol>
+使用异步 Servlet 的基本步骤如下：
+<ul>
+    <li>调用 HttpServletRequest 对象的 startAsync() 方法来初始化异步上下文。
+    <li>获取 AsyncContext 对象，它提供了异步请求和响应的访问。
+    <li>在异步上下文中，可以调用 start() 方法来启动异步操作，并在其他线程中执行处理。
+    <li>异步操作完成后，通过 AsyncContext 提供的方法来完成响应。
+</ul>
+
+<h2>10、Servlet处理HTTP请求的流程是什么？</h2>
+Servlet 处理 HTTP 请求的流程可以分为以下步骤：
+<ol>
+<li>客户端发起请求：
+<ul>
+    <li>一个客户端（通常是浏览器）向服务器发送HTTP请求。
+    <li>请求中包含了目标资源的URL、HTTP方法（GET、POST等）、请求头等信息。
+</ul>
+    <li>Servlet容器接收请求：
+<ul>
+    <li>请求到达服务器后，由Servlet容器（如Tomcat）接收并解析HTTP请求。
+    <li>Servlet容器根据请求的URL找到相应的Servlet。
+</ul>
+    <li>Servlet实例化：
+<ul>
+    <li>如果Servlet还没有被加载或实例化，Servlet容器会根据web.xml配置或使用注解（Servlet 3.0+）来加载和实例化相应的Servlet。
+    <li>Servlet容器只会在第一次请求到达时才实例化Servlet，后续请求可以重复使用同一实例。
+</ul>
+    <li>调用Servlet的生命周期方法：
+<ul>
+    <li>Servlet容器调用Servlet的init()方法，用于执行一次性的初始化工作。
+    <li>接着调用Servlet的service()方法，该方法根据HTTP请求的方法（GET、POST等）调用相应的处理方法（如doGet()、doPost()）。
+</ul>
+    <li>处理请求：
+<ul>
+    <li>Servlet的处理方法负责处理请求，生成响应内容。
+    <li>Servlet可以通过HttpServletRequest对象获取请求参数、头信息等，通过HttpServletResponse对象设置响应头和内容。
+</ul>
+    <li>生成响应：
+<ul>
+Servlet生成响应内容，将其写入HttpServletResponse对象中。
+响应可以是HTML页面、JSON数据等，具体取决于Servlet的业务逻辑。
+</ul>
+    <li>响应返回给客户端：
+<ul>
+Servlet容器将生成的响应返回给客户端。
+响应的内容通过HTTP协议传输到客户端，包括响应头和响应体。
+</ul>
+    <li>Servlet的生命周期方法（可选）：
+<ul>
+如果Servlet容器检测到应用或服务器关闭，它会调用Servlet的destroy()方法，用于执行一次性的清理工作。
+通常，Servlet的destroy()方法会释放资源、关闭数据库连接等。
+</ul>
+</ol>
+</body>
+
+<h2>11、Servlet如何产生HTTP回应</h2>
+Servlet产生HTTP回应的步骤：
+<ol>
+    <li>获取 HttpServletResponse 对象。
+    <li>设置响应的内容类型和字符编码。
+    <li>获取输出流（如 PrintWriter）。
+    <li>写入响应体的内容。
+    <li>设置响应头信息（可选）。
+    <li>设置 HTTP 响应状态码（可选）。
+    <li>关闭输出流，确保数据被刷新到客户端。
+</ol>
+
+<a href="./ch3.html">下一章节作业</a>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第十四章课后作业</title>
+</head>
+<body>
+<h1>第十四章课后作业</h1>
+<h2>2、如何通过使用JNDI数据源访问数据库</h2>
+<ol>
+  <li>在应用服务器中配置数据源
+      首先，在应用服务器（例如Tomcat、WildFly等）的配置文件中配置数据源。这涉及到在服务器上设置JNDI名称，并配置连接池信息。具体步骤可能因应用服务器而异。
+      在Tomcat中的配置示例：
+      在 context.xml 文件中配置数据源：
+        <pre><code>
+        <!-- context.xml -->
+    &ltContext>
+    &ltResource name="jdbc/YourDataSource" auth="Container" type="javax.sql.DataSource"
+              maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+              username="your_username" password="your_password"
+              driverClassName="your_driver_class" url="your_jdbc_url" />
+&ltContext>
+
+        </code></pre>
+  <li> 在应用程序中使用JNDI数据源
+    在应用程序中，可以通过JNDI名称获取数据源，然后使用它来获取数据库连接。
+        <pre><code>
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class DatabaseAccess {
+
+    public static Connection getConnection() throws SQLException {
+        Connection connection = null;
+
+        try {
+            // 获取初始上下文
+            Context initialContext = new InitialContext();
+
+            // 查找数据源
+            DataSource dataSource = (DataSource) initialContext.lookup("java:comp/env/jdbc/YourDataSource");
+
+            // 获取连接
+            connection = dataSource.getConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return connection;
+    }
+
+    // 其他数据库操作方法...
+}
+
+        </code></pre>
+    确保 java:comp/env/jdbc/YourDataSource 与在应用服务器配置的JNDI名称一致。
+    <li>使用数据库连接进行操作
+    一旦获得了数据库连接，可以使用它执行SQL操作。
+        <pre><code>
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class YourDAO {
+
+    public void fetchData() {
+        try (Connection connection = DatabaseAccess.getConnection()) {
+            String sql = "SELECT * FROM your_table";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        // 处理查询结果...
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 其他数据库操作方法...
+}
+
+        </code></pre>
+
+
+</ol>
+
+<h2>3、什么是JNDI数据源？为什么要使用JNDI数据源？</h2>
+JNDI（Java Naming and Directory Interface）数据源是Java应用程序中访问数据库等资源的一种标准方式。JNDI是一种命名服务，它提供了一个在分布式环境中查找和存储对象的标准接口。JNDI数据源通常用于连接到数据库，但也可以用于其他资源，如消息队列、LDAP目录等。
+JNDI数据源的工作原理：
+配置在服务器上： JNDI数据源首先在应用服务器（例如Tomcat、WildFly等）的配置中心进行配置。在这里，你指定了数据库连接的相关信息，如数据库驱动、连接URL、用户名、密码等。
+通过JNDI名称查找： 在应用程序中，你使用JNDI名称查找数据源。这个名称在应用服务器的JNDI命名空间中注册，它作为一个标识符，允许你动态地获取到预先配置的数据源。
+获取连接： 一旦你通过JNDI获取到数据源，就可以使用该数据源获取数据库连接。连接池管理着一组数据库连接，应用程序通过数据源获取这些连接，使用完毕后将其释放回连接池。
+为什么使用JNDI数据源：
+连接池管理： JNDI数据源通常与连接池结合使用，它管理着一组数据库连接，通过重用连接来提高性能。连接池可以控制连接的数量，防止过多的连接占用资源。
+配置分离： 通过使用JNDI数据源，数据库连接的配置信息被集中管理在应用服务器上，而不是硬编码在应用程序中。这样，如果数据库连接信息发生变化，你只需在应用服务器上更新配置，而不需要修改应用程序的代码。
+分布式环境支持： JNDI是为分布式环境设计的，它提供了一种在不同应用程序组件之间共享资源的标准方式。在分布式系统中，JNDI数据源可以使得多个应用程序模块共享同一个连接池。
+简化代码： 使用JNDI数据源可以简化应用程序中数据库连接的获取和释放的代码。应用程序只需通过JNDI名称获取数据源，然后使用数据源来获取连接，而无需关心底层的数据库连接管理和细节。
+总体而言，使用JNDI数据源有助于提高应用程序的可维护性、可伸缩性，并简化数据库连接的管理。
+
+
+<a href="./ch15.html">下一章作业</a>
+</body>
+</html>

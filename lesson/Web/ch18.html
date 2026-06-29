@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第十八章课后作业</title>
+</head>
+<body>
+<h1>第十八章课后作业</h1>
+<h2>5、Spring MVC的数据绑定是怎样的?</h2>
+<ol>Spring MVC的数据绑定是指将HTTP请求参数绑定到控制器方法的参数或方法返回值的过程。Spring MVC提供了强大的数据绑定机制，支持从请求中提取数据并映射到Java对象上。
+
+  以下是Spring MVC数据绑定的一般流程：
+
+  <li> 请求参数到方法参数的数据绑定：
+    <br>查询参数（Query Parameters）：
+    <pre><code>
+@GetMapping("/example")
+public String exampleMethod(@RequestParam("param1") String param1, @RequestParam("param2") int param2) {
+    // 方法体
+    return "result";
+}
+
+    </code></pre>
+    在上述例子中，param1 和 param2 是通过查询参数传递给 /example 路径的。
+
+    <br>路径变量（Path Variables）：
+
+    <pre><code>
+@GetMapping("/example/{param1}/{param2}")
+public String exampleMethod(@PathVariable String param1, @PathVariable int param2) {
+    // 方法体
+    return "result";
+}
+
+    </code></pre>
+    在上述例子中，param1 和 param2 是通过URI路径传递给 /example/{param1}/{param2} 路径的。
+    <br>表单参数：
+    <pre><code>
+@PostMapping("/submitForm")
+public String submitForm(@RequestParam("username") String username, @RequestParam("password") String password) {
+    // 方法体
+    return "result";
+}
+
+    </code></pre>
+    在上述例子中，username 和 password 是通过表单提交的方式传递给 /submitForm 路径的。
+  <li>请求参数到Java对象的数据绑定：
+    <br>使用对象接收参数：
+    <pre><code>
+@PostMapping("/submitForm")
+public String submitForm(UserForm userForm) {
+    // 方法体
+    return "result";
+}
+
+    </code></pre>
+    在上述例子中，UserForm 是一个Java对象，其属性会自动与请求参数进行匹配。
+    <br>自定义对象转换器：
+    <pre><code>
+public class CustomConverter implements Converter&ltString, CustomObject> {
+    @Override
+    public CustomObject convert(String source) {
+        // 自定义转换逻辑
+        return new CustomObject(source);
+    }
+}
+@GetMapping("/convert")
+public String convert(@RequestParam("customParam") CustomObject customObject) {
+    // 方法体
+    return "result";
+}
+在上述例子中，通过自定义的转换器 CustomConverter，将请求参数 customParam 转换为 CustomObject 类型。
+    </code></pre>
+  <li>数据绑定到方法返回值：
+    <br>返回视图和模型：
+    <pre><code>
+@GetMapping("/showData")
+public ModelAndView showData() {
+    ModelAndView modelAndView = new ModelAndView("dataView");
+    modelAndView.addObject("data", "Hello, World!");
+    return modelAndView;
+}
+    </code></pre>
+    在上述例子中，方法返回了一个 ModelAndView 对象，其中包含了视图名称和模型数据。
+    <br>返回JSON数据：
+    <pre><code>
+@GetMapping("/jsonData")
+@ResponseBody
+public Map&ltString, String> jsonData() {
+    Map&ltString, String> data = new HashMap<>();
+    data.put("key", "value");
+    return data;
+}
+    </code></pre>
+    在上述例子中，使用 @ResponseBody 注解将返回的 Map 对象转换为JSON格式的响应数据。
+    <br>Spring MVC的数据绑定通过处理器适配器和处理器方法参数的方式实现，
+    <br>通过适当的配置，开发者可以方便地将HTTP请求参数映射到Java对象，并将Java对象映射为HTTP响应。
+</ol>
+
+
+<h2>5、Spring MVC消息转换流程是怎样的？</h2>
+<ol>
+  Spring MVC的消息转换（Message Conversion）是指将HTTP请求和响应中的消息转换为应用程序中的对象，以方便在控制器中进行处理。消息转换是通过消息转换器（Message Converter）来实现的，Spring MVC内置了许多常用的消息转换器，包括处理JSON、XML等格式的转换器。
+
+    以下是Spring MVC消息转换的简要流程：
+
+  <li>请求消息转换：
+    <ol>
+      <li>客户端发送HTTP请求：
+
+    客户端发送HTTP请求，请求体中包含了特定格式（如JSON或XML）的消息数据。
+      <li>DispatcherServlet处理请求：
+
+    请求到达DispatcherServlet，DispatcherServlet根据请求的Content-Type头信息选择合适的消息转换器。
+      <li>消息转换器转换请求消息：
+
+    选定的消息转换器将请求体中的消息数据转换为控制器方法的参数类型。
+      <li>控制器方法处理请求：
+
+    转换后的消息被传递给控制器方法的参数，控制器方法进行相应的业务处理。
+    </ol>
+    <li>响应消息转换：
+  <ol>
+    <li>控制器方法处理请求并返回响应数据：
+
+    控制器方法处理请求后，返回相应的对象。
+    <li>DispatcherServlet处理响应：
+
+    DispatcherServlet将控制器方法返回的对象传递给响应消息转换器。
+    <li>消息转换器转换响应消息：
+
+    响应消息转换器将控制器方法返回的对象转换为特定格式（如JSON或XML）的响应数据。
+    <li> 响应消息返回给客户端：
+
+    响应消息被返回给客户端，客户端根据Content-Type头信息处理响应数据。
+  </ol>
+    <h6>示例：</h6>
+    以下是一个使用@RequestBody和@ResponseBody注解的示例，演示了请求和响应消息的转换：
+    <pre><code>
+@RestController
+@RequestMapping("/api")
+public class ExampleController {
+
+    @PostMapping("/receiveData")
+    public ResponseEntity&ltString> receiveData(@RequestBody UserData userData) {
+        // 处理userData对象
+        return ResponseEntity.ok("Data received successfully!");
+    }
+
+    @GetMapping("/sendData")
+    public ResponseEntity&ltUserData> sendData() {
+        UserData userData = new UserData("John Doe", 25);
+        return ResponseEntity.ok(userData);
+    }
+}
+    </code></pre>
+  在上述例子中，@RequestBody用于将请求体中的JSON数据转换为UserData对象，
+  <br>@ResponseBody用于将控制器方法返回的UserData对象转换为JSON格式的响应数据。这个过程通过Spring MVC内置的消息转换器自动完成。
+
+</ol>
+
+<a href="./ch19.html">下一章作业</a>
+</body>
+</html>
