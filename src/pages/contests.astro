@@ -5,6 +5,7 @@ import { formatDate, withBase } from '../utils/site';
 
 const experiences = (await getCollection('experiences', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const contestsUrl = withBase('/assets/data/contests.json');
+const codeforcesUrl = withBase('/assets/data/codeforces.json');
 ---
 
 <Layout title="竞赛经历" description="算法竞赛与 AI 竞赛的实践记录、方法总结和赛后复盘。">
@@ -14,10 +15,22 @@ const contestsUrl = withBase('/assets/data/contests.json');
     <p>排名只是快照，真正值得留下的是问题拆解、实验设计、失败路径，以及下一次可以复用的方法。</p>
   </header>
 
+  <section class="section" id="codeforces-record">
+    <div class="shell">
+      <div class="section-heading">
+        <div><span class="eyebrow">01 / CODEFORCES LOG</span><h2>刷题成长记录</h2></div>
+        <p>账号 <strong>InsaneArrogant</strong> 的公开训练数据。AC 题目按题目去重，数据每天自动同步两次。</p>
+      </div>
+      <div id="codeforces-board" class="cf-board" data-source={codeforcesUrl} aria-live="polite">
+        <div class="cf-loading mono">正在整理 Codeforces 刷题记录…</div>
+      </div>
+    </div>
+  </section>
+
   <section class="section">
     <div class="shell">
       <div class="section-heading">
-        <div><span class="eyebrow">01 / RETROSPECTIVES</span><h2>参赛与实践记录</h2></div>
+        <div><span class="eyebrow">02 / RETROSPECTIVES</span><h2>参赛与实践记录</h2></div>
         <p>包括 Kaggle 图像分类、Titanic 特征工程、天池 Baseline 理解与算法训练。</p>
       </div>
       <div class="timeline">
@@ -39,7 +52,7 @@ const contestsUrl = withBase('/assets/data/contests.json');
   <section class="section">
     <div class="shell">
       <div class="section-heading">
-        <div><span class="eyebrow">02 / UPCOMING</span><h2>近期 Codeforces</h2></div>
+        <div><span class="eyebrow">03 / UPCOMING</span><h2>近期 Codeforces</h2></div>
         <p>数据由 GitHub Actions 定时更新，时间会按你的本地时区显示。</p>
       </div>
       <div id="contest-board" class="contest-board" data-source={contestsUrl} aria-live="polite"><p class="mono">正在读取赛程…</p></div>
@@ -47,7 +60,69 @@ const contestsUrl = withBase('/assets/data/contests.json');
   </section>
   <script>
     const board = document.querySelector<HTMLElement>('#contest-board');
+    const codeforcesBoard = document.querySelector<HTMLElement>('#codeforces-board');
     const escapeHtml = (value: string) => value.replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char] || char);
+    const safeNumber = (value: unknown) => Number.isFinite(Number(value)) ? Number(value) : 0;
+    const rankClass = (rank: string) => {
+      const knownRanks = ['newbie', 'pupil', 'specialist', 'expert', 'candidate master', 'master', 'international master', 'grandmaster', 'international grandmaster', 'legendary grandmaster'];
+      return knownRanks.includes(rank) ? rank.replaceAll(' ', '-') : 'unrated';
+    };
+
+    if (codeforcesBoard) {
+      fetch(codeforcesBoard.dataset.source || '')
+        .then((response) => response.ok ? response.json() : Promise.reject(new Error('刷题数据读取失败')))
+        .then((data) => {
+          const profile = data.profile || {};
+          const stats = data.stats || {};
+          const recent = Array.isArray(data.recent_accepted) ? data.recent_accepted.slice(0, 6) : [];
+          const difficulty = Array.isArray(data.difficulty) ? data.difficulty : [];
+          const tags = Array.isArray(data.top_tags) ? data.top_tags : [];
+          const highestBucket = Math.max(1, ...difficulty.map((item: { count?: number }) => safeNumber(item.count)));
+          const updatedAt = data.updated_at ? new Date(data.updated_at).toLocaleString('zh-CN', { dateStyle: 'medium', timeStyle: 'short' }) : '未知';
+          const rank = typeof profile.rank === 'string' ? profile.rank : 'unrated';
+
+          const recentHtml = recent.length ? recent.map((problem: { name?: string; index?: string; rating?: number; tags?: string[]; submitted_at?: string; url?: string }) => {
+            const date = problem.submitted_at ? new Date(problem.submitted_at).toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' }) : '—';
+            const rating = safeNumber(problem.rating);
+            return `<li class="cf-solve-row"><a href="${encodeURI(problem.url || profile.profile_url || '#')}" target="_blank" rel="noreferrer"><span class="cf-problem-index">${escapeHtml(problem.index || '?')}</span><span><strong>${escapeHtml(problem.name || 'Untitled problem')}</strong><small>${date} · ${(problem.tags || []).slice(0, 2).map(escapeHtml).join(' / ') || '未分类'}</small></span><span class="cf-problem-rating">${rating || '—'}</span></a></li>`;
+          }).join('') : '<li class="cf-empty">还没有可展示的 AC 记录。</li>';
+
+          const difficultyHtml = difficulty.map((item: { label?: string; count?: number }) => {
+            const count = safeNumber(item.count);
+            const width = Math.round((count / highestBucket) * 100);
+            return `<div class="cf-bar-row"><span>${escapeHtml(item.label || '—')}</span><div class="cf-bar-track"><i style="width:${width}%"></i></div><strong>${count}</strong></div>`;
+          }).join('');
+
+          const tagsHtml = tags.map((tag: { name?: string; count?: number }) => `<span class="cf-tag">${escapeHtml(tag.name || 'other')} <b>${safeNumber(tag.count)}</b></span>`).join('');
+
+          codeforcesBoard.innerHTML = `
+            <div class="cf-overview">
+              <article class="cf-profile-card">
+                <span class="eyebrow">PUBLIC PROFILE</span>
+                <a class="cf-handle" href="${encodeURI(profile.profile_url || 'https://codeforces.com/profile/InsaneArrogant')}" target="_blank" rel="noreferrer">${escapeHtml(profile.handle || 'InsaneArrogant')} <span>↗</span></a>
+                <div class="cf-rank-line"><span class="cf-rank ${rankClass(rank)}">${escapeHtml(rank)}</span><span>Rating ${safeNumber(profile.rating) || '—'} · Max ${safeNumber(profile.max_rating) || '—'}</span></div>
+                ${profile.organization ? `<p class="cf-organization">${escapeHtml(profile.organization)}</p>` : ''}
+                <dl class="cf-stats">
+                  <div><dt>${safeNumber(stats.solved_count)}</dt><dd>已通过题目</dd></div>
+                  <div><dt>${safeNumber(stats.accepted_submissions)}</dt><dd>AC 提交</dd></div>
+                  <div><dt>${safeNumber(stats.rated_contests)}</dt><dd>Rated 场次</dd></div>
+                  <div><dt>${safeNumber(stats.active_days)}</dt><dd>活跃天数</dd></div>
+                </dl>
+                <p class="cf-updated mono">Last sync · ${updatedAt}</p>
+              </article>
+              <article class="cf-panel">
+                <div class="cf-panel-heading"><span class="eyebrow">RECENT ACCEPTED</span><a href="${encodeURI(profile.profile_url || '#')}" target="_blank" rel="noreferrer">查看主页 ↗</a></div>
+                <ol class="cf-solve-list">${recentHtml}</ol>
+              </article>
+            </div>
+            <div class="cf-analysis">
+              <article class="cf-panel"><span class="eyebrow">DIFFICULTY</span><h3>已通过题目难度</h3><div class="cf-bars">${difficultyHtml}</div></article>
+              <article class="cf-panel"><span class="eyebrow">TOP TAGS</span><h3>常练知识点</h3><div class="cf-tags">${tagsHtml}</div><p class="cf-note">统计基于去重后的 AC 题目；无 Rating 的题目不会进入难度分布。</p></article>
+            </div>`;
+        })
+        .catch(() => { codeforcesBoard.innerHTML = '<p class="empty-state">Codeforces 刷题记录暂时无法读取，请稍后重试。</p>'; });
+    }
+
     if (board) {
       fetch(board.dataset.source || '')
         .then((response) => response.ok ? response.json() : Promise.reject(new Error('赛程读取失败')))

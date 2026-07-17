@@ -23,12 +23,12 @@ jobs:
       - name: Install dependencies
         run: python -m pip install requests
 
-      - name: Fetch contest data
+      - name: Fetch contest and practice data
         run: python fetch_contests.py
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          add: 'public/assets/data/contests.json'
-          message: 'Update contest data'
+          add: 'public/assets/data/*.json'
+          message: 'Update Codeforces data'
           default_author: github_actions

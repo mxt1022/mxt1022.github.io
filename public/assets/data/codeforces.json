@@ -1,0 +1,226 @@
+{
+  "updated_at": "2026-07-17T15:08:08.963667+00:00",
+  "profile": {
+    "handle": "InsaneArrogant",
+    "rank": "newbie",
+    "rating": 863,
+    "max_rank": "newbie",
+    "max_rating": 863,
+    "organization": "Jiangly Fan Club",
+    "last_online": "2026-07-17T15:03:25+00:00",
+    "profile_url": "https://codeforces.com/profile/InsaneArrogant"
+  },
+  "stats": {
+    "solved_count": 230,
+    "accepted_submissions": 261,
+    "submissions_scanned": 523,
+    "rated_contests": 22,
+    "active_days": 125
+  },
+  "top_tags": [
+    {
+      "name": "implementation",
+      "count": 138
+    },
+    {
+      "name": "greedy",
+      "count": 60
+    },
+    {
+      "name": "math",
+      "count": 60
+    },
+    {
+      "name": "brute force",
+      "count": 46
+    },
+    {
+      "name": "strings",
+      "count": 34
+    },
+    {
+      "name": "sortings",
+      "count": 33
+    },
+    {
+      "name": "constructive algorithms",
+      "count": 25
+    },
+    {
+      "name": "number theory",
+      "count": 9
+    }
+  ],
+  "difficulty": [
+    {
+      "label": "800–999",
+      "count": 129
+    },
+    {
+      "label": "1000–1199",
+      "count": 59
+    },
+    {
+      "label": "1200–1399",
+      "count": 25
+    },
+    {
+      "label": "1400–1599",
+      "count": 11
+    },
+    {
+      "label": "1600–1799",
+      "count": 4
+    },
+    {
+      "label": "1800–1999",
+      "count": 0
+    },
+    {
+      "label": "2000+",
+      "count": 0
+    }
+  ],
+  "recent_accepted": [
+    {
+      "name": "Energy Crystals",
+      "contest_id": 2111,
+      "index": "A",
+      "rating": 800,
+      "tags": [
+        "greedy",
+        "implementation",
+        "math"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2026-05-29T01:17:44+00:00",
+      "url": "https://codeforces.com/contest/2111/problem/A"
+    },
+    {
+      "name": "Anton and Danik",
+      "contest_id": 734,
+      "index": "A",
+      "rating": 800,
+      "tags": [
+        "implementation",
+        "strings"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2026-05-27T13:54:16+00:00",
+      "url": "https://codeforces.com/contest/734/problem/A"
+    },
+    {
+      "name": "Vanya and Fence",
+      "contest_id": 677,
+      "index": "A",
+      "rating": 800,
+      "tags": [
+        "implementation"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2026-05-27T13:51:00+00:00",
+      "url": "https://codeforces.com/contest/677/problem/A"
+    },
+    {
+      "name": "Three Decks",
+      "contest_id": 2104,
+      "index": "A",
+      "rating": 800,
+      "tags": [
+        "math"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2025-05-10T12:05:48+00:00",
+      "url": "https://codeforces.com/contest/2104/problem/A"
+    },
+    {
+      "name": "Mathematician Takeover",
+      "contest_id": 1952,
+      "index": "G",
+      "rating": null,
+      "tags": [
+        "*special",
+        "binary search",
+        "dfs and similar",
+        "math"
+      ],
+      "language": "C++14 (GCC 6-32)",
+      "submitted_at": "2024-04-20T03:49:03+00:00",
+      "url": "https://codeforces.com/contest/1952/problem/G"
+    },
+    {
+      "name": "String LCM",
+      "contest_id": 1473,
+      "index": "B",
+      "rating": 1000,
+      "tags": [
+        "brute force",
+        "math",
+        "number theory",
+        "strings"
+      ],
+      "language": "C++14 (GCC 6-32)",
+      "submitted_at": "2024-04-20T03:43:02+00:00",
+      "url": "https://codeforces.com/contest/1473/problem/B"
+    },
+    {
+      "name": "Computer Game",
+      "contest_id": 1598,
+      "index": "A",
+      "rating": 800,
+      "tags": [
+        "brute force",
+        "dfs and similar",
+        "dp",
+        "implementation"
+      ],
+      "language": "C++14 (GCC 6-32)",
+      "submitted_at": "2024-04-19T08:52:48+00:00",
+      "url": "https://codeforces.com/contest/1598/problem/A"
+    },
+    {
+      "name": "Gregor and the Pawn Game",
+      "contest_id": 1549,
+      "index": "B",
+      "rating": 800,
+      "tags": [
+        "dfs and similar",
+        "dp",
+        "flows",
+        "graph matchings",
+        "graphs",
+        "greedy",
+        "implementation"
+      ],
+      "language": "C++14 (GCC 6-32)",
+      "submitted_at": "2024-04-19T08:34:28+00:00",
+      "url": "https://codeforces.com/contest/1549/problem/B"
+    },
+    {
+      "name": "Road To Zero",
+      "contest_id": 1342,
+      "index": "A",
+      "rating": 1000,
+      "tags": [
+        "greedy",
+        "math"
+      ],
+      "language": "C++14 (GCC 6-32)",
+      "submitted_at": "2024-04-18T11:05:38+00:00",
+      "url": "https://codeforces.com/contest/1342/problem/A"
+    },
+    {
+      "name": "Move Brackets",
+      "contest_id": 1374,
+      "index": "C",
+      "rating": 1000,
+      "tags": [
+        "greedy",
+        "strings"
+      ],
+      "language": "C++14 (GCC 6-32)",
+      "submitted_at": "2024-04-18T10:40:27+00:00",
+      "url": "https://codeforces.com/contest/1374/problem/C"
+    }
+  ]
+}
