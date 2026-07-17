@@ -1,5 +1,18 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const techStack = [
+  { name: 'C++', category: '语言', slug: 'cplusplus', color: '00599C' },
+  { name: 'Python', category: '语言', slug: 'python', color: '3776AB' },
+  { name: 'Java', category: '语言', slug: 'openjdk', color: 'ED8B00' },
+  { name: 'TypeScript', category: '语言', slug: 'typescript', color: '3178C6' },
+  { name: 'PyTorch', category: 'AI / ML', slug: 'pytorch', color: 'EE4C2C' },
+  { name: 'TensorFlow', category: 'AI / ML', slug: 'tensorflow', color: 'FF6F00' },
+  { name: 'scikit-learn', category: 'AI / ML', slug: 'scikitlearn', color: 'F7931E' },
+  { name: 'Astro', category: 'Web', slug: 'astro', color: 'BC52EE' },
+  { name: 'Git', category: '工具', slug: 'git', color: 'F05032' },
+  { name: 'Linux', category: '工具', slug: 'linux', color: 'FCC624' },
+];
 ---
 
 <Layout title="关于" description="关于 mxt 与这个持续更新的学习博客。">
@@ -21,6 +34,30 @@ import Layout from '../layouts/Layout.astro';
           <span class="eyebrow">WHY THIS BLOG</span>
           <h2>记录不是终点，而是一次重新理解。</h2>
           <p>这个博客从早期的课程 Wiki 演进而来。学习内容越多，越需要一个结构清晰的地方保存思路、代码和复盘。这里不包装“标准答案”，更愿意留下推导过程以及曾经踩过的坑。</p>
+        </section>
+        <section>
+          <span class="eyebrow">TOOLBOX</span>
+          <h2>技术栈</h2>
+          <p>在算法训练、AI 实验和博客工程中持续使用与学习的语言、框架及工具。</p>
+          <div class="tech-stack" aria-label="技术栈列表">
+            {techStack.map((tech) => (
+              <article class="tech-item" style={`--tech-color: #${tech.color}`}>
+                <div class="tech-icon">
+                  <img
+                    src={`https://cdn.jsdelivr.net/npm/simple-icons@16.26.0/icons/${tech.slug}.svg`}
+                    alt=""
+                    width="28"
+                    height="28"
+                    loading="lazy"
+                  />
+                </div>
+                <div>
+                  <strong>{tech.name}</strong>
+                  <span>{tech.category}</span>
+                </div>
+              </article>
+            ))}
+          </div>
         </section>
         <section>
           <span class="eyebrow">CURRENT ROADMAP</span>
