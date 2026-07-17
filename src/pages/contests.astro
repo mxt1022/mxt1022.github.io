@@ -68,6 +68,148 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
       return knownRanks.includes(rank) ? rank.replaceAll(' ', '-') : 'unrated';
     };
 
+    type RatingPoint = {
+      contest_name: string;
+      rank: number;
+      old_rating: number;
+      new_rating: number;
+      delta: number;
+      updated_at: string;
+      url: string;
+    };
+
+    const setupRatingChart = (canvas: HTMLCanvasElement, points: RatingPoint[]) => {
+      const context = canvas.getContext('2d');
+      const wrap = canvas.closest<HTMLElement>('.cf-chart-wrap');
+      const tooltip = wrap?.querySelector<HTMLElement>('.cf-chart-tooltip');
+      const detail = wrap?.parentElement?.querySelector<HTMLElement>('.cf-chart-detail');
+      if (!context || !wrap || points.length === 0) return;
+
+      let plotted: { x: number; y: number }[] = [];
+      let selected = points.length - 1;
+
+      const pointLabel = (point: RatingPoint) => {
+        const date = new Date(point.updated_at).toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+        const delta = `${point.delta >= 0 ? '+' : ''}${point.delta}`;
+        return `${date} · ${point.contest_name} · 排名 ${point.rank} · Rating ${point.new_rating}（${delta}）`;
+      };
+
+      const draw = () => {
+        const width = Math.max(220, Math.floor(wrap.clientWidth));
+        const height = Math.max(260, Math.floor(canvas.getBoundingClientRect().height || 300));
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(width * ratio);
+        canvas.height = Math.floor(height * ratio);
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+        context.clearRect(0, 0, width, height);
+
+        const css = getComputedStyle(document.documentElement);
+        const accent = css.getPropertyValue('--accent').trim();
+        const background = css.getPropertyValue('--surface').trim();
+        const muted = css.getPropertyValue('--muted').trim();
+        const line = css.getPropertyValue('--line').trim();
+        const text = css.getPropertyValue('--text').trim();
+        const padding = { top: 24, right: 24, bottom: 38, left: 52 };
+        const plotWidth = width - padding.left - padding.right;
+        const plotHeight = height - padding.top - padding.bottom;
+        const ratings = points.map((point) => point.new_rating);
+        const rawMin = Math.min(...ratings);
+        const rawMax = Math.max(...ratings);
+        const yMin = Math.max(0, Math.floor((rawMin - 100) / 100) * 100);
+        const yMax = Math.ceil((rawMax + 100) / 100) * 100;
+        const yRange = Math.max(100, yMax - yMin);
+        const toX = (index: number) => padding.left + (index / Math.max(1, points.length - 1)) * plotWidth;
+        const toY = (rating: number) => padding.top + ((yMax - rating) / yRange) * plotHeight;
+
+        context.font = '11px "DM Mono", monospace';
+        context.textBaseline = 'middle';
+        context.strokeStyle = line;
+        context.fillStyle = muted;
+        context.lineWidth = 1;
+
+        for (let index = 0; index <= 4; index += 1) {
+          const value = Math.round(yMax - (yRange * index) / 4);
+          const y = padding.top + (plotHeight * index) / 4;
+          context.beginPath();
+          context.moveTo(padding.left, y);
+          context.lineTo(width - padding.right, y);
+          context.stroke();
+          context.textAlign = 'right';
+          context.fillText(String(value), padding.left - 10, y);
+        }
+
+        const xLabels = [...new Set([0, Math.floor((points.length - 1) / 2), points.length - 1])];
+        xLabels.forEach((index) => {
+          const date = new Date(points[index].updated_at).toLocaleDateString('zh-CN', { year: '2-digit', month: '2-digit' });
+          context.textAlign = index === 0 ? 'left' : index === points.length - 1 ? 'right' : 'center';
+          context.fillText(date, toX(index), height - 14);
+        });
+
+        plotted = points.map((point, index) => ({ x: toX(index), y: toY(point.new_rating) }));
+        const gradient = context.createLinearGradient(0, padding.top, 0, height - padding.bottom);
+        gradient.addColorStop(0, accent.startsWith('#') ? `${accent}3d` : accent);
+        gradient.addColorStop(1, 'transparent');
+
+        context.beginPath();
+        context.moveTo(plotted[0].x, height - padding.bottom);
+        plotted.forEach((point) => context.lineTo(point.x, point.y));
+        context.lineTo(plotted[plotted.length - 1].x, height - padding.bottom);
+        context.closePath();
+        context.fillStyle = gradient;
+        context.fill();
+
+        context.beginPath();
+        plotted.forEach((point, index) => index === 0 ? context.moveTo(point.x, point.y) : context.lineTo(point.x, point.y));
+        context.strokeStyle = accent;
+        context.lineWidth = 2.5;
+        context.lineJoin = 'round';
+        context.lineCap = 'round';
+        context.stroke();
+
+        plotted.forEach((point, index) => {
+          context.beginPath();
+          context.arc(point.x, point.y, index === selected ? 5 : 3, 0, Math.PI * 2);
+          context.fillStyle = index === selected ? accent : background;
+          context.fill();
+          context.strokeStyle = accent;
+          context.lineWidth = 2;
+          context.stroke();
+        });
+
+        const current = plotted[selected];
+        context.fillStyle = text;
+        context.font = '500 11px "DM Mono", monospace';
+        context.textAlign = current.x > width - 90 ? 'right' : 'left';
+        context.fillText(String(points[selected].new_rating), current.x + (current.x > width - 90 ? -9 : 9), current.y - 13);
+        if (detail) detail.textContent = pointLabel(points[selected]);
+      };
+
+      const selectFromPointer = (event: PointerEvent) => {
+        const bounds = canvas.getBoundingClientRect();
+        const x = event.clientX - bounds.left;
+        selected = plotted.reduce((closest, point, index) => Math.abs(point.x - x) < Math.abs(plotted[closest].x - x) ? index : closest, 0);
+        draw();
+        if (!tooltip) return;
+        const current = plotted[selected];
+        tooltip.innerHTML = `<strong>${escapeHtml(points[selected].contest_name)}</strong><span>Rating ${points[selected].new_rating} · ${points[selected].delta >= 0 ? '+' : ''}${points[selected].delta} · 排名 ${points[selected].rank}</span>`;
+        tooltip.hidden = false;
+        const tooltipWidth = tooltip.offsetWidth;
+        const tooltipHeight = tooltip.offsetHeight;
+        tooltip.style.left = `${Math.min(Math.max(6, current.x - tooltipWidth / 2), wrap.clientWidth - tooltipWidth - 6)}px`;
+        tooltip.style.top = `${Math.max(6, current.y - tooltipHeight - 14)}px`;
+      };
+
+      canvas.addEventListener('pointermove', selectFromPointer);
+      canvas.addEventListener('pointerleave', () => {
+        selected = points.length - 1;
+        if (tooltip) tooltip.hidden = true;
+        draw();
+      });
+      new ResizeObserver(draw).observe(wrap);
+      new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+      draw();
+    };
+
     if (codeforcesBoard) {
       fetch(codeforcesBoard.dataset.source || '')
         .then((response) => response.ok ? response.json() : Promise.reject(new Error('刷题数据读取失败')))
@@ -77,6 +219,7 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
           const recent = Array.isArray(data.recent_accepted) ? data.recent_accepted.slice(0, 6) : [];
           const difficulty = Array.isArray(data.difficulty) ? data.difficulty : [];
           const tags = Array.isArray(data.top_tags) ? data.top_tags : [];
+          const history: RatingPoint[] = Array.isArray(data.rating_history) ? data.rating_history : [];
           const highestBucket = Math.max(1, ...difficulty.map((item: { count?: number }) => safeNumber(item.count)));
           const updatedAt = data.updated_at ? new Date(data.updated_at).toLocaleString('zh-CN', { dateStyle: 'medium', timeStyle: 'short' }) : '未知';
           const rank = typeof profile.rank === 'string' ? profile.rank : 'unrated';
@@ -94,6 +237,11 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
           }).join('');
 
           const tagsHtml = tags.map((tag: { name?: string; count?: number }) => `<span class="cf-tag">${escapeHtml(tag.name || 'other')} <b>${safeNumber(tag.count)}</b></span>`).join('');
+          const ratingRows = [...history].reverse().map((point) => {
+            const date = new Date(point.updated_at).toLocaleDateString('zh-CN');
+            return `<tr><td>${date}</td><td><a href="${encodeURI(point.url)}" target="_blank" rel="noreferrer">${escapeHtml(point.contest_name)}</a></td><td>${point.rank}</td><td>${point.new_rating}</td><td class="${point.delta >= 0 ? 'positive' : 'negative'}">${point.delta >= 0 ? '+' : ''}${point.delta}</td></tr>`;
+          }).join('');
+          const ratingChartHtml = history.length ? `<article class="cf-panel cf-rating-panel"><div class="cf-panel-heading"><div><span class="eyebrow">RATING HISTORY</span><h3>比赛 Rating 走势</h3></div><span class="cf-chart-range mono">${new Date(history[0].updated_at).getFullYear()} — ${new Date(history[history.length - 1].updated_at).getFullYear()}</span></div><div class="cf-chart-wrap"><canvas class="cf-rating-chart" role="img" aria-label="${escapeHtml(profile.handle || 'InsaneArrogant')} 共 ${history.length} 场 Rated 比赛的 Rating 折线图"></canvas><div class="cf-chart-tooltip" hidden></div></div><p class="cf-chart-detail mono" aria-live="polite"></p><details class="cf-history-details"><summary>查看逐场 Rating 数据</summary><div class="cf-history-table"><table><thead><tr><th>日期</th><th>比赛</th><th>排名</th><th>Rating</th><th>变化</th></tr></thead><tbody>${ratingRows}</tbody></table></div></details></article>` : '';
 
           codeforcesBoard.innerHTML = `
             <div class="cf-overview">
@@ -116,9 +264,12 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
               </article>
             </div>
             <div class="cf-analysis">
+              ${ratingChartHtml}
               <article class="cf-panel"><span class="eyebrow">DIFFICULTY</span><h3>已通过题目难度</h3><div class="cf-bars">${difficultyHtml}</div></article>
               <article class="cf-panel"><span class="eyebrow">TOP TAGS</span><h3>常练知识点</h3><div class="cf-tags">${tagsHtml}</div><p class="cf-note">统计基于去重后的 AC 题目；无 Rating 的题目不会进入难度分布。</p></article>
             </div>`;
+          const chart = codeforcesBoard.querySelector<HTMLCanvasElement>('.cf-rating-chart');
+          if (chart && history.length) setupRatingChart(chart, history);
         })
         .catch(() => { codeforcesBoard.innerHTML = '<p class="empty-state">Codeforces 刷题记录暂时无法读取，请稍后重试。</p>'; });
     }

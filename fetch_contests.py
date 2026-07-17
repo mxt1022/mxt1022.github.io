@@ -153,6 +153,21 @@ def fetch_codeforces_activity(handle):
                 {"label": label, "count": difficulty_counts.get(label, 0)}
                 for label in bucket_order
             ],
+            "rating_history": [
+                {
+                    "contest_id": change["contestId"],
+                    "contest_name": change["contestName"],
+                    "rank": change["rank"],
+                    "old_rating": change["oldRating"],
+                    "new_rating": change["newRating"],
+                    "delta": change["newRating"] - change["oldRating"],
+                    "updated_at": iso_time(change["ratingUpdateTimeSeconds"]),
+                    "url": f"https://codeforces.com/contest/{change['contestId']}",
+                }
+                for change in sorted(
+                    rating_history, key=lambda item: item["ratingUpdateTimeSeconds"]
+                )
+            ],
             "recent_accepted": recent_accepted,
         }
     except (requests.RequestException, IndexError, KeyError, TypeError, ValueError) as error:
