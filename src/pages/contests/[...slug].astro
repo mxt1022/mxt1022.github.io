@@ -1,0 +1,27 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate, withBase } from '../../utils/site';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('experiences', ({ data }) => !data.draft);
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props { entry: CollectionEntry<'experiences'>; }
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Layout title={entry.data.title} description={entry.data.description}>
+  <header class="article-header">
+    <div class="narrow">
+      <a class="back-link" href={withBase('/contests/')}>← 返回竞赛经历</a>
+      <span class="eyebrow">{entry.data.type} / {entry.data.platform}</span>
+      <h1>{entry.data.title}</h1>
+      <p>{entry.data.description}</p>
+      <div class="article-meta"><time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time><span>{entry.data.status}</span><span>{entry.data.tags.map((tag: string) => `#${tag}`).join(' · ')}</span></div>
+    </div>
+  </header>
+  <article class="prose narrow"><Content /></article>
+</Layout>

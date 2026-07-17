@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { withBase } from '../utils/site';
+---
+
+<Layout title="页面未找到">
+  <section class="hero">
+    <div class="narrow">
+      <span class="eyebrow">ERROR / 404</span>
+      <h1>这条路径<br /><span>还没有记录。</span></h1>
+      <p class="hero-intro">可能是链接已经移动，也可能是这篇笔记还在草稿里。</p>
+      <div class="hero-actions"><a class="button primary" href={withBase('/')}>返回首页</a><a class="button" href={withBase('/notes/')}>浏览学习记录</a></div>
+    </div>
+  </section>
+</Layout>

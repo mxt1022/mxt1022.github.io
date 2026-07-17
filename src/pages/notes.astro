@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import PostCard from '../components/PostCard.astro';
+
+const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const categories = ['全部', ...new Set(notes.map((note) => note.data.category))];
+---
+
+<Layout title="学习记录" description="算法、人工智能、计算机基础与实践工具的学习笔记。">
+  <header class="page-hero shell">
+    <span class="eyebrow">KNOWLEDGE BASE / {notes.length} ENTRIES</span>
+    <h1>学习记录</h1>
+    <p>不追求一次写对，而是持续把概念、代码与踩坑过程整理成可以回看的知识库。</p>
+  </header>
+  <section class="section">
+    <div class="shell">
+      <div class="filters" aria-label="按分类筛选">
+        {categories.map((category, index) => <button class:list={['filter', { active: index === 0 }]} type="button" data-filter={category}>{category}</button>)}
+      </div>
+      <div class="post-grid" id="notes-grid">
+        {notes.map((note) => (
+          <div data-category={note.data.category}>
+            <PostCard title={note.data.title} description={note.data.description} date={note.data.date} tags={note.data.tags} label={note.data.category} href={`/notes/${note.id}/`} featured={note.data.featured} />
+          </div>
+        ))}
+        <p class="empty-state" hidden>这个分类暂时还没有文章。</p>
+      </div>
+    </div>
+  </section>
+  <script>
+    const filters = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+    const cards = document.querySelectorAll<HTMLElement>('[data-category]');
+    const empty = document.querySelector<HTMLElement>('.empty-state');
+    filters.forEach((button) => button.addEventListener('click', () => {
+      filters.forEach((item) => item.classList.remove('active'));
+      button.classList.add('active');
+      let visible = 0;
+      cards.forEach((card) => {
+        const show = button.dataset.filter === '全部' || card.dataset.category === button.dataset.filter;
+        card.hidden = !show;
+        if (show) visible += 1;
+      });
+      if (empty) empty.hidden = visible > 0;
+    }));
+  </script>
+</Layout>

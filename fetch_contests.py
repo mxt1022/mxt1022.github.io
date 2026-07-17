@@ -1,17 +1,17 @@
-    # fetch_contests.py
-import requests
 import json
+import os
 from datetime import datetime, timezone
-import re
+
+import requests
 
 def fetch_codeforces():
-    """从 Codeforces API 获取即将开始的比赛"""
     url = "https://codeforces.com/api/contest.list"
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=20)
+        response.raise_for_status()
         data = response.json()
         contests = []
-        if data['status'] == 'OK':
+        if data.get('status') == 'OK':
             for contest in data['result']:
                 if contest['phase'] == 'BEFORE':
                     start_time = datetime.fromtimestamp(
@@ -25,45 +25,19 @@ def fetch_codeforces():
                         "url": f"https://codeforces.com/contests/{contest['id']}"
                     })
         return contests
-    except Exception as e:
+    except (requests.RequestException, KeyError, ValueError) as e:
         print(f"Error fetching Codeforces: {e}")
-        return []
-
-def fetch_atcoder():
-    """从 AtCoder 网站解析即将开始的比赛（AtCoder 没有官方公开 API）"""
-    url = "https://atcoder.jp/contests"
-    try:
-        response = requests.get(url)
-        # 简单的HTML解析，提取比赛信息
-        import re
-        from html import unescape
-        
-        # 寻找比赛列表的HTML结构（这里是一个简化的示例，实际可能需要更健壮的解析）
-        contests = []
-        # 使用正则表达式从HTML中提取比赛信息（仅供参考，实际建议使用BeautifulSoup）
-        pattern = r'<a href="(/contests/[^"]+)">([^<]+)</a>.*?(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})'
-        matches = re.findall(pattern, response.text)
-        
-        # 注意：这个正则非常简化，实际AtCoder页面结构更复杂，建议用BeautifulSoup库
-        # 这里仅作演示，真实使用时请使用更稳健的解析方法
-        
-        # 为了演示，我们模拟一些数据
-        # 实际开发时，你可以使用第三方库或服务来获取AtCoder数据
-        return []
-    except Exception as e:
-        print(f"Error fetching AtCoder: {e}")
         return []
 
 def main():
     all_contests = []
     all_contests.extend(fetch_codeforces())
-    all_contests.extend(fetch_atcoder())
-    
-    # 按开始时间排序
     all_contests.sort(key=lambda x: x['start_time'])
     
-    # 写入JSON文件
-    with open('docs/contests.json', 'w', encoding='utf-8') as f:
+    output_dir = 'public/assets/data'
+    os.makedirs(output_dir, exist_ok=True)
+    
+    with open(os.path.join(output_dir, 'contests.json'), 'w', encoding='utf-8') as f:
         json.dump(all_contests, f, ensure_ascii=False, indent=2)
     
     print(f"Fetched {len(all_contests)} contests.")

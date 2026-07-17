@@ -1,0 +1,27 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate, withBase } from '../../utils/site';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes', ({ data }) => !data.draft);
+  return notes.map((note) => ({ params: { slug: note.id }, props: { note } }));
+}
+
+interface Props { note: CollectionEntry<'notes'>; }
+const { note } = Astro.props;
+const { Content } = await render(note);
+---
+
+<Layout title={note.data.title} description={note.data.description}>
+  <header class="article-header">
+    <div class="narrow">
+      <a class="back-link" href={withBase('/notes/')}>← 返回学习记录</a>
+      <span class="eyebrow">{note.data.category}</span>
+      <h1>{note.data.title}</h1>
+      <p>{note.data.description}</p>
+      <div class="article-meta"><time datetime={note.data.date.toISOString()}>{formatDate(note.data.date)}</time>{note.data.updated && <span>更新于 {formatDate(note.data.updated)}</span>}<span>{note.data.tags.map((tag: string) => `#${tag}`).join(' · ')}</span></div>
+    </div>
+  </header>
+  <article class="prose narrow"><Content /></article>
+</Layout>

@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import PostCard from '../components/PostCard.astro';
+import { withBase } from '../utils/site';
+
+const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const experiences = (await getCollection('experiences', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const featured = [...notes, ...experiences].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 4);
+const noteCount = notes.length;
+const tagCount = new Set(notes.flatMap((note) => note.data.tags)).size;
+---
+
+<Layout>
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <p class="hero-kicker"><span class="status-dot"></span> Learning in public · 2026</p>
+        <h1>把学习过程<br /><span>编译成记录。</span></h1>
+        <p class="hero-intro">这里记录计算机科学、算法与人工智能的学习轨迹，也保存每次比赛从数据、思路到复盘的完整过程。</p>
+        <div class="hero-actions">
+          <a class="button primary" href={withBase('/notes/')}>浏览学习记录 <span aria-hidden="true">→</span></a>
+          <a class="button" href={withBase('/contests/')}>查看竞赛经历</a>
+        </div>
+      </div>
+      <aside class="hero-panel" aria-label="博客概览">
+        <div class="panel-top"><i></i><i></i><i></i></div>
+        <div class="terminal">
+          <div><span class="prompt">$</span> whoami</div>
+          <div><strong>mxt / CS learner</strong></div><br />
+          <div><span class="prompt">$</span> ls ./focus</div>
+          <div><strong>algorithms&nbsp; ai&nbsp; systems</strong></div><br />
+          <div><span class="prompt">$</span> blog --stats</div>
+          <div><strong>{String(noteCount).padStart(2, '0')}</strong> notes · <strong>{String(experiences.length).padStart(2, '0')}</strong> reviews · <strong>{String(tagCount).padStart(2, '0')}</strong> tags</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-heading">
+        <div><span class="eyebrow">01 / RECENT OUTPUT</span><h2>最近写下的内容</h2></div>
+        <p>从课堂笔记到竞赛复盘，把“我好像懂了”变成可检索、可复用、可继续修正的文字。</p>
+      </div>
+      <div class="post-grid">
+        {featured.map((entry, index) => (
+          <PostCard
+            title={entry.data.title}
+            description={entry.data.description}
+            date={entry.data.date}
+            tags={entry.data.tags}
+            label={'category' in entry.data ? entry.data.category : entry.data.type}
+            href={'category' in entry.data ? `/notes/${entry.id}/` : `/contests/${entry.id}/`}
+            featured={index === 0}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-heading">
+        <div><span class="eyebrow">02 / LEARNING TRACKS</span><h2>正在推进的方向</h2></div>
+        <p>按长期主题组织，而不是让知识散落在时间线里。</p>
+      </div>
+      <div class="tracks">
+        <article class="track"><span class="track-index">[ 01 ]</span><h3>算法与数据结构</h3><p>题型、模板、复杂度与解题复盘。</p></article>
+        <article class="track"><span class="track-index">[ 02 ]</span><h3>机器学习</h3><p>从特征工程到模型评估的实践记录。</p></article>
+        <article class="track"><span class="track-index">[ 03 ]</span><h3>深度学习</h3><p>CNN、Transformer 与工程训练流程。</p></article>
+        <article class="track"><span class="track-index">[ 04 ]</span><h3>计算机基础</h3><p>课程、系统、网络与编程语言。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="cta">
+        <h2>日拱一卒。<br />让每次输入都有输出。</h2>
+        <a class="button" href="https://github.com/mxt1022/algorithmcode" target="_blank" rel="noreferrer">算法代码库 ↗</a>
+      </div>
+    </div>
+  </section>
+</Layout>

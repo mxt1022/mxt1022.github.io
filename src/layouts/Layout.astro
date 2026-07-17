@@ -1,0 +1,94 @@
+---
+import '../styles/global.css';
+import { siteMeta, withBase } from '../utils/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const { title = siteMeta.title, description = siteMeta.description, image = withBase('/og.png') } = Astro.props;
+const pageTitle = title === siteMeta.title ? title : `${title} · ${siteMeta.title}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const currentPath = Astro.url.pathname.replace(base, '') || '/';
+const nav = [
+  { href: '/', label: '首页' },
+  { href: '/notes/', label: '学习记录' },
+  { href: '/contests/', label: '竞赛经历' },
+  { href: '/about/', label: '关于' },
+];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0b0d0e" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
+    <link rel="alternate" type="application/rss+xml" title={siteMeta.title} href={withBase('/rss.xml')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site)} />
+    <title>{pageTitle}</title>
+    <script is:inline>
+      document.documentElement.dataset.theme = localStorage.getItem('theme') || 'dark';
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">跳到正文</a>
+    <header class="site-header">
+      <div class="shell nav-wrap">
+        <a class="brand" href={withBase('/')} aria-label="mxt.log 首页">
+          <span class="brand-mark" aria-hidden="true">m</span>
+          <span>mxt<span class="accent">.log</span></span>
+        </a>
+        <nav aria-label="主导航">
+          {nav.map((item) => (
+            <a class:list={{ active: currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href)) }} href={withBase(item.href)}>
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <button class="theme-toggle" type="button" aria-label="切换明暗主题" title="切换明暗主题"><span aria-hidden="true">◐</span></button>
+      </div>
+    </header>
+
+    <main id="content"><slot /></main>
+
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <a class="brand" href={withBase('/')}><span class="brand-mark" aria-hidden="true">m</span><span>mxt<span class="accent">.log</span></span></a>
+          <p>持续学习，持续复盘，持续输出。</p>
+        </div>
+        <div class="footer-links">
+          <a href="https://github.com/mxt1022" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <a href="mailto:mxt1022@outlook.com">Email ↗</a>
+          <a href={withBase('/rss.xml')}>RSS ↗</a>
+        </div>
+        <p class="copyright">© {new Date().getFullYear()} mxt · Built with Astro</p>
+      </div>
+    </footer>
+
+    <script>
+      const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
+      button?.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem('theme', next);
+      });
+    </script>
+  </body>
+</html>

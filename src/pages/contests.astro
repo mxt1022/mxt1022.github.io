@@ -1,0 +1,65 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { formatDate, withBase } from '../utils/site';
+
+const experiences = (await getCollection('experiences', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const contestsUrl = withBase('/assets/data/contests.json');
+---
+
+<Layout title="竞赛经历" description="算法竞赛与 AI 竞赛的实践记录、方法总结和赛后复盘。">
+  <header class="page-hero shell">
+    <span class="eyebrow">CONTEST LOG / KEEP ITERATING</span>
+    <h1>竞赛经历</h1>
+    <p>排名只是快照，真正值得留下的是问题拆解、实验设计、失败路径，以及下一次可以复用的方法。</p>
+  </header>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-heading">
+        <div><span class="eyebrow">01 / RETROSPECTIVES</span><h2>参赛与实践记录</h2></div>
+        <p>包括 Kaggle 图像分类、Titanic 特征工程、天池 Baseline 理解与算法训练。</p>
+      </div>
+      <div class="timeline">
+        {experiences.map((entry) => (
+          <article class="timeline-item">
+            <div class="timeline-meta"><div>{formatDate(entry.data.date)}</div><div>{entry.data.type}</div><div>{entry.data.platform}</div></div>
+            <div>
+              <span class="eyebrow">{entry.data.status}</span>
+              <h2><a href={withBase(`/contests/${entry.id}/`)}>{entry.data.title}</a></h2>
+              <p>{entry.data.description}</p>
+              <div class="tag-list">{entry.data.tags.map((tag: string) => <span class="tag">#{tag}</span>)}</div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-heading">
+        <div><span class="eyebrow">02 / UPCOMING</span><h2>近期 Codeforces</h2></div>
+        <p>数据由 GitHub Actions 定时更新，时间会按你的本地时区显示。</p>
+      </div>
+      <div id="contest-board" class="contest-board" data-source={contestsUrl} aria-live="polite"><p class="mono">正在读取赛程…</p></div>
+    </div>
+  </section>
+  <script>
+    const board = document.querySelector<HTMLElement>('#contest-board');
+    const escapeHtml = (value: string) => value.replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char] || char);
+    if (board) {
+      fetch(board.dataset.source || '')
+        .then((response) => response.ok ? response.json() : Promise.reject(new Error('赛程读取失败')))
+        .then((items) => items.filter((item: { start_time: string }) => new Date(item.start_time).getTime() > Date.now()).slice(0, 8))
+        .then((items) => {
+          if (!items.length) { board.innerHTML = '<p class="empty-state">暂时没有已公布的近期比赛，稍后再来看看。</p>'; return; }
+          board.innerHTML = items.map((item: { name: string; url: string; platform: string; start_time: string; duration: string }) => {
+            const start = new Date(item.start_time);
+            return `<article class="contest-row"><div><h3><a href="${encodeURI(item.url)}" target="_blank" rel="noreferrer">${escapeHtml(item.name)} ↗</a></h3><p>${escapeHtml(item.platform)} · ${escapeHtml(item.duration)}</p></div><div class="contest-time">${start.toLocaleDateString('zh-CN')}<br>${start.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}</div></article>`;
+          }).join('');
+        })
+        .catch(() => { board.innerHTML = '<p class="empty-state">赛程暂时无法读取，请稍后重试。</p>'; });
+    }
+  </script>
+</Layout>
