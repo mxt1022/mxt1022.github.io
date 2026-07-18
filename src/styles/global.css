@@ -119,6 +119,8 @@ nav a:hover, nav a.active { background: var(--surface-2); color: var(--text); }
 .timeline-item h2 { margin: 0 0 10px; font-size: clamp(1.35rem, 3vw, 2rem); }
 .timeline-item h2 a { text-decoration: none; }
 .timeline-item p { margin: 0; color: var(--muted); }
+.progress-list { display: grid; gap: 20px; }
+.contest-progress-section { padding: 48px 0 10px; }
 .contest-board { min-height: 140px; }
 .contest-row { display: grid; grid-template-columns: 1fr auto; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--line); }
 .contest-row h3 { margin: 0 0 6px; }

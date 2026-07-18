@@ -7,6 +7,33 @@ type: AI 竞赛
 platform: Kaggle
 status: 项目实践
 tags: [Kaggle, CNN, TensorFlow]
+progress:
+  label: EXPERIMENT TIMELINE
+  metric: Val Accuracy
+  scoreSuffix: "%"
+  precision: 1
+  goal: higher
+  accent: "#ff8a5b"
+  demo: true
+  submissions:
+    - time: 2023-08-06T09:10:00+08:00
+      title: CNN Baseline
+      strategy: 使用三层卷积与固定训练/验证划分，先获得可复现的基线结果。
+      score: 85.1
+    - time: 2023-08-06T15:40:00+08:00
+      title: 数据增强
+      strategy: 加入水平翻转、随机缩放与小幅旋转，降低对训练样本细节的记忆。
+      score: 88.9
+      note: 训练准确率下降，但验证集泛化能力明显改善。
+    - time: 2023-08-07T11:25:00+08:00
+      title: Dropout 与 EarlyStopping
+      strategy: 在分类头加入 Dropout，并根据验证损失提前停止训练。
+      score: 91.6
+    - time: 2023-08-07T20:05:00+08:00
+      title: 错误样本驱动调整
+      strategy: 检查高置信度误判，调整裁剪范围并减少会破坏主体的增强操作。
+      score: 92.8
+      note: 以错误样本分析决定最后一次数据策略修改。
 ---
 
 猫狗识别是一个直观的二分类任务，也是一套完整计算机视觉训练流程的合适起点。实践环境使用 Kaggle Notebook 与 GPU，主要工具为 TensorFlow / Keras。

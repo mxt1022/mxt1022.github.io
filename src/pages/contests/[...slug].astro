@@ -1,5 +1,6 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import CompetitionProgress from '../../components/CompetitionProgress.astro';
 import Layout from '../../layouts/Layout.astro';
 import { formatDate, withBase } from '../../utils/site';
 
@@ -23,5 +24,14 @@ const { Content } = await render(entry);
       <div class="article-meta"><time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time><span>{entry.data.status}</span><span>{entry.data.tags.map((tag: string) => `#${tag}`).join(' · ')}</span></div>
     </div>
   </header>
+  {entry.data.progress && (
+    <section class="contest-progress-section shell">
+      <CompetitionProgress
+        title={entry.data.title}
+        platform={entry.data.platform}
+        progress={entry.data.progress}
+      />
+    </section>
+  )}
   <article class="prose narrow"><Content /></article>
 </Layout>

@@ -1,0 +1,130 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+type Progress = NonNullable<CollectionEntry<'experiences'>['data']['progress']>;
+
+interface Props {
+  title: string;
+  platform: string;
+  progress: Progress;
+  href?: string;
+}
+
+const { title, platform, progress, href } = Astro.props;
+const submissions = [...progress.submissions].sort((a, b) => a.time.valueOf() - b.time.valueOf());
+const firstScore = submissions[0].score;
+const latestScore = submissions.at(-1)?.score ?? firstScore;
+const scores = submissions.map((submission) => submission.score);
+const bestScore = progress.goal === 'lower' ? Math.min(...scores) : Math.max(...scores);
+const improvement = progress.goal === 'lower' ? firstScore - bestScore : bestScore - firstScore;
+const formatScore = (score: number) => `${score.toFixed(progress.precision)}${progress.scoreSuffix}`;
+const formatTime = (date: Date) => new Intl.DateTimeFormat('zh-CN', {
+  timeZone: 'Asia/Shanghai',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false,
+}).format(date);
+---
+
+<article class="progress-card" style={`--contest-accent: ${progress.accent}`}>
+  <header class="progress-header">
+    <div>
+      <div class="progress-kicker">
+        <span class="eyebrow">{progress.label}</span>
+        {progress.demo && <span class="demo-badge">示例数据</span>}
+      </div>
+      <h3>{href ? <a href={href}>{title}</a> : title}</h3>
+      <p>{platform} · {progress.metric} · {progress.goal === 'higher' ? '分数越高越好' : '分数越低越好'}</p>
+    </div>
+    {href && <a class="progress-link" href={href} aria-label={`查看 ${title} 的完整复盘`}>完整复盘 →</a>}
+  </header>
+
+  <dl class="progress-stats" aria-label={`${title} 提交统计`}>
+    <div><dt>{submissions.length}</dt><dd>提交次数</dd></div>
+    <div><dt>{formatScore(bestScore)}</dt><dd>最佳 {progress.metric}</dd></div>
+    <div><dt>{formatScore(latestScore)}</dt><dd>最新 {progress.metric}</dd></div>
+    <div><dt>+{formatScore(improvement)}</dt><dd>相对首提交提升</dd></div>
+  </dl>
+
+  <ol class="submission-timeline">
+    {submissions.map((submission, index) => {
+      const previous = submissions[index - 1];
+      const rawDelta = previous ? submission.score - previous.score : 0;
+      const effectiveDelta = progress.goal === 'lower' ? -rawDelta : rawDelta;
+      return (
+        <li class="submission-item">
+          <div class="submission-rail" aria-hidden="true"><span>{String(index + 1).padStart(2, '0')}</span></div>
+          <div class="submission-content">
+            <div class="submission-heading">
+              <div>
+                <time datetime={submission.time.toISOString()}>{formatTime(submission.time)}</time>
+                <h4>{submission.title}</h4>
+              </div>
+              <div class="submission-score">
+                <strong>{formatScore(submission.score)}</strong>
+                {previous && (
+                  <span class:list={{ positive: effectiveDelta > 0, negative: effectiveDelta < 0 }}>
+                    {rawDelta > 0 ? '+' : ''}{formatScore(rawDelta)}
+                  </span>
+                )}
+              </div>
+            </div>
+            <p>{submission.strategy}</p>
+            {submission.note && <small>{submission.note}</small>}
+          </div>
+        </li>
+      );
+    })}
+  </ol>
+</article>
+
+<style>
+  .progress-card { border: 1px solid var(--line); border-radius: 16px; background: var(--surface); overflow: hidden; }
+  .progress-header { display: flex; justify-content: space-between; gap: 28px; align-items: start; padding: clamp(24px, 4vw, 36px); border-bottom: 1px solid var(--line); background: linear-gradient(135deg, color-mix(in srgb, var(--contest-accent) 11%, var(--surface)), var(--surface) 58%); }
+  .progress-kicker { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .progress-card .eyebrow { color: var(--contest-accent); }
+  .demo-badge { padding: 3px 8px; border: 1px solid color-mix(in srgb, var(--contest-accent) 42%, var(--line)); border-radius: 999px; color: var(--muted); font: .65rem 'DM Mono', monospace; }
+  .progress-header h3 { margin: 12px 0 4px; font-size: clamp(1.35rem, 3vw, 2rem); line-height: 1.2; }
+  .progress-header h3 a { text-decoration: none; }
+  .progress-header p { margin: 0; color: var(--muted); font-size: .8rem; }
+  .progress-link { flex: 0 0 auto; color: var(--contest-accent); text-decoration: none; font-weight: 700; font-size: .82rem; }
+  .progress-stats { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; border-bottom: 1px solid var(--line); }
+  .progress-stats div { min-width: 0; padding: 20px clamp(16px, 3vw, 26px); border-right: 1px solid var(--line); }
+  .progress-stats div:last-child { border-right: 0; }
+  .progress-stats dt { overflow: hidden; color: var(--text); font: 500 clamp(1.05rem, 2.5vw, 1.55rem) 'DM Mono', monospace; text-overflow: ellipsis; white-space: nowrap; }
+  .progress-stats dd { margin: 5px 0 0; color: var(--muted); font-size: .7rem; }
+  .submission-timeline { margin: 0; padding: 8px clamp(24px, 4vw, 36px) 18px; list-style: none; }
+  .submission-item { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 18px; }
+  .submission-rail { position: relative; display: flex; justify-content: center; padding-top: 30px; }
+  .submission-rail::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--line); }
+  .submission-item:first-child .submission-rail::before { top: 40px; }
+  .submission-item:last-child .submission-rail::before { bottom: calc(100% - 40px); }
+  .submission-rail span { position: relative; z-index: 1; display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid color-mix(in srgb, var(--contest-accent) 60%, var(--line)); border-radius: 50%; background: var(--surface); color: var(--contest-accent); font: .64rem 'DM Mono', monospace; }
+  .submission-content { padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .submission-item:last-child .submission-content { border-bottom: 0; }
+  .submission-heading { display: flex; justify-content: space-between; gap: 24px; align-items: start; }
+  .submission-heading time { color: var(--muted); font-size: .68rem; }
+  .submission-heading h4 { margin: 5px 0 0; font-size: 1rem; }
+  .submission-score { flex: 0 0 auto; text-align: right; }
+  .submission-score strong, .submission-score span { display: block; font-family: 'DM Mono', monospace; }
+  .submission-score strong { font-size: 1rem; }
+  .submission-score span { margin-top: 3px; color: var(--muted); font-size: .68rem; }
+  .submission-score span.positive { color: var(--contest-accent); }
+  .submission-score span.negative { color: var(--orange); }
+  .submission-content p { margin: 12px 0 0; color: var(--muted); }
+  .submission-content small { display: block; margin-top: 8px; color: color-mix(in srgb, var(--muted) 78%, transparent); }
+  @media (max-width: 680px) {
+    .progress-header { display: block; }
+    .progress-link { display: inline-flex; margin-top: 16px; }
+    .progress-stats { grid-template-columns: repeat(2, 1fr); }
+    .progress-stats div:nth-child(2) { border-right: 0; }
+    .progress-stats div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .submission-timeline { padding-inline: 14px; }
+    .submission-item { grid-template-columns: 34px minmax(0, 1fr); gap: 10px; }
+    .submission-heading { gap: 14px; }
+    .submission-score strong { font-size: .85rem; }
+  }
+</style>

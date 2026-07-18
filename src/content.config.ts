@@ -12,6 +12,23 @@ const commonSchema = z.object({
   featured: z.boolean().default(false),
 });
 
+const competitionProgressSchema = z.object({
+  label: z.string().default('提交时间轴'),
+  metric: z.string().default('Score'),
+  scoreSuffix: z.string().default(''),
+  precision: z.number().int().min(0).max(8).default(4),
+  goal: z.enum(['higher', 'lower']).default('higher'),
+  accent: z.string().regex(/^#[0-9a-fA-F]{6}$/).default('#c7f36b'),
+  demo: z.boolean().default(false),
+  submissions: z.array(z.object({
+    time: z.coerce.date(),
+    title: z.string(),
+    strategy: z.string(),
+    score: z.number(),
+    note: z.string().optional(),
+  })).min(1),
+});
+
 const notes = defineCollection({
   loader: glob({ base: './src/content/notes', pattern: '**/*.{md,mdx}' }),
   schema: commonSchema.extend({
@@ -25,6 +42,7 @@ const experiences = defineCollection({
     type: z.enum(['算法竞赛', 'AI 竞赛']),
     platform: z.string(),
     status: z.string(),
+    progress: competitionProgressSchema.optional(),
   }),
 });
 

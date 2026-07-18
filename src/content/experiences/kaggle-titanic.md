@@ -8,6 +8,34 @@ platform: Kaggle
 status: 实践复盘
 tags: [Kaggle, 特征工程, 分类]
 featured: true
+progress:
+  label: SUBMISSION TIMELINE
+  metric: Public Score
+  precision: 5
+  goal: higher
+  accent: "#20beff"
+  demo: true
+  submissions:
+    - time: 2023-07-09T10:20:00+08:00
+      title: Logistic Regression Baseline
+      strategy: 对年龄与票价做中位数填充，编码性别和舱位等级，先验证完整提交流程。
+      score: 0.76555
+      note: 建立可复现的预处理 Pipeline，作为后续实验对照组。
+    - time: 2023-07-09T14:45:00+08:00
+      title: 加入称谓与家庭规模
+      strategy: 从姓名中提取 Title，并构造 FamilySize 与 IsAlone 特征。
+      score: 0.78229
+      note: 新特征改善了家庭关系与社会身份信息的表达。
+    - time: 2023-07-10T09:30:00+08:00
+      title: Random Forest 参数调整
+      strategy: 替换为随机森林并限制树深，尝试捕捉非线性关系。
+      score: 0.77751
+      note: 公开分下降，回到交叉验证重新检查模型方差。
+    - time: 2023-07-10T21:10:00+08:00
+      title: 验证驱动的小型集成
+      strategy: 融合逻辑回归与随机森林概率，并只保留稳定提升的特征。
+      score: 0.78468
+      note: 最终方案优先保证本地验证与公开榜变化方向一致。
 ---
 
 Titanic 是我第一次把数据分析、特征工程、建模、验证和提交串成完整流程的练习。数据集规模不大，但非常适合暴露表格任务中的基础问题。
