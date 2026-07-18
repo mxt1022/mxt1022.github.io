@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import logo from '../assets/logo.png';
 import { siteMeta, withBase } from '../utils/site';
 
 interface Props {
@@ -30,7 +31,7 @@ const nav = [
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0b0d0e" />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
+    <link rel="icon" type="image/png" href={logo.src} />
     <link rel="alternate" type="application/rss+xml" title={siteMeta.title} href={withBase('/rss.xml')} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
@@ -51,7 +52,7 @@ const nav = [
     <header class="site-header">
       <div class="shell nav-wrap">
         <a class="brand" href={withBase('/')} aria-label="mxt.log 首页">
-          <span class="brand-mark" aria-hidden="true">m</span>
+          <span class="brand-mark" aria-hidden="true"><img src={logo.src} alt="" width="30" height="30" /></span>
           <span>mxt<span class="accent">.log</span></span>
         </a>
         <nav aria-label="主导航">
@@ -70,7 +71,7 @@ const nav = [
     <footer class="site-footer">
       <div class="shell footer-grid">
         <div>
-          <a class="brand" href={withBase('/')}><span class="brand-mark" aria-hidden="true">m</span><span>mxt<span class="accent">.log</span></span></a>
+          <a class="brand" href={withBase('/')}><span class="brand-mark" aria-hidden="true"><img src={logo.src} alt="" width="30" height="30" /></span><span>mxt<span class="accent">.log</span></span></a>
           <p>持续学习，持续复盘，持续输出。</p>
         </div>
         <div class="footer-links">
