@@ -86,9 +86,9 @@ nav a:hover, nav a.active { background: var(--surface-2); color: var(--text); }
 .hero-intro { max-width: 660px; margin: 28px 0 0; color: var(--muted); font-size: clamp(1rem, 1.5vw, 1.22rem); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
 .hero-signature { width: max-content; margin-top: 38px; padding: 0 12px 6px 4px; transform: rotate(-3deg); }
-.signature-mark { position: relative; width: 210px; height: 94px; color: var(--text); }
-.signature-reveal { position: absolute; inset: 0 auto auto 0; display: block; width: 0; height: 94px; overflow: hidden; opacity: 0; animation: signature-write 1.15s cubic-bezier(.16, 1, .3, 1) .28s forwards; }
-.signature-word { display: block; width: 200px; padding: 5px 18px 10px 6px; font: 700 5.2rem/.95 'Caveat', cursive; letter-spacing: -.045em; white-space: nowrap; }
+.signature-mark { position: relative; width: 300px; height: 94px; color: var(--text); }
+.signature-reveal { position: absolute; inset: 0 auto auto 0; display: block; width: auto; height: 94px; overflow: visible; opacity: 0; animation: signature-write 1.15s cubic-bezier(.16, 1, .3, 1) .28s forwards; }
+.signature-word { display: block; width: 340px; padding: 5px 18px 10px 6px; font: 700 5.2rem/.95 'Caveat', cursive; letter-spacing: -.045em; white-space: nowrap; }
 .signature-mark::after { content: ''; position: absolute; left: 4px; bottom: 1px; width: 206px; height: 2px; border-radius: 999px; background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 18%, transparent)); transform: scaleX(0) rotate(-2deg); transform-origin: left center; animation: signature-underline .72s cubic-bezier(.16, 1, .3, 1) 1.38s forwards; }
 .signature-caption { display: block; margin: 9px 0 0 7px; color: var(--muted); font: 500 .62rem 'DM Mono', monospace; letter-spacing: .14em; opacity: 0; transform: translateY(4px); animation: signature-caption-in .45s ease 1.82s forwards; }
 @keyframes signature-write {
