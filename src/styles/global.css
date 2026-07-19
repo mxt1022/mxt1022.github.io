@@ -263,6 +263,17 @@ main :is(.hero, .page-hero, .article-header) h1 {
 .about-copy h2 { margin: 0 0 16px; font-size: 2rem; }
 .about-copy section { padding: 0 0 48px; }
 .about-copy section > p { color: var(--muted); }
+.resume-lead { font-size: 1.04rem; }
+.resume-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin: 26px 0 0; padding: 1px; border-radius: 12px; background: var(--line); overflow: hidden; }
+.resume-facts div { min-width: 0; padding: 18px 20px; background: var(--surface); }
+.resume-facts dt { color: var(--muted); font: .68rem 'DM Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
+.resume-facts dd { margin: 7px 0 0; overflow: hidden; color: var(--text); font: 500 .88rem 'DM Mono', monospace; text-overflow: ellipsis; white-space: nowrap; }
+.resume-list { margin-top: 28px; border-top: 1px solid var(--line); }
+.resume-entry { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 22px; padding: 23px 0; border-bottom: 1px solid var(--line); }
+.resume-marker { padding-top: 2px; color: var(--accent); font: 500 .7rem 'DM Mono', monospace; letter-spacing: .09em; }
+.resume-entry h3 { margin: 0 0 7px; font-size: 1rem; }
+.resume-entry p { margin: 0; color: var(--muted); font-size: .88rem; }
+.resume-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
 .tech-stack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 24px; }
 .tech-item { position: relative; display: flex; align-items: center; gap: 14px; min-width: 0; padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; transition: transform .2s, border-color .2s; }
 .tech-item::after { content: ''; position: absolute; inset: auto 0 0; height: 2px; background: var(--tech-color); opacity: .75; }
@@ -314,6 +325,8 @@ main :is(.hero, .page-hero, .article-header) h1 {
   .cf-analysis { grid-template-columns: 1fr; }
   .cf-solve-row a { grid-template-columns: 32px minmax(0, 1fr) auto; }
   .cf-rating-chart { height: 270px; }
+  .resume-facts { grid-template-columns: 1fr; }
+  .resume-entry { grid-template-columns: 1fr; gap: 7px; }
   .tech-stack { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-links { flex-wrap: wrap; }

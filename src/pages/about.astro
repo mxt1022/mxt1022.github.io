@@ -13,6 +13,36 @@ const techStack = [
   { name: 'Git', category: '工具', slug: 'git', color: 'F05032' },
   { name: 'Linux', category: '工具', slug: 'linux', color: 'FCC624' },
 ];
+
+const resumeFacts = [
+  { label: '个人定位', value: 'CS Learner' },
+  { label: '主要方向', value: 'Algorithms / AI' },
+  { label: '竞赛账号', value: 'InsaneArrogant' },
+  { label: '持续输出', value: 'Notes / Reviews / Code' },
+];
+
+const resumeItems = [
+  {
+    marker: 'FOCUS',
+    title: '计算机科学学习',
+    description: '围绕算法与数据结构、机器学习、深度学习及系统基础建立长期学习主线，并通过课程与项目补齐知识结构。',
+  },
+  {
+    marker: 'PRACTICE',
+    title: '算法与 AI 竞赛实践',
+    description: '持续进行 Codeforces 训练与赛后补题，同时参与 Kaggle、天池及 Datawhale 相关实践，记录每次实验、提交和策略变化。',
+  },
+  {
+    marker: 'OUTPUT',
+    title: '技术写作与开源记录',
+    description: '使用 Astro 维护个人技术博客，在 GitHub 整理算法代码，把课程笔记、错误路径和竞赛复盘转化为可检索的公开资料。',
+  },
+  {
+    marker: 'NOW',
+    title: '当前目标',
+    description: '提升算法问题识别能力与 AI 实验的可复现性，用稳定的小步迭代积累可以长期复用的方法和工程经验。',
+  },
+];
 ---
 
 <Layout title="关于" description="关于 mxt 与这个持续更新的学习博客。">
@@ -34,6 +64,34 @@ const techStack = [
           <span class="eyebrow">WHY THIS BLOG</span>
           <h2>记录不是终点，而是一次重新理解。</h2>
           <p>这个博客从早期的课程 Wiki 演进而来。学习内容越多，越需要一个结构清晰的地方保存思路、代码和复盘。这里不包装“标准答案”，更愿意留下推导过程以及曾经踩过的坑。</p>
+        </section>
+        <section class="resume-section">
+          <span class="eyebrow">PROFILE / RESUME</span>
+          <h2>你好，我是 mxt。</h2>
+          <p class="resume-lead">一名以项目与竞赛驱动学习的计算机科学学习者。我关注算法、人工智能与系统基础，也在持续练习如何把一个模糊的问题拆成可验证、可复现的步骤。</p>
+          <dl class="resume-facts" aria-label="个人简历摘要">
+            {resumeFacts.map((fact) => (
+              <div>
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <div class="resume-list" aria-label="个人经历与方向">
+            {resumeItems.map((item) => (
+              <article class="resume-entry">
+                <span class="resume-marker">{item.marker}</span>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div class="resume-actions">
+            <a class="button primary" href="https://github.com/mxt1022" target="_blank" rel="noreferrer">查看 GitHub ↗</a>
+            <a class="button" href="mailto:mxt1022@outlook.com">邮件联系</a>
+          </div>
         </section>
         <section>
           <span class="eyebrow">TOOLBOX</span>
