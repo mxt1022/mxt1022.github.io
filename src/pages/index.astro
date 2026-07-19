@@ -22,6 +22,14 @@ const tagCount = new Set(notes.flatMap((note) => note.data.tags)).size;
           <a class="button primary" href={withBase('/notes/')}>浏览学习记录 <span aria-hidden="true">→</span></a>
           <a class="button" href={withBase('/contests/')}>查看竞赛经历</a>
         </div>
+        <div class="hero-signature" role="img" aria-label="mxt 签名">
+          <div class="signature-mark" aria-hidden="true">
+            <span class="signature-char signature-char--1">m</span>
+            <span class="signature-char signature-char--2">x</span>
+            <span class="signature-char signature-char--3">t</span>
+          </div>
+          <span class="signature-caption" aria-hidden="true">SIGNED / KEEP ITERATING</span>
+        </div>
       </div>
       <aside class="hero-panel" aria-label="博客概览">
         <div class="panel-top"><i></i><i></i><i></i></div>
