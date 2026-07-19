@@ -30,6 +30,20 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+@keyframes page-out-forward {
+  to { opacity: 0; transform: translate3d(0, -8px, 0) scale(.995); filter: blur(2px); }
+}
+@keyframes page-in-forward {
+  from { opacity: 0; transform: translate3d(0, 14px, 0) scale(.995); filter: blur(3px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0); }
+}
+@keyframes page-out-back {
+  to { opacity: 0; transform: translate3d(0, 8px, 0) scale(.995); filter: blur(2px); }
+}
+@keyframes page-in-back {
+  from { opacity: 0; transform: translate3d(0, -14px, 0) scale(.995); filter: blur(3px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0); }
+}
 body {
   margin: 0;
   background:

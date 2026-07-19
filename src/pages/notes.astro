@@ -29,19 +29,23 @@ const categories = ['全部', ...new Set(notes.map((note) => note.data.category)
     </div>
   </section>
   <script>
-    const filters = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
-    const cards = document.querySelectorAll<HTMLElement>('[data-category]');
-    const empty = document.querySelector<HTMLElement>('.empty-state');
-    filters.forEach((button) => button.addEventListener('click', () => {
-      filters.forEach((item) => item.classList.remove('active'));
-      button.classList.add('active');
-      let visible = 0;
-      cards.forEach((card) => {
-        const show = button.dataset.filter === '全部' || card.dataset.category === button.dataset.filter;
-        card.hidden = !show;
-        if (show) visible += 1;
-      });
-      if (empty) empty.hidden = visible > 0;
-    }));
+    const setupNoteFilters = () => {
+      const filters = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+      const cards = document.querySelectorAll<HTMLElement>('[data-category]');
+      const empty = document.querySelector<HTMLElement>('.empty-state');
+      filters.forEach((button) => button.addEventListener('click', () => {
+        filters.forEach((item) => item.classList.remove('active'));
+        button.classList.add('active');
+        let visible = 0;
+        cards.forEach((card) => {
+          const show = button.dataset.filter === '全部' || card.dataset.category === button.dataset.filter;
+          card.hidden = !show;
+          if (show) visible += 1;
+        });
+        if (empty) empty.hidden = visible > 0;
+      }));
+    };
+
+    document.addEventListener('astro:page-load', setupNoteFilters);
   </script>
 </Layout>

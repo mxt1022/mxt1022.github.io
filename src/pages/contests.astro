@@ -80,8 +80,8 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
     </div>
   </section>
   <script>
-    const board = document.querySelector<HTMLElement>('#contest-board');
-    const codeforcesBoard = document.querySelector<HTMLElement>('#codeforces-board');
+    let chartCleanup: (() => void) | undefined;
+    let requestController: AbortController | undefined;
     const escapeHtml = (value: string) => value.replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char] || char);
     const safeNumber = (value: unknown) => Number.isFinite(Number(value)) ? Number(value) : 0;
     const rankClass = (rank: string) => {
@@ -226,13 +226,31 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
         if (tooltip) tooltip.hidden = true;
         draw();
       });
-      new ResizeObserver(draw).observe(wrap);
-      new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+      const resizeObserver = new ResizeObserver(draw);
+      const themeObserver = new MutationObserver(draw);
+      resizeObserver.observe(wrap);
+      themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
       draw();
+      return () => {
+        resizeObserver.disconnect();
+        themeObserver.disconnect();
+      };
     };
 
+    const setupContestBoards = () => {
+      chartCleanup?.();
+      chartCleanup = undefined;
+      requestController?.abort();
+
+      const board = document.querySelector<HTMLElement>('#contest-board');
+      const codeforcesBoard = document.querySelector<HTMLElement>('#codeforces-board');
+      if (!board && !codeforcesBoard) return;
+
+      const controller = new AbortController();
+      requestController = controller;
+
     if (codeforcesBoard) {
-      fetch(codeforcesBoard.dataset.source || '')
+      fetch(codeforcesBoard.dataset.source || '', { signal: controller.signal })
         .then((response) => response.ok ? response.json() : Promise.reject(new Error('刷题数据读取失败')))
         .then((data) => {
           const profile = data.profile || {};
@@ -290,13 +308,16 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
               <article class="cf-panel"><span class="eyebrow">TOP TAGS</span><h3>常练知识点</h3><div class="cf-tags">${tagsHtml}</div><p class="cf-note">统计基于去重后的 AC 题目；无 Rating 的题目不会进入难度分布。</p></article>
             </div>`;
           const chart = codeforcesBoard.querySelector<HTMLCanvasElement>('.cf-rating-chart');
-          if (chart && history.length) setupRatingChart(chart, history);
+          if (chart && history.length) chartCleanup = setupRatingChart(chart, history);
         })
-        .catch(() => { codeforcesBoard.innerHTML = '<p class="empty-state">Codeforces 刷题记录暂时无法读取，请稍后重试。</p>'; });
+        .catch((error) => {
+          if (error instanceof DOMException && error.name === 'AbortError') return;
+          codeforcesBoard.innerHTML = '<p class="empty-state">Codeforces 刷题记录暂时无法读取，请稍后重试。</p>';
+        });
     }
 
     if (board) {
-      fetch(board.dataset.source || '')
+      fetch(board.dataset.source || '', { signal: controller.signal })
         .then((response) => response.ok ? response.json() : Promise.reject(new Error('赛程读取失败')))
         .then((items) => items.filter((item: { start_time: string }) => new Date(item.start_time).getTime() > Date.now()).slice(0, 8))
         .then((items) => {
@@ -306,7 +327,13 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
             return `<article class="contest-row"><div><h3><a href="${encodeURI(item.url)}" target="_blank" rel="noreferrer">${escapeHtml(item.name)} ↗</a></h3><p>${escapeHtml(item.platform)} · ${escapeHtml(item.duration)}</p></div><div class="contest-time">${start.toLocaleDateString('zh-CN')}<br>${start.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}</div></article>`;
           }).join('');
         })
-        .catch(() => { board.innerHTML = '<p class="empty-state">赛程暂时无法读取，请稍后重试。</p>'; });
+        .catch((error) => {
+          if (error instanceof DOMException && error.name === 'AbortError') return;
+          board.innerHTML = '<p class="empty-state">赛程暂时无法读取，请稍后重试。</p>';
+        });
     }
+    };
+
+    document.addEventListener('astro:page-load', setupContestBoards);
   </script>
 </Layout>
