@@ -96,6 +96,50 @@ const pageTransition = {
     </footer>
 
     <script>
+      const copyCode = async (text: string) => {
+        if (!navigator.clipboard?.writeText) throw new Error('Clipboard API unavailable');
+        await navigator.clipboard.writeText(text);
+      };
+
+      const setupCodeCopyButtons = () => {
+        document.querySelectorAll<HTMLElement>('.prose pre').forEach((pre) => {
+          if (pre.closest('.code-block')) return;
+          const code = pre.querySelector('code');
+          if (!code) return;
+
+          const wrapper = document.createElement('div');
+          wrapper.className = 'code-block';
+          pre.before(wrapper);
+          wrapper.append(pre);
+
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'code-copy';
+          button.textContent = '复制';
+          button.setAttribute('aria-label', '复制代码');
+          wrapper.append(button);
+
+          button.addEventListener('click', async () => {
+            try {
+              await copyCode(code.textContent || '');
+              button.textContent = '已复制';
+              button.classList.add('is-copied');
+              button.setAttribute('aria-label', '代码已复制');
+            } catch {
+              button.textContent = '复制失败';
+              button.classList.add('is-error');
+              button.setAttribute('aria-label', '代码复制失败');
+            }
+
+            window.setTimeout(() => {
+              button.textContent = '复制';
+              button.classList.remove('is-copied', 'is-error');
+              button.setAttribute('aria-label', '复制代码');
+            }, 1600);
+          });
+        });
+      };
+
       const setupThemeToggle = () => {
         const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
         button?.addEventListener('click', () => {
@@ -109,6 +153,7 @@ const pageTransition = {
         event.newDocument.documentElement.dataset.theme = document.documentElement.dataset.theme || localStorage.getItem('theme') || 'dark';
       });
       document.addEventListener('astro:page-load', setupThemeToggle);
+      document.addEventListener('astro:page-load', setupCodeCopyButtons);
     </script>
   </body>
 </html>

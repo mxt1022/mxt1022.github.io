@@ -252,6 +252,12 @@ main :is(.hero, .page-hero, .article-header) h1 {
 .prose a { color: var(--accent); text-underline-offset: 3px; }
 .prose blockquote { margin: 2em 0; padding: 8px 0 8px 24px; border-left: 3px solid var(--accent); color: var(--muted); }
 .prose pre { margin: 2em 0; padding: 22px; border: 1px solid var(--line); border-radius: 10px; overflow: auto; }
+.code-block { position: relative; margin: 2em 0; }
+.prose .code-block pre { margin: 0; padding-top: 54px; }
+.code-copy { position: absolute; top: 11px; right: 11px; z-index: 2; min-width: 58px; min-height: 30px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 6px; background: color-mix(in srgb, var(--surface-2) 92%, transparent); color: var(--muted); font: 500 .7rem 'DM Mono', monospace; cursor: pointer; backdrop-filter: blur(8px); transition: border-color .2s, color .2s, background .2s, transform .2s; }
+.code-copy:hover, .code-copy:focus-visible { border-color: var(--accent); color: var(--text); outline: none; transform: translateY(-1px); }
+.code-copy.is-copied { border-color: color-mix(in srgb, var(--accent) 72%, var(--line)); background: color-mix(in srgb, var(--accent) 12%, var(--surface-2)); color: var(--accent); }
+.code-copy.is-error { border-color: color-mix(in srgb, var(--orange) 72%, var(--line)); color: var(--orange); }
 .prose :not(pre) > code { padding: 2px 6px; border-radius: 4px; background: var(--surface-2); color: var(--orange); }
 .prose table { width: 100%; border-collapse: collapse; margin: 2em 0; }
 .prose th, .prose td { padding: 12px; border-bottom: 1px solid var(--line); text-align: left; }
