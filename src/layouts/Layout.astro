@@ -17,6 +17,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const currentPath = Astro.url.pathname.replace(base, '') || '/';
 const nav = [
   { href: '/', label: '首页' },
+  { href: '/profile/', label: '个人主页' },
   { href: '/notes/', label: '学习记录' },
   { href: '/contests/', label: '竞赛经历' },
   { href: '/about/', label: '关于' },
