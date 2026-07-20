@@ -32,7 +32,7 @@ const competitionProgressSchema = z.object({
 const notes = defineCollection({
   loader: glob({ base: './src/content/notes', pattern: '**/*.{md,mdx}' }),
   schema: commonSchema.extend({
-    category: z.enum(['算法', '人工智能', '计算机基础', '工具与实践']),
+    category: z.enum(['算法', '人工智能', '计算机基础', '工具与实践', 'Agent']),
   }),
 });
 
