@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-17T15:15:53.454050+00:00",
+  "updated_at": "2026-07-24T04:19:51.243010+00:00",
   "profile": {
     "handle": "InsaneArrogant",
     "rank": "newbie",
@@ -7,15 +7,15 @@
     "max_rank": "newbie",
     "max_rating": 863,
     "organization": "Jiangly Fan Club",
-    "last_online": "2026-07-17T15:03:25+00:00",
+    "last_online": "2026-07-24T02:21:59+00:00",
     "profile_url": "https://codeforces.com/profile/InsaneArrogant"
   },
   "stats": {
-    "solved_count": 230,
-    "accepted_submissions": 261,
-    "submissions_scanned": 523,
+    "solved_count": 231,
+    "accepted_submissions": 262,
+    "submissions_scanned": 524,
     "rated_contests": 22,
-    "active_days": 125
+    "active_days": 126
   },
   "top_tags": [
     {
@@ -24,7 +24,7 @@
     },
     {
       "name": "greedy",
-      "count": 60
+      "count": 61
     },
     {
       "name": "math",
@@ -36,7 +36,7 @@
     },
     {
       "name": "strings",
-      "count": 34
+      "count": 35
     },
     {
       "name": "sortings",
@@ -47,8 +47,8 @@
       "count": 25
     },
     {
-      "name": "number theory",
-      "count": 9
+      "name": "dp",
+      "count": 10
     }
   ],
   "difficulty": [
@@ -305,6 +305,21 @@
   ],
   "recent_accepted": [
     {
+      "name": "Iskander and Drawings",
+      "contest_id": 2244,
+      "index": "A",
+      "rating": null,
+      "tags": [
+        "dp",
+        "games",
+        "greedy",
+        "strings"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2026-07-24T01:57:03+00:00",
+      "url": "https://codeforces.com/contest/2244/problem/A"
+    },
+    {
       "name": "Energy Crystals",
       "contest_id": 2111,
       "index": "A",
@@ -430,19 +445,6 @@
       "language": "C++14 (GCC 6-32)",
       "submitted_at": "2024-04-18T11:05:38+00:00",
       "url": "https://codeforces.com/contest/1342/problem/A"
-    },
-    {
-      "name": "Move Brackets",
-      "contest_id": 1374,
-      "index": "C",
-      "rating": 1000,
-      "tags": [
-        "greedy",
-        "strings"
-      ],
-      "language": "C++14 (GCC 6-32)",
-      "submitted_at": "2024-04-18T10:40:27+00:00",
-      "url": "https://codeforces.com/contest/1374/problem/C"
     }
   ]
 }
