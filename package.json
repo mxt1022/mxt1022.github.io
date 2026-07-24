@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "code-inspector-plugin": "^2.0.4",
     "typescript": "^6.0.3"
   }
 }

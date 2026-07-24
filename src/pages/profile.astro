@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import logo from '../assets/logo.png';
+import logo from '../assets/avatar.png';
 import Layout from '../layouts/Layout.astro';
 import { formatDate, withBase } from '../utils/site';
 
@@ -12,7 +12,7 @@ const tagCount = new Set([...notes, ...experiences].flatMap((entry) => entry.dat
 const focusAreas = [
   { index: '01', title: 'Algorithms', description: '数据结构、问题建模、复杂度分析，以及 Codeforces 赛后补题与题型归纳。' },
   { index: '02', title: 'AI Competition', description: '机器学习与深度学习实验、特征工程、验证设计和竞赛提交策略。' },
-  { index: '03', title: 'CS Foundations', description: '程序设计、计算机系统、网络与工程工具，通过课程和项目建立知识连接。' },
+  { index: '03', title: 'CS Project', description: '当前主流的工具、前沿信息、项目信息。例如当下最火的Agent开发' },
 ];
 
 const experiencesOverview = [
@@ -28,7 +28,7 @@ const experiencesOverview = [
       <aside class="personal-sidebar" aria-label="个人主页目录">
         <div class="personal-avatar-wrap">
           <img class="personal-avatar" src={logo.src} alt="mxt1022 的终端与上升曲线标志" width="180" height="180" />
-          <span class="personal-online"><i></i> LEARNING IN PUBLIC</span>
+          <span class="personal-online"><i></i> RP++ RP->+∞，Learning never stop！</span>
         </div>
         <nav class="personal-menu" aria-label="页面内导航">
           <a href="#intro"><span>01</span> INTRO</a>
@@ -43,7 +43,7 @@ const experiencesOverview = [
         <span class="eyebrow">PERSONAL HOMEPAGE / MXT1022</span>
         <h1>你好，我是<br /><span>mxt1022</span></h1>
         <p class="personal-role">CS Learner · Algorithms · Artificial Intelligence</p>
-        <p class="personal-lead">我以课程、项目和竞赛驱动计算机科学学习，关注算法问题的拆解方式，也关注 AI 实验如何被稳定复现。这里汇总我的学习方向、近期输出与持续推进的实践。</p>
+        <p class="personal-lead">初入职场的一名点点点工程师，主要关注于程序设计、机器学习方面竞赛，以及其他前沿工具、项目。这里汇总我的学习方向、近期输出与持续推进的实践。</p>
         <div class="personal-actions">
           <a class="button primary" href="https://github.com/mxt1022" target="_blank" rel="noreferrer">GitHub ↗</a>
           <a class="button" href={withBase('/contests/')}>竞赛记录</a>
@@ -109,8 +109,8 @@ const experiencesOverview = [
 
     <section class="personal-contact" id="contact">
       <span class="eyebrow">05 / CONTACT</span>
-      <h2>一起交流算法、AI 与学习方法。</h2>
-      <p>如果你对博客中的内容、竞赛复盘或代码实现有想法，欢迎通过 GitHub 或邮件联系。</p>
+      <h2>一起交流算法、AI 与学习方法</h2>
+      <p>欢迎通过 GitHub 或邮件联系</p>
       <div class="personal-actions">
         <a class="button primary" href="mailto:mxt1022@outlook.com">mxt1022@outlook.com</a>
         <a class="button" href={withBase('/about/')}>查看详细介绍</a>
