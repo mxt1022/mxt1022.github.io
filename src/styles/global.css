@@ -169,6 +169,17 @@ main :is(.hero, .page-hero, .article-header) h1 {
 .contest-row h3 a { text-decoration: none; }
 .contest-row p { margin: 0; color: var(--muted); font-size: .9rem; }
 .contest-time { text-align: right; font: .8rem/1.7 'DM Mono', monospace; color: var(--accent); }
+.cf-sync-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin: 0 0 18px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: color-mix(in srgb, var(--accent) 5%, var(--surface)); }
+.cf-sync-status { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.cf-sync-status > i { flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 13%, transparent); }
+.cf-sync-status > i.is-stale { background: var(--orange); box-shadow: 0 0 0 5px color-mix(in srgb, var(--orange) 13%, transparent); }
+.cf-sync-status strong, .cf-sync-status span { display: block; }
+.cf-sync-status strong { color: var(--text); font-size: .78rem; }
+.cf-sync-status span { margin-top: 2px; color: var(--muted); font: .66rem 'DM Mono', monospace; }
+.cf-sync-actions { display: flex; flex: 0 0 auto; gap: 8px; }
+.cf-sync-actions button, .cf-sync-actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 34px; padding: 6px 11px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--muted); font: .66rem 'DM Mono', monospace; text-decoration: none; cursor: pointer; transition: border-color .2s, color .2s, background .2s; }
+.cf-sync-actions button:hover, .cf-sync-actions button:focus-visible, .cf-sync-actions a:hover, .cf-sync-actions a:focus-visible { border-color: var(--accent); color: var(--text); outline: none; }
+.cf-sync-actions button:disabled { cursor: wait; opacity: .6; }
 .cf-board { min-height: 280px; }
 .cf-loading { display: grid; min-height: 280px; place-items: center; border: 1px dashed var(--line); border-radius: 14px; color: var(--muted); }
 .cf-overview { display: grid; grid-template-columns: minmax(280px, .78fr) minmax(0, 1.22fr); gap: 16px; }
@@ -318,6 +329,9 @@ main :is(.hero, .page-hero, .article-header) h1 {
   .timeline-item { grid-template-columns: 1fr; gap: 10px; }
   .contest-row { grid-template-columns: 1fr; }
   .contest-time { text-align: left; }
+  .cf-sync-toolbar { align-items: flex-start; flex-direction: column; }
+  .cf-sync-actions { width: 100%; }
+  .cf-sync-actions button, .cf-sync-actions a { flex: 1; }
   .cf-analysis { grid-template-columns: 1fr; }
   .cf-solve-row a { grid-template-columns: 32px minmax(0, 1fr) auto; }
   .cf-rating-chart { height: 270px; }

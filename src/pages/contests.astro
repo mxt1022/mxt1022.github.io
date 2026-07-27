@@ -21,7 +21,20 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
     <div class="shell">
       <div class="section-heading">
         <div><span class="eyebrow">01 / CODEFORCES LOG</span><h2>刷题成长记录</h2></div>
-        <p>账号 <strong>InsaneArrogant</strong> 的公开训练数据。AC 题目按题目去重，数据每天自动同步两次。</p>
+        <p>账号 <strong>InsaneArrogant</strong> 的公开训练数据。AC 题目按题目去重，数据每天自动同步一次。</p>
+      </div>
+      <div class="cf-sync-toolbar">
+        <div class="cf-sync-status" role="status">
+          <i id="cf-sync-dot" aria-hidden="true"></i>
+          <div>
+            <strong>每日自动同步</strong>
+            <span id="cf-sync-state">计划于北京时间 08:23 更新，正在读取最近快照…</span>
+          </div>
+        </div>
+        <div class="cf-sync-actions">
+          <button id="cf-refresh-data" type="button">刷新显示</button>
+          <a href="https://github.com/mxt1022/mxt1022.github.io/actions/workflows/update-codeforces.yml" target="_blank" rel="noreferrer">运行更新 ↗</a>
+        </div>
       </div>
       <div id="codeforces-board" class="cf-board" data-source={codeforcesUrl} aria-live="polite">
         <div class="cf-loading mono">正在整理 Codeforces 刷题记录…</div>
@@ -237,20 +250,32 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
       };
     };
 
-    const setupContestBoards = () => {
+    const setupContestBoards = (forceRefresh = false) => {
       chartCleanup?.();
       chartCleanup = undefined;
       requestController?.abort();
 
       const board = document.querySelector<HTMLElement>('#contest-board');
       const codeforcesBoard = document.querySelector<HTMLElement>('#codeforces-board');
+      const refreshButton = document.querySelector<HTMLButtonElement>('#cf-refresh-data');
+      const syncState = document.querySelector<HTMLElement>('#cf-sync-state');
+      const syncDot = document.querySelector<HTMLElement>('#cf-sync-dot');
       if (!board && !codeforcesBoard) return;
 
       const controller = new AbortController();
       requestController = controller;
 
+      if (refreshButton) {
+        refreshButton.onclick = () => setupContestBoards(true);
+        refreshButton.disabled = forceRefresh;
+        refreshButton.textContent = forceRefresh ? '正在刷新…' : '刷新显示';
+      }
+      codeforcesBoard?.setAttribute('aria-busy', 'true');
+
     if (codeforcesBoard) {
-      fetch(codeforcesBoard.dataset.source || '', { signal: controller.signal })
+      const source = new URL(codeforcesBoard.dataset.source || '', window.location.href);
+      if (forceRefresh) source.searchParams.set('_refresh', String(Date.now()));
+      fetch(source, { signal: controller.signal, cache: 'no-store' })
         .then((response) => response.ok ? response.json() : Promise.reject(new Error('刷题数据读取失败')))
         .then((data) => {
           const profile = data.profile || {};
@@ -260,7 +285,9 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
           const tags = Array.isArray(data.top_tags) ? data.top_tags : [];
           const history: RatingPoint[] = Array.isArray(data.rating_history) ? data.rating_history : [];
           const highestBucket = Math.max(1, ...difficulty.map((item: { count?: number }) => safeNumber(item.count)));
-          const updatedAt = data.updated_at ? new Date(data.updated_at).toLocaleString('zh-CN', { dateStyle: 'medium', timeStyle: 'short' }) : '未知';
+          const updatedDate = data.updated_at ? new Date(data.updated_at) : null;
+          const updatedAt = updatedDate && !Number.isNaN(updatedDate.getTime()) ? updatedDate.toLocaleString('zh-CN', { dateStyle: 'medium', timeStyle: 'short' }) : '未知';
+          const isStale = !updatedDate || Number.isNaN(updatedDate.getTime()) || Date.now() - updatedDate.getTime() > 36 * 60 * 60 * 1000;
           const rank = typeof profile.rank === 'string' ? profile.rank : 'unrated';
 
           const recentHtml = recent.length ? recent.map((problem: { name?: string; index?: string; rating?: number; tags?: string[]; submitted_at?: string; url?: string }) => {
@@ -309,15 +336,29 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
             </div>`;
           const chart = codeforcesBoard.querySelector<HTMLCanvasElement>('.cf-rating-chart');
           if (chart && history.length) chartCleanup = setupRatingChart(chart, history);
+          codeforcesBoard.setAttribute('aria-busy', 'false');
+          if (syncState) syncState.textContent = `最近同步：${updatedAt}${isStale ? ' · 等待下一次自动更新' : ' · 数据正常'}`;
+          syncDot?.classList.toggle('is-stale', isStale);
+          if (refreshButton) {
+            refreshButton.disabled = false;
+            refreshButton.textContent = '刷新显示';
+          }
         })
         .catch((error) => {
           if (error instanceof DOMException && error.name === 'AbortError') return;
           codeforcesBoard.innerHTML = '<p class="empty-state">Codeforces 刷题记录暂时无法读取，请稍后重试。</p>';
+          codeforcesBoard.setAttribute('aria-busy', 'false');
+          if (syncState) syncState.textContent = '快照读取失败，已保留自动同步计划';
+          syncDot?.classList.add('is-stale');
+          if (refreshButton) {
+            refreshButton.disabled = false;
+            refreshButton.textContent = '重新读取';
+          }
         });
     }
 
     if (board) {
-      fetch(board.dataset.source || '', { signal: controller.signal })
+      fetch(board.dataset.source || '', { signal: controller.signal, cache: 'no-store' })
         .then((response) => response.ok ? response.json() : Promise.reject(new Error('赛程读取失败')))
         .then((items) => items.filter((item: { start_time: string }) => new Date(item.start_time).getTime() > Date.now()).slice(0, 8))
         .then((items) => {
@@ -334,6 +375,6 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
     }
     };
 
-    document.addEventListener('astro:page-load', setupContestBoards);
+    document.addEventListener('astro:page-load', () => setupContestBoards());
   </script>
 </Layout>
