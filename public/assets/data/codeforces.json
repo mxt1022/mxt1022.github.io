@@ -1,0 +1,450 @@
+{
+  "updated_at": "2026-07-27T06:11:42.398192+00:00",
+  "profile": {
+    "handle": "InsaneArrogant",
+    "rank": "newbie",
+    "rating": 863,
+    "max_rank": "newbie",
+    "max_rating": 863,
+    "organization": "Jiangly Fan Club",
+    "last_online": "2026-07-24T02:21:59+00:00",
+    "profile_url": "https://codeforces.com/profile/InsaneArrogant"
+  },
+  "stats": {
+    "solved_count": 231,
+    "accepted_submissions": 262,
+    "submissions_scanned": 524,
+    "rated_contests": 22,
+    "active_days": 126
+  },
+  "top_tags": [
+    {
+      "name": "implementation",
+      "count": 138
+    },
+    {
+      "name": "greedy",
+      "count": 61
+    },
+    {
+      "name": "math",
+      "count": 60
+    },
+    {
+      "name": "brute force",
+      "count": 46
+    },
+    {
+      "name": "strings",
+      "count": 35
+    },
+    {
+      "name": "sortings",
+      "count": 33
+    },
+    {
+      "name": "constructive algorithms",
+      "count": 25
+    },
+    {
+      "name": "dp",
+      "count": 10
+    }
+  ],
+  "difficulty": [
+    {
+      "label": "800–999",
+      "count": 129
+    },
+    {
+      "label": "1000–1199",
+      "count": 59
+    },
+    {
+      "label": "1200–1399",
+      "count": 25
+    },
+    {
+      "label": "1400–1599",
+      "count": 11
+    },
+    {
+      "label": "1600–1799",
+      "count": 4
+    },
+    {
+      "label": "1800–1999",
+      "count": 0
+    },
+    {
+      "label": "2000+",
+      "count": 0
+    }
+  ],
+  "rating_history": [
+    {
+      "contest_id": 1669,
+      "contest_name": "Codeforces Round 784 (Div. 4)",
+      "rank": 15965,
+      "old_rating": 0,
+      "new_rating": 360,
+      "delta": 360,
+      "updated_at": "2022-04-21T16:35:00+00:00",
+      "url": "https://codeforces.com/contest/1669"
+    },
+    {
+      "contest_id": 1674,
+      "contest_name": "Codeforces Round 786 (Div. 3)",
+      "rank": 11481,
+      "old_rating": 360,
+      "new_rating": 594,
+      "delta": 234,
+      "updated_at": "2022-05-02T16:35:00+00:00",
+      "url": "https://codeforces.com/contest/1674"
+    },
+    {
+      "contest_id": 1675,
+      "contest_name": "Codeforces Round 787 (Div. 3)",
+      "rank": 11411,
+      "old_rating": 594,
+      "new_rating": 754,
+      "delta": 160,
+      "updated_at": "2022-05-05T16:50:00+00:00",
+      "url": "https://codeforces.com/contest/1675"
+    },
+    {
+      "contest_id": 1676,
+      "contest_name": "Codeforces Round 790 (Div. 4)",
+      "rank": 14194,
+      "old_rating": 754,
+      "new_rating": 813,
+      "delta": 59,
+      "updated_at": "2022-05-10T16:45:00+00:00",
+      "url": "https://codeforces.com/contest/1676"
+    },
+    {
+      "contest_id": 1680,
+      "contest_name": "Educational Codeforces Round 128 (Rated for Div. 2)",
+      "rank": 11395,
+      "old_rating": 813,
+      "new_rating": 805,
+      "delta": -8,
+      "updated_at": "2022-05-13T16:35:00+00:00",
+      "url": "https://codeforces.com/contest/1680"
+    },
+    {
+      "contest_id": 1684,
+      "contest_name": "Codeforces Round 792 (Div. 1 + Div. 2)",
+      "rank": 11627,
+      "old_rating": 805,
+      "new_rating": 801,
+      "delta": -4,
+      "updated_at": "2022-05-19T16:35:00+00:00",
+      "url": "https://codeforces.com/contest/1684"
+    },
+    {
+      "contest_id": 1692,
+      "contest_name": "Codeforces Round 799 (Div. 4)",
+      "rank": 16692,
+      "old_rating": 801,
+      "new_rating": 747,
+      "delta": -54,
+      "updated_at": "2022-06-14T16:50:00+00:00",
+      "url": "https://codeforces.com/contest/1692"
+    },
+    {
+      "contest_id": 1703,
+      "contest_name": "Codeforces Round 806 (Div. 4)",
+      "rank": 10798,
+      "old_rating": 747,
+      "new_rating": 790,
+      "delta": 43,
+      "updated_at": "2022-07-12T16:50:00+00:00",
+      "url": "https://codeforces.com/contest/1703"
+    },
+    {
+      "contest_id": 1722,
+      "contest_name": "Codeforces Round 817 (Div. 4)",
+      "rank": 17099,
+      "old_rating": 790,
+      "new_rating": 734,
+      "delta": -56,
+      "updated_at": "2022-08-30T17:05:00+00:00",
+      "url": "https://codeforces.com/contest/1722"
+    },
+    {
+      "contest_id": 1717,
+      "contest_name": "Codeforces Round 818 (Div. 2)",
+      "rank": 9248,
+      "old_rating": 734,
+      "new_rating": 641,
+      "delta": -93,
+      "updated_at": "2022-09-02T16:35:00+00:00",
+      "url": "https://codeforces.com/contest/1717"
+    },
+    {
+      "contest_id": 1729,
+      "contest_name": "Codeforces Round 820 (Div. 3)",
+      "rank": 17252,
+      "old_rating": 641,
+      "new_rating": 545,
+      "delta": -96,
+      "updated_at": "2022-09-12T16:50:00+00:00",
+      "url": "https://codeforces.com/contest/1729"
+    },
+    {
+      "contest_id": 1736,
+      "contest_name": "Codeforces Round 825 (Div. 2)",
+      "rank": 12661,
+      "old_rating": 545,
+      "new_rating": 456,
+      "delta": -89,
+      "updated_at": "2022-10-10T16:35:00+00:00",
+      "url": "https://codeforces.com/contest/1736"
+    },
+    {
+      "contest_id": 1742,
+      "contest_name": "Codeforces Round 827 (Div. 4)",
+      "rank": 12660,
+      "old_rating": 456,
+      "new_rating": 583,
+      "delta": 127,
+      "updated_at": "2022-10-13T17:00:00+00:00",
+      "url": "https://codeforces.com/contest/1742"
+    },
+    {
+      "contest_id": 1760,
+      "contest_name": "Codeforces Round 835 (Div. 4)",
+      "rank": 8741,
+      "old_rating": 583,
+      "new_rating": 716,
+      "delta": 133,
+      "updated_at": "2022-11-21T17:00:00+00:00",
+      "url": "https://codeforces.com/contest/1760"
+    },
+    {
+      "contest_id": 1772,
+      "contest_name": "Codeforces Round 839 (Div. 3)",
+      "rank": 12000,
+      "old_rating": 716,
+      "new_rating": 680,
+      "delta": -36,
+      "updated_at": "2022-12-18T16:50:00+00:00",
+      "url": "https://codeforces.com/contest/1772"
+    },
+    {
+      "contest_id": 1798,
+      "contest_name": "Codeforces Round 860 (Div. 2)",
+      "rank": 9193,
+      "old_rating": 680,
+      "new_rating": 735,
+      "delta": 55,
+      "updated_at": "2023-03-26T16:35:00+00:00",
+      "url": "https://codeforces.com/contest/1798"
+    },
+    {
+      "contest_id": 1840,
+      "contest_name": "Codeforces Round 878 (Div. 3)",
+      "rank": 13347,
+      "old_rating": 735,
+      "new_rating": 731,
+      "delta": -4,
+      "updated_at": "2023-06-06T16:50:00+00:00",
+      "url": "https://codeforces.com/contest/1840"
+    },
+    {
+      "contest_id": 1882,
+      "contest_name": "Codeforces Round 899 (Div. 2)",
+      "rank": 10768,
+      "old_rating": 731,
+      "new_rating": 784,
+      "delta": 53,
+      "updated_at": "2023-09-25T16:35:00+00:00",
+      "url": "https://codeforces.com/contest/1882"
+    },
+    {
+      "contest_id": 1878,
+      "contest_name": "Codeforces Round 900 (Div. 3)",
+      "rank": 18306,
+      "old_rating": 784,
+      "new_rating": 752,
+      "delta": -32,
+      "updated_at": "2023-09-26T16:50:00+00:00",
+      "url": "https://codeforces.com/contest/1878"
+    },
+    {
+      "contest_id": 1883,
+      "contest_name": "Codeforces Round 905 (Div. 3)",
+      "rank": 10381,
+      "old_rating": 752,
+      "new_rating": 720,
+      "delta": -32,
+      "updated_at": "2023-10-22T13:05:00+00:00",
+      "url": "https://codeforces.com/contest/1883"
+    },
+    {
+      "contest_id": 1931,
+      "contest_name": "Codeforces Round 925 (Div. 3)",
+      "rank": 13915,
+      "old_rating": 720,
+      "new_rating": 799,
+      "delta": 79,
+      "updated_at": "2024-02-13T16:50:00+00:00",
+      "url": "https://codeforces.com/contest/1931"
+    },
+    {
+      "contest_id": 1926,
+      "contest_name": "Codeforces Round 928 (Div. 4)",
+      "rank": 11835,
+      "old_rating": 799,
+      "new_rating": 863,
+      "delta": 64,
+      "updated_at": "2024-02-19T16:50:00+00:00",
+      "url": "https://codeforces.com/contest/1926"
+    }
+  ],
+  "recent_accepted": [
+    {
+      "name": "Iskander and Drawings",
+      "contest_id": 2244,
+      "index": "A",
+      "rating": null,
+      "tags": [
+        "dp",
+        "games",
+        "greedy",
+        "strings"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2026-07-24T01:57:03+00:00",
+      "url": "https://codeforces.com/contest/2244/problem/A"
+    },
+    {
+      "name": "Energy Crystals",
+      "contest_id": 2111,
+      "index": "A",
+      "rating": 800,
+      "tags": [
+        "greedy",
+        "implementation",
+        "math"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2026-05-29T01:17:44+00:00",
+      "url": "https://codeforces.com/contest/2111/problem/A"
+    },
+    {
+      "name": "Anton and Danik",
+      "contest_id": 734,
+      "index": "A",
+      "rating": 800,
+      "tags": [
+        "implementation",
+        "strings"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2026-05-27T13:54:16+00:00",
+      "url": "https://codeforces.com/contest/734/problem/A"
+    },
+    {
+      "name": "Vanya and Fence",
+      "contest_id": 677,
+      "index": "A",
+      "rating": 800,
+      "tags": [
+        "implementation"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2026-05-27T13:51:00+00:00",
+      "url": "https://codeforces.com/contest/677/problem/A"
+    },
+    {
+      "name": "Three Decks",
+      "contest_id": 2104,
+      "index": "A",
+      "rating": 800,
+      "tags": [
+        "math"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2025-05-10T12:05:48+00:00",
+      "url": "https://codeforces.com/contest/2104/problem/A"
+    },
+    {
+      "name": "Mathematician Takeover",
+      "contest_id": 1952,
+      "index": "G",
+      "rating": null,
+      "tags": [
+        "*special",
+        "binary search",
+        "dfs and similar",
+        "math"
+      ],
+      "language": "C++14 (GCC 6-32)",
+      "submitted_at": "2024-04-20T03:49:03+00:00",
+      "url": "https://codeforces.com/contest/1952/problem/G"
+    },
+    {
+      "name": "String LCM",
+      "contest_id": 1473,
+      "index": "B",
+      "rating": 1000,
+      "tags": [
+        "brute force",
+        "math",
+        "number theory",
+        "strings"
+      ],
+      "language": "C++14 (GCC 6-32)",
+      "submitted_at": "2024-04-20T03:43:02+00:00",
+      "url": "https://codeforces.com/contest/1473/problem/B"
+    },
+    {
+      "name": "Computer Game",
+      "contest_id": 1598,
+      "index": "A",
+      "rating": 800,
+      "tags": [
+        "brute force",
+        "dfs and similar",
+        "dp",
+        "implementation"
+      ],
+      "language": "C++14 (GCC 6-32)",
+      "submitted_at": "2024-04-19T08:52:48+00:00",
+      "url": "https://codeforces.com/contest/1598/problem/A"
+    },
+    {
+      "name": "Gregor and the Pawn Game",
+      "contest_id": 1549,
+      "index": "B",
+      "rating": 800,
+      "tags": [
+        "dfs and similar",
+        "dp",
+        "flows",
+        "graph matchings",
+        "graphs",
+        "greedy",
+        "implementation"
+      ],
+      "language": "C++14 (GCC 6-32)",
+      "submitted_at": "2024-04-19T08:34:28+00:00",
+      "url": "https://codeforces.com/contest/1549/problem/B"
+    },
+    {
+      "name": "Road To Zero",
+      "contest_id": 1342,
+      "index": "A",
+      "rating": 1000,
+      "tags": [
+        "greedy",
+        "math"
+      ],
+      "language": "C++14 (GCC 6-32)",
+      "submitted_at": "2024-04-18T11:05:38+00:00",
+      "url": "https://codeforces.com/contest/1342/problem/A"
+    }
+  ]
+}
