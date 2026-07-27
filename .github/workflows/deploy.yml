@@ -2,14 +2,18 @@ name: Deploy Astro to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - data
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# 无论由代码还是数据触发，始终只保留最新一次完整部署。
 concurrency:
   group: pages
   cancel-in-progress: true
@@ -17,23 +21,34 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
+    timeout-minutes: 15
 
-      - name: Checkout data branch
+    steps:
+      # data 分支触发时也必须构建 main，而不是把数据分支当作站点源码。
+      - name: Checkout site source from main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - name: Checkout latest data snapshot
         uses: actions/checkout@v7
         with:
           ref: data
           path: temp_data
-      
-      - name: Copy data files
+          fetch-depth: 1
+
+      - name: Overlay generated data
+        shell: bash
         run: |
           mkdir -p public/assets/data
-          # 如果 data 分支存在对应目录，则复制；否则忽略（首次可能为空）
-          if [ -d temp_data/public/assets/data ]; then
+
+          if compgen -G "temp_data/public/assets/data/*.json" > /dev/null; then
+            rm -f public/assets/data/*.json
             cp temp_data/public/assets/data/*.json public/assets/data/
+          else
+            echo "::warning::The data branch has not been populated yet; using the snapshot bundled with main."
           fi
+
           rm -rf temp_data
 
       - name: Install, build and upload Astro site
@@ -44,9 +59,11 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

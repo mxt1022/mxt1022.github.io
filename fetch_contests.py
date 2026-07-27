@@ -8,7 +8,7 @@ import requests
 
 CODEFORCES_API = "https://codeforces.com/api"
 CODEFORCES_HANDLE = os.getenv("CODEFORCES_HANDLE", "InsaneArrogant")
-OUTPUT_DIR = "public/assets/data"
+OUTPUT_DIR = os.getenv("CODEFORCES_OUTPUT_DIR", "public/assets/data")
 
 
 def iso_time(timestamp):
@@ -183,10 +183,13 @@ def write_json(filename, data):
 
 
 def main():
+    failures = []
     contests = fetch_codeforces_contests()
     if contests is not None:
         write_json("contests.json", contests)
         print(f"Fetched {len(contests)} upcoming contests.")
+    else:
+        failures.append("upcoming contests")
 
     # Codeforces permits at most one API request every two seconds.
     time.sleep(2.1)
@@ -197,6 +200,13 @@ def main():
             f"Fetched {activity['stats']['solved_count']} solved problems "
             f"for {CODEFORCES_HANDLE}."
         )
+    else:
+        failures.append(f"activity for {CODEFORCES_HANDLE}")
+
+    # Keep the previous data branch snapshot when the API is unavailable.
+    # A failed fetch must not look like a successful daily refresh.
+    if failures:
+        raise SystemExit(f"Failed to refresh: {', '.join(failures)}")
 
 
 if __name__ == "__main__":
