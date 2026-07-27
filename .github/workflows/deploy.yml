@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: data
-          path: public/assets/data
+          path: temp_data
       
       - name: Copy data files
         run: |
