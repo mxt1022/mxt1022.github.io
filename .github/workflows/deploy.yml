@@ -21,6 +21,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
+      - name: Checkout data branch
+        use: actions/checkout@v7
+        with:
+          ref: data
+          path: public/assets/data
+      
+      - name: Copy data files
+        run: |
+          mkdir -p public/assets/data
+          # 如果 data 分支存在对应目录，则复制；否则忽略（首次可能为空）
+          if [ -d temp_data/public/assets/data ]; then
+            cp temp_data/public/assets/data/*.json public/assets/data/
+          fi
+          rm -rf temp_data
+
       - name: Install, build and upload Astro site
         uses: withastro/action@v6
         with:

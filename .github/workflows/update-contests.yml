@@ -32,3 +32,4 @@ jobs:
           add: 'public/assets/data/*.json'
           message: 'Update Codeforces data'
           default_author: github_actions
+          branch: data #提交到data分支,防治在main分支导致冲突
