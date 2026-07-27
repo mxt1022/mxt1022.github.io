@@ -161,7 +161,14 @@ main :is(.hero, .page-hero, .article-header) h1 {
 .timeline-item h2 { margin: 0 0 10px; font-size: clamp(1.35rem, 3vw, 2rem); }
 .timeline-item h2 a { text-decoration: none; }
 .timeline-item p { margin: 0; color: var(--muted); }
-.progress-list { display: grid; gap: 20px; }
+.ai-experience-list { display: grid; gap: clamp(34px, 6vw, 58px); }
+.ai-experience { display: grid; gap: 16px; }
+.ai-experience-intro { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 40px; padding: clamp(24px, 4vw, 34px); border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.ai-experience-intro h2 { margin: 8px 0 10px; font-size: clamp(1.35rem, 3vw, 2rem); }
+.ai-experience-intro h2 a { text-decoration: none; }
+.ai-experience-intro h2 a:hover { color: var(--accent); }
+.ai-experience-intro p { margin: 0; color: var(--muted); }
+.ai-experience-progress { padding-left: clamp(0px, 2vw, 24px); }
 .contest-progress-section { padding: 48px 0 10px; }
 .contest-board { min-height: 140px; }
 .contest-row { display: grid; grid-template-columns: 1fr auto; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--line); }
@@ -327,6 +334,8 @@ main :is(.hero, .page-hero, .article-header) h1 {
   .track:last-child { border-bottom: 0; }
   .track h3 { margin-top: 36px; }
   .timeline-item { grid-template-columns: 1fr; gap: 10px; }
+  .ai-experience-intro { grid-template-columns: 1fr; gap: 14px; }
+  .ai-experience-progress { padding-left: 0; }
   .contest-row { grid-template-columns: 1fr; }
   .contest-time { text-align: left; }
   .cf-sync-toolbar { align-items: flex-start; flex-direction: column; }

@@ -5,7 +5,8 @@ import Layout from '../layouts/Layout.astro';
 import { formatDate, withBase } from '../utils/site';
 
 const experiences = (await getCollection('experiences', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const trackedExperiences = experiences.filter((entry) => entry.data.progress);
+const aiExperiences = experiences.filter((entry) => entry.data.type === 'AI 竞赛');
+const algorithmExperiences = experiences.filter((entry) => entry.data.type === '算法竞赛');
 const contestsUrl = withBase('/assets/data/contests.json');
 const codeforcesUrl = withBase('/assets/data/codeforces.json');
 ---
@@ -45,17 +46,36 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
   <section class="section">
     <div class="shell">
       <div class="section-heading">
-        <div><span class="eyebrow">02 / ITERATION LOG</span><h2>竞赛提交时间轴</h2></div>
-        <p>按时间记录每次提交、改进策略与分数变化；指标、目标方向、精度和强调色都可以为每场比赛单独设置。</p>
+        <div><span class="eyebrow">02 / AI COMPETITIONS</span><h2>AI 竞赛经历</h2></div>
+        <p>每场比赛集中展示任务介绍、实践状态和提交时间轴；按时间保留改进策略、分数变化与实验结论。</p>
       </div>
-      <div class="progress-list">
-        {trackedExperiences.map((entry) => entry.data.progress && (
-          <CompetitionProgress
-            title={entry.data.title}
-            platform={entry.data.platform}
-            progress={entry.data.progress}
-            href={withBase(`/contests/${entry.id}/`)}
-          />
+      <div class="ai-experience-list">
+        {aiExperiences.map((entry) => (
+          <section class="ai-experience">
+            <div class="ai-experience-intro">
+              <div class="timeline-meta">
+                <div>{formatDate(entry.data.date)}</div>
+                <div>{entry.data.platform}</div>
+                <div>{entry.data.status}</div>
+              </div>
+              <div>
+                <span class="eyebrow">{entry.data.progress ? 'SUBMISSION TRACKED' : 'PRACTICE LOG'}</span>
+                <h2><a href={withBase(`/contests/${entry.id}/`)}>{entry.data.title}</a></h2>
+                <p>{entry.data.description}</p>
+                <div class="tag-list">{entry.data.tags.map((tag: string) => <span class="tag">#{tag}</span>)}</div>
+              </div>
+            </div>
+            {entry.data.progress && (
+              <div class="ai-experience-progress">
+                <CompetitionProgress
+                  title={entry.data.title}
+                  platform={entry.data.platform}
+                  progress={entry.data.progress}
+                  href={withBase(`/contests/${entry.id}/`)}
+                />
+              </div>
+            )}
+          </section>
         ))}
       </div>
     </div>
@@ -64,11 +84,11 @@ const codeforcesUrl = withBase('/assets/data/codeforces.json');
   <section class="section">
     <div class="shell">
       <div class="section-heading">
-        <div><span class="eyebrow">03 / RETROSPECTIVES</span><h2>参赛与实践记录</h2></div>
-        <p>包括 Kaggle 图像分类、Titanic 特征工程、天池 Baseline 理解与算法训练。</p>
+        <div><span class="eyebrow">03 / ALGORITHM COMPETITIONS</span><h2>算法竞赛经历</h2></div>
+        <p>集中记录 Codeforces、LeetCode 等算法训练、赛后补题与题型归纳，不与 AI 实验提交时间轴混排。</p>
       </div>
       <div class="timeline">
-        {experiences.map((entry) => (
+        {algorithmExperiences.map((entry) => (
           <article class="timeline-item">
             <div class="timeline-meta"><div>{formatDate(entry.data.date)}</div><div>{entry.data.type}</div><div>{entry.data.platform}</div></div>
             <div>
