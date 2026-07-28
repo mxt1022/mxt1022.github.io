@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
-import logo from '../assets/logo.png';
 import { ClientRouter } from 'astro:transitions';
+import { siteImages } from '../utils/images';
 import { siteMeta, withBase } from '../utils/site';
 
 interface Props {
@@ -10,7 +10,8 @@ interface Props {
   image?: string;
 }
 
-const { title = siteMeta.title, description = siteMeta.description, image = withBase('/og.png') } = Astro.props;
+const { title = siteMeta.title, description = siteMeta.description, image = siteImages.og } = Astro.props;
+const usesDefaultOgImage = image === siteImages.og;
 const pageTitle = title === siteMeta.title ? title : `${title} · ${siteMeta.title}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -44,13 +45,17 @@ const pageTransition = {
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0b0d0e" />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/png" href={logo.src} />
+    <link rel="icon" type="image/png" sizes="64x64" href={siteImages.logo.favicon} />
     <link rel="alternate" type="application/rss+xml" title={siteMeta.title} href={withBase('/rss.xml')} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:image:alt" content="mxt.log：把学习过程编译成记录" />
+    {usesDefaultOgImage && <meta property="og:image:type" content="image/jpeg" />}
+    {usesDefaultOgImage && <meta property="og:image:width" content="1200" />}
+    {usesDefaultOgImage && <meta property="og:image:height" content="630" />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
@@ -66,7 +71,7 @@ const pageTransition = {
     <header class="site-header">
       <div class="shell nav-wrap">
         <a class="brand" href={withBase('/')} aria-label="mxt.log 首页">
-          <span class="brand-mark" aria-hidden="true"><img src={logo.src} alt="" width="30" height="30" /></span>
+          <span class="brand-mark" aria-hidden="true"><img src={siteImages.logo.nav} alt="" width="30" height="30" decoding="async" /></span>
           <span>mxt<span class="accent">.log</span></span>
         </a>
         <nav aria-label="主导航">
@@ -85,7 +90,7 @@ const pageTransition = {
     <footer class="site-footer">
       <div class="shell footer-grid">
         <div>
-          <a class="brand" href={withBase('/')}><span class="brand-mark" aria-hidden="true"><img src={logo.src} alt="" width="30" height="30" /></span><span>mxt<span class="accent">.log</span></span></a>
+          <a class="brand" href={withBase('/')}><span class="brand-mark" aria-hidden="true"><img src={siteImages.logo.nav} alt="" width="30" height="30" loading="lazy" decoding="async" /></span><span>mxt<span class="accent">.log</span></span></a>
           <p>持续学习，持续复盘，持续输出。</p>
         </div>
         <div class="footer-links">

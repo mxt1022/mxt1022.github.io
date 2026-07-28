@@ -1,6 +1,6 @@
 ---
-import logo from '../assets/logo.png';
 import Layout from '../layouts/Layout.astro';
+import { siteImages } from '../utils/images';
 import { withBase } from '../utils/site';
 
 const techStack = [
@@ -33,7 +33,16 @@ const contentMap = [
   <section class="section">
     <div class="shell profile-grid">
       <aside class="profile-card">
-        <img class="profile-avatar profile-logo" src={logo.src} alt="mxt.log 标志" width="140" height="140" />
+        <img
+          class="profile-avatar profile-logo"
+          src={siteImages.logo.about}
+          srcset={siteImages.logo.aboutSrcSet}
+          sizes="140px"
+          alt="mxt.log 标志"
+          width="140"
+          height="140"
+          decoding="async"
+        />
         <span class="eyebrow">ABOUT THE SITE</span>
         <h2>mxt.log</h2>
         <p>一个用于整理学习记录、竞赛实验和项目复盘的长期技术博客。</p>

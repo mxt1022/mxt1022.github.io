@@ -190,7 +190,7 @@ main :is(.hero, .page-hero, .article-header) h1 {
 .ai-experience[open] .ai-expand-label .when-closed { display: none; }
 .ai-experience[open] .ai-expand-label .when-open { display: inline; }
 .ai-experience[open] .ai-expand-label { color: var(--accent); }
-.ai-experience-progress, .ai-practice-note { margin: 16px 0 0 clamp(0px, 2vw, 24px); }
+.ai-experience-progress, .ai-practice-note { width: 100%; margin: 16px 0 0; }
 .ai-practice-note { display: flex; justify-content: space-between; gap: 24px; align-items: center; padding: 20px 24px; border-left: 2px solid var(--accent); background: var(--surface); }
 .ai-practice-note p { margin: 0; color: var(--muted); font-size: .84rem; }
 .contest-progress-section { padding: 48px 0 10px; }
@@ -430,7 +430,6 @@ main :is(.hero, .page-hero, .article-header) h1 {
   .ai-overview div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
   .ai-filter-bar > span { width: 100%; margin-left: 0; }
   .ai-summary-metrics { margin: 6px 0 18px; }
-  .ai-experience-progress, .ai-practice-note { margin-left: 0; }
   .ai-practice-note { align-items: flex-start; flex-direction: column; }
   .contest-row { grid-template-columns: 1fr; }
   .contest-time { text-align: left; }

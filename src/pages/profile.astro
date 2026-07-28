@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
-import avatar from '../assets/avatar.png';
 import ProjectCard from '../components/ProjectCard.astro';
 import Layout from '../layouts/Layout.astro';
+import { siteImages } from '../utils/images';
 import { formatDate, withBase } from '../utils/site';
 
 const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -62,7 +62,16 @@ const competitionItems = [
     <section class="personal-hero">
       <aside class="personal-sidebar" aria-label="个人主页目录">
         <div class="personal-avatar-wrap">
-          <img class="personal-avatar" src={avatar.src} alt="mxt1022 的终端与上升曲线标志" width="180" height="180" />
+          <img
+            class="personal-avatar"
+            src={siteImages.avatar.profile}
+            srcset={siteImages.avatar.profileSrcSet}
+            sizes="(max-width: 760px) 112px, (max-width: 1120px) 160px, 184px"
+            alt="雨景中的 mxt1022 个人头像"
+            width="184"
+            height="184"
+            decoding="async"
+          />
           <span class="personal-online"><i></i> RP++ RP→+∞ · Learning never stops</span>
         </div>
         <nav class="personal-menu" aria-label="页面内导航">

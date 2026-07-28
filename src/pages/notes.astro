@@ -2,11 +2,13 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import PostCard from '../components/PostCard.astro';
+import { withBase } from '../utils/site';
 
 const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => (b.data.updated ?? b.data.date).valueOf() - (a.data.updated ?? a.data.date).valueOf());
 const categories = ['全部', ...new Set(notes.map((note) => note.data.category))];
 const series = ['全部系列', ...new Set(notes.map((note) => note.data.series))];
 const tags = ['全部标签', ...new Set(notes.flatMap((note) => note.data.tags))].sort((a, b) => a === '全部标签' ? -1 : b === '全部标签' ? 1 : a.localeCompare(b, 'zh-CN'));
+const searchIndexUrl = withBase('/search-index.json');
 ---
 
 <Layout title="学习记录" description="可搜索、按系列与标签组织的算法、人工智能和计算机基础学习笔记。">
@@ -47,24 +49,24 @@ const tags = ['全部标签', ...new Set(notes.flatMap((note) => note.data.tags)
         <p id="notes-result-count" class="mono" aria-live="polite">显示 {notes.length} 篇</p>
       </div>
 
-      <div class="post-grid" id="notes-grid">
+      <div class="post-grid" id="notes-grid" data-search-source={searchIndexUrl}>
         {notes.map((note) => {
-          const searchText = [
+          const searchMetadata = [
             note.data.title,
             note.data.description,
             note.data.category,
             note.data.series,
             ...note.data.tags,
-            note.body,
           ].join(' ').toLocaleLowerCase('zh-CN');
           return (
             <div
               class="note-result"
               data-note-card
+              data-note-id={note.id}
               data-category={note.data.category}
               data-series={note.data.series}
               data-tags={note.data.tags.join('|')}
-              data-search={searchText}
+              data-search-meta={searchMetadata}
             >
               <span class="note-series mono">{note.data.series}</span>
               <PostCard
@@ -85,7 +87,23 @@ const tags = ['全部标签', ...new Set(notes.flatMap((note) => note.data.tags)
   </section>
 
   <script>
+    type SearchIndexItem = {
+      id: string;
+      text: string;
+    };
+
     const normalizeSearch = (value: string) => value.trim().toLocaleLowerCase('zh-CN');
+    let notesSearchIndexPromise: Promise<Map<string, string>> | undefined;
+
+    const loadNotesSearchIndex = (source: string) => {
+      if (!notesSearchIndexPromise) {
+        notesSearchIndexPromise = fetch(source, { cache: 'no-cache' })
+          .then((response) => response.ok ? response.json() : Promise.reject(new Error('搜索索引读取失败')))
+          .then((items: SearchIndexItem[]) => new Map(items.map((item) => [item.id, item.text])))
+          .catch(() => new Map<string, string>());
+      }
+      return notesSearchIndexPromise;
+    };
 
     const setupNotesLibrary = () => {
       const search = document.querySelector<HTMLInputElement>('#notes-search');
@@ -96,10 +114,12 @@ const tags = ['全部标签', ...new Set(notes.flatMap((note) => note.data.tags)
       const cards = [...document.querySelectorAll<HTMLElement>('[data-note-card]')];
       const resultCount = document.querySelector<HTMLElement>('#notes-result-count');
       const empty = document.querySelector<HTMLElement>('#notes-empty');
-      if (!search || !series || !tag) return;
+      const grid = document.querySelector<HTMLElement>('#notes-grid');
+      if (!search || !series || !tag || !grid) return;
 
       const params = new URL(window.location.href).searchParams;
       let selectedCategory = params.get('category') || '全部';
+      let searchIndex = new Map<string, string>();
       search.value = params.get('q') || '';
       if ([...series.options].some((option) => option.value === params.get('series'))) series.value = params.get('series') || '全部系列';
       if ([...tag.options].some((option) => option.value === params.get('tag'))) tag.value = params.get('tag') || '全部标签';
@@ -114,7 +134,8 @@ const tags = ['全部标签', ...new Set(notes.flatMap((note) => note.data.tags)
           const categoryMatch = selectedCategory === '全部' || card.dataset.category === selectedCategory;
           const seriesMatch = series.value === '全部系列' || card.dataset.series === series.value;
           const tagMatch = tag.value === '全部标签' || (card.dataset.tags || '').split('|').includes(tag.value);
-          const searchMatch = !query || normalizeSearch(card.dataset.search || '').includes(query);
+          const searchableText = searchIndex.get(card.dataset.noteId || '') || normalizeSearch(card.dataset.searchMeta || '');
+          const searchMatch = !query || searchableText.includes(query);
           const show = categoryMatch && seriesMatch && tagMatch && searchMatch;
           card.hidden = !show;
           if (show) visible += 1;
@@ -133,15 +154,26 @@ const tags = ['全部标签', ...new Set(notes.flatMap((note) => note.data.tags)
         window.history.replaceState({}, '', url);
       };
 
+      const applyFiltersWithIndex = async () => {
+        const query = normalizeSearch(search.value);
+        if (query && searchIndex.size === 0) {
+          search.setAttribute('aria-busy', 'true');
+          if (resultCount) resultCount.textContent = '正在载入全文索引…';
+          searchIndex = await loadNotesSearchIndex(grid.dataset.searchSource || '');
+          search.removeAttribute('aria-busy');
+        }
+        applyFilters();
+      };
+
       categoryButtons.forEach((button) => {
         button.onclick = () => {
           selectedCategory = button.dataset.noteCategory || '全部';
-          applyFilters();
+          void applyFiltersWithIndex();
         };
       });
-      search.oninput = applyFilters;
-      series.onchange = applyFilters;
-      tag.onchange = applyFilters;
+      search.oninput = () => void applyFiltersWithIndex();
+      series.onchange = () => void applyFiltersWithIndex();
+      tag.onchange = () => void applyFiltersWithIndex();
       if (reset) {
         reset.onclick = () => {
           selectedCategory = '全部';
@@ -152,7 +184,7 @@ const tags = ['全部标签', ...new Set(notes.flatMap((note) => note.data.tags)
           search.focus();
         };
       }
-      applyFilters();
+      void applyFiltersWithIndex();
     };
 
     document.addEventListener('astro:page-load', setupNotesLibrary);

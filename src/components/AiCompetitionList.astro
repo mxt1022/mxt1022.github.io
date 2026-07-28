@@ -1,0 +1,130 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import CompetitionProgress from './CompetitionProgress.astro';
+import { formatDate, withBase } from '../utils/site';
+
+interface Props {
+  experiences: CollectionEntry<'experiences'>[];
+}
+
+const { experiences } = Astro.props;
+const trackedExperiences = experiences.filter((entry) => entry.data.progress);
+const submissionCount = trackedExperiences.reduce(
+  (total, entry) => total + (entry.data.progress?.submissions.length ?? 0),
+  0,
+);
+const platformCount = new Set(experiences.map((entry) => entry.data.platform)).size;
+---
+
+<section class="section">
+  <div class="shell">
+    <div class="section-heading">
+      <div><span class="eyebrow">02 / AI COMPETITIONS</span><h2>AI 竞赛经历</h2></div>
+      <p>每场比赛集中展示任务介绍、实践状态和提交时间轴；按时间保留改进策略、分数变化与实验结论。</p>
+    </div>
+    <dl class="ai-overview" aria-label="AI 竞赛统计">
+      <div><dt>{experiences.length}</dt><dd>AI 竞赛与实践</dd></div>
+      <div><dt>{trackedExperiences.length}</dt><dd>包含提交时间轴</dd></div>
+      <div><dt>{submissionCount}</dt><dd>记录的提交与实验</dd></div>
+      <div><dt>{platformCount}</dt><dd>竞赛平台</dd></div>
+    </dl>
+    <div class="ai-filter-bar" aria-label="筛选 AI 竞赛经历">
+      <button class="active" type="button" data-ai-filter="all">全部</button>
+      <button type="button" data-ai-filter="tracked">有提交记录</button>
+      <button type="button" data-ai-filter="practice">实践记录</button>
+      <button type="button" data-ai-filter="demo">示例数据</button>
+      <span id="ai-filter-count">{experiences.length} 条记录</span>
+    </div>
+    <div class="ai-experience-list">
+      {experiences.map((entry, index) => {
+        const progress = entry.data.progress;
+        const submissions = progress
+          ? [...progress.submissions].sort((a, b) => a.time.valueOf() - b.time.valueOf())
+          : [];
+        const scores = submissions.map((submission) => submission.score);
+        const bestScore = progress && scores.length
+          ? (progress.goal === 'lower' ? Math.min(...scores) : Math.max(...scores))
+          : null;
+        const latestScore = submissions.at(-1)?.score ?? null;
+        const formatScore = (score: number | null) =>
+          score === null || !progress ? '—' : `${score.toFixed(progress.precision)}${progress.scoreSuffix}`;
+
+        return (
+          <details
+            class="ai-experience"
+            data-ai-kind={progress ? 'tracked' : 'practice'}
+            data-ai-demo={progress?.demo ? 'true' : 'false'}
+            open={index === 0}
+          >
+            <summary class="ai-experience-intro">
+              <div class="timeline-meta">
+                <div>{formatDate(entry.data.date)}</div>
+                <div>{entry.data.platform}</div>
+                <div>{entry.data.status}</div>
+              </div>
+              <div class="ai-experience-copy">
+                <span class="eyebrow">{progress ? 'SUBMISSION TRACKED' : 'PRACTICE LOG'}</span>
+                <h2><a href={withBase(`/contests/${entry.id}/`)}>{entry.data.title}</a></h2>
+                <p>{entry.data.description}</p>
+                <div class="tag-list">{entry.data.tags.map((tag: string) => <span class="tag">#{tag}</span>)}</div>
+              </div>
+              <dl class="ai-summary-metrics" aria-label={`${entry.data.title} 摘要`}>
+                <div><dt>{submissions.length || '—'}</dt><dd>提交</dd></div>
+                <div><dt>{formatScore(bestScore)}</dt><dd>最佳</dd></div>
+                <div><dt>{formatScore(latestScore)}</dt><dd>最新</dd></div>
+              </dl>
+              <span class="ai-expand-label">
+                <span class="when-closed">展开记录</span>
+                <span class="when-open">收起记录</span> ↓
+              </span>
+            </summary>
+            {progress && (
+              <div class="ai-experience-progress">
+                <CompetitionProgress
+                  title={entry.data.title}
+                  platform={entry.data.platform}
+                  progress={progress}
+                  href={withBase(`/contests/${entry.id}/`)}
+                />
+              </div>
+            )}
+            {!progress && (
+              <div class="ai-practice-note">
+                <p>这项实践暂未配置提交分数时间轴，完整过程与方法记录保存在复盘文章中。</p>
+                <a class="text-link" href={withBase(`/contests/${entry.id}/`)}>阅读完整复盘 ↗</a>
+              </div>
+            )}
+          </details>
+        );
+      })}
+      <p id="ai-filter-empty" class="empty-state" hidden>当前筛选下没有对应的 AI 竞赛记录。</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const setupAiCompetitionFilters = () => {
+    const buttons = [...document.querySelectorAll<HTMLButtonElement>('[data-ai-filter]')];
+    const entries = [...document.querySelectorAll<HTMLDetailsElement>('.ai-experience[data-ai-kind]')];
+    const count = document.querySelector<HTMLElement>('#ai-filter-count');
+    const empty = document.querySelector<HTMLElement>('#ai-filter-empty');
+
+    buttons.forEach((button) => {
+      button.onclick = () => {
+        const filter = button.dataset.aiFilter || 'all';
+        let visible = 0;
+        buttons.forEach((item) => item.classList.toggle('active', item === button));
+        entries.forEach((entry) => {
+          const show = filter === 'all'
+            || (filter === 'demo' ? entry.dataset.aiDemo === 'true' : entry.dataset.aiKind === filter);
+          entry.hidden = !show;
+          if (show) visible += 1;
+        });
+        if (count) count.textContent = `${visible} 条记录`;
+        if (empty) empty.hidden = visible > 0;
+      };
+    });
+  };
+
+  document.addEventListener('astro:page-load', setupAiCompetitionFilters);
+</script>
