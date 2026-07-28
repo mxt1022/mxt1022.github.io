@@ -1,0 +1,60 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate, withBase } from '../../utils/site';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => !data.draft);
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+interface Props { project: CollectionEntry<'projects'>; }
+const { project } = Astro.props;
+const { Content } = await render(project);
+const resolveHref = (href: string) => href.startsWith('http') || href.startsWith('mailto:') ? href : withBase(href);
+---
+
+<Layout title={project.data.title} description={project.data.description}>
+  <header class="article-header project-header">
+    <div class="shell">
+      <a class="back-link" href={withBase('/projects/')}>← 返回项目案例</a>
+      <span class="eyebrow">{project.data.status} / {project.data.role}</span>
+      <h1>{project.data.title}</h1>
+      <p>{project.data.description}</p>
+      <div class="article-meta">
+        <time datetime={project.data.date.toISOString()}>开始于 {formatDate(project.data.date)}</time>
+        {project.data.updated && <span>更新于 {formatDate(project.data.updated)}</span>}
+      </div>
+      <div class="project-links">
+        {project.data.links.map((link, index) => (
+          <a
+            class:list={['button', { primary: index === 0 }]}
+            href={resolveHref(link.href)}
+            target={link.href.startsWith('http') ? '_blank' : undefined}
+            rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
+          >
+            {link.label}{link.href.startsWith('http') ? ' ↗' : ' →'}
+          </a>
+        ))}
+      </div>
+    </div>
+  </header>
+
+  <div class="project-detail shell">
+    <aside class="project-facts">
+      <span class="eyebrow">PROJECT PROFILE</span>
+      <dl>
+        <div><dt>状态</dt><dd>{project.data.status}</dd></div>
+        <div><dt>角色</dt><dd>{project.data.role}</dd></div>
+        <div><dt>技术栈</dt><dd>{project.data.stack.join(' · ')}</dd></div>
+      </dl>
+      {project.data.highlights.length > 0 && (
+        <div class="project-highlights">
+          <strong>关键内容</strong>
+          <ul>{project.data.highlights.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      )}
+    </aside>
+    <article class="prose"><Content /></article>
+  </div>
+</Layout>

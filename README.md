@@ -22,7 +22,10 @@ npm run build
 
 - 学习记录：在 `src/content/notes/` 中新增 Markdown；
 - 竞赛复盘：在 `src/content/experiences/` 中新增 Markdown；
+- 项目案例：在 `src/content/projects/` 中新增 Markdown；
 - Frontmatter 字段会由 `src/content.config.ts` 校验。
+
+学习记录可通过 `series` 归入系列；项目案例使用 `status`、`role`、`stack`、`highlights` 和 `links` 描述状态、职责、技术栈、关键内容与相关入口。列表、个人主页和详情页会从内容集合自动生成。
 
 ### 定制竞赛提交时间轴
 

@@ -84,7 +84,10 @@ const tagCount = new Set(notes.flatMap((note) => note.data.tags)).size;
     <div class="shell">
       <div class="cta">
         <h2>日拱一卒。<br />让每次输入都有输出。</h2>
-        <a class="button" href="https://github.com/mxt1022/algorithmcode" target="_blank" rel="noreferrer">算法代码库 ↗</a>
+        <div class="cta-actions">
+          <a class="button" href={withBase('/projects/')}>浏览项目案例 →</a>
+          <a class="button" href="https://github.com/mxt1022/algorithmcode" target="_blank" rel="noreferrer">算法代码库 ↗</a>
+        </div>
       </div>
     </div>
   </section>

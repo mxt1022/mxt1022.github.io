@@ -1,6 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/PostCard.astro';
 import { formatDate, withBase } from '../../utils/site';
 
 export async function getStaticPaths() {
@@ -10,18 +11,109 @@ export async function getStaticPaths() {
 
 interface Props { note: CollectionEntry<'notes'>; }
 const { note } = Astro.props;
-const { Content } = await render(note);
+const { Content, headings } = await render(note);
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const contentLength = (note.body ?? '').replace(/\s+/g, '').length;
+const readingMinutes = Math.max(1, Math.ceil(contentLength / 450));
+const allNotes = await getCollection('notes', ({ data }) => !data.draft);
+const related = allNotes
+  .filter((entry) => entry.id !== note.id)
+  .map((entry) => ({
+    entry,
+    score:
+      (entry.data.series === note.data.series ? 4 : 0)
+      + (entry.data.category === note.data.category ? 2 : 0)
+      + entry.data.tags.filter((tag) => note.data.tags.includes(tag)).length,
+  }))
+  .filter((item) => item.score > 0)
+  .sort((a, b) => b.score - a.score || b.entry.data.date.valueOf() - a.entry.data.date.valueOf())
+  .slice(0, 3)
+  .map((item) => item.entry);
 ---
 
 <Layout title={note.data.title} description={note.data.description}>
+  <div class="reading-progress" aria-hidden="true"><i id="reading-progress-bar"></i></div>
   <header class="article-header">
     <div class="narrow">
       <a class="back-link" href={withBase('/notes/')}>← 返回学习记录</a>
-      <span class="eyebrow">{note.data.category}</span>
+      <span class="eyebrow">{note.data.category} / {note.data.series}</span>
       <h1>{note.data.title}</h1>
       <p>{note.data.description}</p>
-      <div class="article-meta"><time datetime={note.data.date.toISOString()}>{formatDate(note.data.date)}</time>{note.data.updated && <span>更新于 {formatDate(note.data.updated)}</span>}<span>{note.data.tags.map((tag: string) => `#${tag}`).join(' · ')}</span></div>
+      <div class="article-meta">
+        <time datetime={note.data.date.toISOString()}>{formatDate(note.data.date)}</time>
+        {note.data.updated && <span>更新于 {formatDate(note.data.updated)}</span>}
+        <span>约 {readingMinutes} 分钟阅读</span>
+        <a href={withBase(`/notes/?series=${encodeURIComponent(note.data.series)}`)}>系列：{note.data.series}</a>
+      </div>
+      <div class="article-tags" aria-label="文章标签">
+        {note.data.tags.map((tag: string) => <a class="tag" href={withBase(`/notes/?tag=${encodeURIComponent(tag)}`)}>#{tag}</a>)}
+      </div>
     </div>
   </header>
-  <article class="prose narrow"><Content /></article>
+
+  <div class:list={['article-layout', 'shell', { 'without-toc': toc.length === 0 }]}>
+    {toc.length > 0 && (
+      <aside class="article-toc" aria-label="文章目录">
+        <span class="eyebrow">ON THIS PAGE</span>
+        <nav>
+          {toc.map((heading) => (
+            <a class:list={{ nested: heading.depth === 3 }} href={`#${heading.slug}`}>{heading.text}</a>
+          ))}
+        </nav>
+      </aside>
+    )}
+    <article class="prose"><Content /></article>
+  </div>
+
+  {related.length > 0 && (
+    <section class="section related-notes">
+      <div class="shell">
+        <div class="section-heading">
+          <div><span class="eyebrow">KEEP READING</span><h2>相关学习记录</h2></div>
+          <p>根据系列、分类与共同标签自动推荐。</p>
+        </div>
+        <div class="post-grid">
+          {related.map((entry) => (
+            <PostCard
+              title={entry.data.title}
+              description={entry.data.description}
+              date={entry.data.updated ?? entry.data.date}
+              tags={entry.data.tags}
+              label={entry.data.series}
+              href={`/notes/${entry.id}/`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <script>
+    let readingProgressCleanup: (() => void) | undefined;
+
+    const setupReadingProgress = () => {
+      readingProgressCleanup?.();
+      const bar = document.querySelector<HTMLElement>('#reading-progress-bar');
+      const article = document.querySelector<HTMLElement>('.article-layout .prose');
+      if (!bar || !article) return;
+
+      const update = () => {
+        const start = article.offsetTop - window.innerHeight * 0.2;
+        const distance = Math.max(1, article.offsetHeight - window.innerHeight * 0.6);
+        const progress = Math.min(1, Math.max(0, (window.scrollY - start) / distance));
+        bar.style.transform = `scaleX(${progress})`;
+      };
+
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+      readingProgressCleanup = () => {
+        window.removeEventListener('scroll', update);
+        window.removeEventListener('resize', update);
+      };
+    };
+
+    document.addEventListener('astro:page-load', setupReadingProgress);
+    document.addEventListener('astro:before-swap', () => readingProgressCleanup?.());
+  </script>
 </Layout>

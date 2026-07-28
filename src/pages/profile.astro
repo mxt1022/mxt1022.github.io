@@ -1,11 +1,16 @@
 ---
 import { getCollection } from 'astro:content';
 import avatar from '../assets/avatar.png';
+import ProjectCard from '../components/ProjectCard.astro';
 import Layout from '../layouts/Layout.astro';
 import { formatDate, withBase } from '../utils/site';
 
 const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const experiences = (await getCollection('experiences', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort((a, b) =>
+  (b.data.updated ?? b.data.date).valueOf() - (a.data.updated ?? a.data.date).valueOf()
+  || b.data.date.valueOf() - a.data.date.valueOf()
+);
 const outputs = [...notes, ...experiences].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 6);
 const tagCount = new Set([...notes, ...experiences].flatMap((entry) => entry.data.tags)).size;
 
@@ -27,36 +32,6 @@ const academicAreas = [
     meta: 'EXPLORATION',
     title: 'Agent & Emerging Tools',
     description: '跟进 Agent 开发与前沿工具，通过小型项目验证其工程边界、使用体验与实际价值，而不只停留在信息收集。',
-  },
-];
-
-const projects = [
-  {
-    status: 'ACTIVE',
-    title: 'mxt.log',
-    description: '使用 Astro 构建并部署到 GitHub Pages 的个人技术博客，集中沉淀学习笔记、竞赛复盘、项目过程与个人成长轨迹。',
-    tags: ['Astro', 'TypeScript', 'Content'],
-    href: withBase('/'),
-    action: '访问博客',
-    external: false,
-  },
-  {
-    status: 'ONGOING',
-    title: 'algorithmcode',
-    description: '算法训练代码与模板仓库，围绕 Codeforces 刷题、赛后补题和常见题型整理可复用实现。',
-    tags: ['C++', 'Algorithms', 'Codeforces'],
-    href: 'https://github.com/mxt1022/algorithmcode',
-    action: '查看仓库 ↗',
-    external: true,
-  },
-  {
-    status: 'EXPERIMENT',
-    title: 'LIBS 光谱回归竞赛实验',
-    description: '围绕煤质发热量预测建立回归实验，记录真实提交时间、特征与模型策略变化，以及 RMSE 分数反馈。',
-    tags: ['Python', 'Regression', 'Datawhale'],
-    href: withBase('/contests/datawhale_kedaxunfei_libs_2026/'),
-    action: '查看复盘',
-    external: false,
   },
 ];
 
@@ -144,20 +119,7 @@ const competitionItems = [
       </header>
       <div class="personal-project-grid">
         {projects.map((project, index) => (
-          <article class="personal-project-card">
-            <div class="personal-project-top">
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <small><i></i>{project.status}</small>
-            </div>
-            <h3>{project.title}</h3>
-            <p>{project.description}</p>
-            <ul aria-label={`${project.title} 技术标签`}>
-              {project.tags.map((tag) => <li>{tag}</li>)}
-            </ul>
-            <a href={project.href} target={project.external ? '_blank' : undefined} rel={project.external ? 'noreferrer' : undefined}>
-              {project.action} →
-            </a>
-          </article>
+          <ProjectCard project={project} index={index} />
         ))}
       </div>
     </section>
@@ -251,16 +213,6 @@ const competitionItems = [
   .personal-academic-card h3 { margin: 72px 0 10px; font-size: 1.02rem; }
   .personal-academic-card p { margin: 0; color: var(--muted); font-size: .82rem; }
   .personal-project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .personal-project-card { display: flex; flex-direction: column; min-height: 320px; padding: 27px; border: 1px solid var(--line); border-radius: 13px; background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 5%, var(--surface)), var(--surface)); }
-  .personal-project-top { display: flex; align-items: center; justify-content: space-between; color: var(--muted); font: .66rem 'DM Mono', monospace; }
-  .personal-project-top small { display: flex; align-items: center; gap: 7px; font: inherit; letter-spacing: .05em; }
-  .personal-project-top i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 12%, transparent); }
-  .personal-project-card h3 { margin: 42px 0 12px; font-size: 1.22rem; }
-  .personal-project-card p { margin: 0; color: var(--muted); font-size: .83rem; }
-  .personal-project-card ul { display: flex; flex-wrap: wrap; gap: 7px; margin: 22px 0; padding: 0; list-style: none; }
-  .personal-project-card li { padding: 5px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font: .6rem 'DM Mono', monospace; }
-  .personal-project-card > a { width: fit-content; margin-top: auto; color: var(--accent); font: .7rem 'DM Mono', monospace; text-decoration: none; }
-  .personal-project-card > a:hover { color: var(--text); }
   .personal-experience-list { position: relative; }
   .personal-experience-list::before { content: ''; position: absolute; top: 10px; bottom: 10px; left: 7px; width: 1px; background: var(--line); }
   .personal-experience { display: grid; grid-template-columns: 105px minmax(0, 1fr); gap: 22px; padding: 0 0 38px; }
@@ -308,7 +260,6 @@ const competitionItems = [
     .personal-stats { grid-template-columns: repeat(2, 1fr); margin-top: 36px; }
     .personal-stats div { padding-right: 10px; }
     .personal-project-grid { grid-template-columns: 1fr; }
-    .personal-project-card { min-height: 290px; }
     .personal-output { grid-template-columns: 28px minmax(0, 1fr); gap: 12px; }
     .personal-output time { grid-column: 2; }
     .personal-experience { grid-template-columns: 1fr; gap: 9px; padding-left: 28px; }

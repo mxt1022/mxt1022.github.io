@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort((a, b) =>
+  (b.data.updated ?? b.data.date).valueOf() - (a.data.updated ?? a.data.date).valueOf()
+  || b.data.date.valueOf() - a.data.date.valueOf()
+);
+const stackCount = new Set(projects.flatMap((project) => project.data.stack)).size;
+const activeCount = projects.filter((project) => project.data.status === '持续迭代' || project.data.status === '进行中').length;
+---
+
+<Layout title="项目案例" description="mxt1022 的项目实践：目标、技术选型、实现过程、关键决策与后续迭代。">
+  <header class="page-hero shell">
+    <span class="eyebrow">PROJECT CASES / BUILD & REVIEW</span>
+    <h1>项目案例</h1>
+    <p>不只展示技术栈，也记录项目为什么开始、如何实现、遇到了什么问题，以及下一步准备怎样改进。</p>
+  </header>
+
+  <section class="section project-index">
+    <div class="shell">
+      <dl class="project-overview" aria-label="项目统计">
+        <div><dt>{projects.length}</dt><dd>项目案例</dd></div>
+        <div><dt>{activeCount}</dt><dd>持续推进</dd></div>
+        <div><dt>{stackCount}</dt><dd>涉及技术</dd></div>
+      </dl>
+      <div class="project-grid">
+        {projects.map((project, index) => <ProjectCard project={project} index={index} />)}
+      </div>
+    </div>
+  </section>
+</Layout>

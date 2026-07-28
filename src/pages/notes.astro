@@ -3,49 +3,158 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import PostCard from '../components/PostCard.astro';
 
-const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => (b.data.updated ?? b.data.date).valueOf() - (a.data.updated ?? a.data.date).valueOf());
 const categories = ['全部', ...new Set(notes.map((note) => note.data.category))];
+const series = ['全部系列', ...new Set(notes.map((note) => note.data.series))];
+const tags = ['全部标签', ...new Set(notes.flatMap((note) => note.data.tags))].sort((a, b) => a === '全部标签' ? -1 : b === '全部标签' ? 1 : a.localeCompare(b, 'zh-CN'));
 ---
 
-<Layout title="学习记录" description="算法、人工智能、计算机基础与实践工具的学习笔记。">
+<Layout title="学习记录" description="可搜索、按系列与标签组织的算法、人工智能和计算机基础学习笔记。">
   <header class="page-hero shell">
     <span class="eyebrow">KNOWLEDGE BASE / {notes.length} ENTRIES</span>
     <h1>学习记录</h1>
-    <p>不追求一次写对，而是持续把概念、代码与踩坑过程整理成可以回看的知识库。</p>
+    <p>不追求一次写对，而是持续把概念、代码与踩坑过程整理成可以搜索、串联和继续修正的知识库。</p>
   </header>
-  <section class="section">
+
+  <section class="section notes-library">
     <div class="shell">
-      <div class="filters" aria-label="按分类筛选">
-        {categories.map((category, index) => <button class:list={['filter', { active: index === 0 }]} type="button" data-filter={category}>{category}</button>)}
+      <div class="knowledge-toolbar">
+        <label class="knowledge-search">
+          <span>SEARCH NOTES</span>
+          <input id="notes-search" type="search" placeholder="搜索标题、正文、标签…" autocomplete="off" />
+        </label>
+        <label>
+          <span>SERIES</span>
+          <select id="notes-series">
+            {series.map((item) => <option value={item}>{item}</option>)}
+          </select>
+        </label>
+        <label>
+          <span>TAG</span>
+          <select id="notes-tag">
+            {tags.map((tag) => <option value={tag}>{tag}</option>)}
+          </select>
+        </label>
+        <button id="notes-reset" type="button">重置筛选</button>
       </div>
+
+      <div class="notes-filter-row">
+        <div class="filters" aria-label="按分类筛选">
+          {categories.map((category, index) => (
+            <button class:list={['filter', { active: index === 0 }]} type="button" data-note-category={category}>{category}</button>
+          ))}
+        </div>
+        <p id="notes-result-count" class="mono" aria-live="polite">显示 {notes.length} 篇</p>
+      </div>
+
       <div class="post-grid" id="notes-grid">
-        {notes.map((note) => (
-          <div data-category={note.data.category}>
-            <PostCard title={note.data.title} description={note.data.description} date={note.data.date} tags={note.data.tags} label={note.data.category} href={`/notes/${note.id}/`} featured={note.data.featured} />
-          </div>
-        ))}
-        <p class="empty-state" hidden>这个分类暂时还没有文章。</p>
+        {notes.map((note) => {
+          const searchText = [
+            note.data.title,
+            note.data.description,
+            note.data.category,
+            note.data.series,
+            ...note.data.tags,
+            note.body,
+          ].join(' ').toLocaleLowerCase('zh-CN');
+          return (
+            <div
+              class="note-result"
+              data-note-card
+              data-category={note.data.category}
+              data-series={note.data.series}
+              data-tags={note.data.tags.join('|')}
+              data-search={searchText}
+            >
+              <span class="note-series mono">{note.data.series}</span>
+              <PostCard
+                title={note.data.title}
+                description={note.data.description}
+                date={note.data.updated ?? note.data.date}
+                tags={note.data.tags}
+                label={note.data.category}
+                href={`/notes/${note.id}/`}
+                featured={note.data.featured}
+              />
+            </div>
+          );
+        })}
+        <p id="notes-empty" class="empty-state" hidden>没有找到匹配的笔记，可以减少筛选条件后重试。</p>
       </div>
     </div>
   </section>
+
   <script>
-    const setupNoteFilters = () => {
-      const filters = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
-      const cards = document.querySelectorAll<HTMLElement>('[data-category]');
-      const empty = document.querySelector<HTMLElement>('.empty-state');
-      filters.forEach((button) => button.addEventListener('click', () => {
-        filters.forEach((item) => item.classList.remove('active'));
-        button.classList.add('active');
+    const normalizeSearch = (value: string) => value.trim().toLocaleLowerCase('zh-CN');
+
+    const setupNotesLibrary = () => {
+      const search = document.querySelector<HTMLInputElement>('#notes-search');
+      const series = document.querySelector<HTMLSelectElement>('#notes-series');
+      const tag = document.querySelector<HTMLSelectElement>('#notes-tag');
+      const reset = document.querySelector<HTMLButtonElement>('#notes-reset');
+      const categoryButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-note-category]')];
+      const cards = [...document.querySelectorAll<HTMLElement>('[data-note-card]')];
+      const resultCount = document.querySelector<HTMLElement>('#notes-result-count');
+      const empty = document.querySelector<HTMLElement>('#notes-empty');
+      if (!search || !series || !tag) return;
+
+      const params = new URL(window.location.href).searchParams;
+      let selectedCategory = params.get('category') || '全部';
+      search.value = params.get('q') || '';
+      if ([...series.options].some((option) => option.value === params.get('series'))) series.value = params.get('series') || '全部系列';
+      if ([...tag.options].some((option) => option.value === params.get('tag'))) tag.value = params.get('tag') || '全部标签';
+      if (!categoryButtons.some((button) => button.dataset.noteCategory === selectedCategory)) selectedCategory = '全部';
+
+      const applyFilters = () => {
+        const query = normalizeSearch(search.value);
         let visible = 0;
+
+        categoryButtons.forEach((button) => button.classList.toggle('active', button.dataset.noteCategory === selectedCategory));
         cards.forEach((card) => {
-          const show = button.dataset.filter === '全部' || card.dataset.category === button.dataset.filter;
+          const categoryMatch = selectedCategory === '全部' || card.dataset.category === selectedCategory;
+          const seriesMatch = series.value === '全部系列' || card.dataset.series === series.value;
+          const tagMatch = tag.value === '全部标签' || (card.dataset.tags || '').split('|').includes(tag.value);
+          const searchMatch = !query || normalizeSearch(card.dataset.search || '').includes(query);
+          const show = categoryMatch && seriesMatch && tagMatch && searchMatch;
           card.hidden = !show;
           if (show) visible += 1;
         });
+
+        if (resultCount) resultCount.textContent = `显示 ${visible} 篇`;
         if (empty) empty.hidden = visible > 0;
-      }));
+
+        const url = new URL(window.location.href);
+        const values = { q: search.value.trim(), category: selectedCategory, series: series.value, tag: tag.value };
+        Object.entries(values).forEach(([key, value]) => {
+          const isDefault = value === '' || value === '全部' || value === '全部系列' || value === '全部标签';
+          if (isDefault) url.searchParams.delete(key);
+          else url.searchParams.set(key, value);
+        });
+        window.history.replaceState({}, '', url);
+      };
+
+      categoryButtons.forEach((button) => {
+        button.onclick = () => {
+          selectedCategory = button.dataset.noteCategory || '全部';
+          applyFilters();
+        };
+      });
+      search.oninput = applyFilters;
+      series.onchange = applyFilters;
+      tag.onchange = applyFilters;
+      if (reset) {
+        reset.onclick = () => {
+          selectedCategory = '全部';
+          search.value = '';
+          series.value = '全部系列';
+          tag.value = '全部标签';
+          applyFilters();
+          search.focus();
+        };
+      }
+      applyFilters();
     };
 
-    document.addEventListener('astro:page-load', setupNoteFilters);
+    document.addEventListener('astro:page-load', setupNotesLibrary);
   </script>
 </Layout>

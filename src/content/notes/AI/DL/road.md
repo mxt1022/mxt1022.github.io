@@ -4,6 +4,7 @@ description: 一条以动手实践为主线的深度学习路线，覆盖基础�
 date: 2024-02-20
 updated: 2026-07-17
 category: 人工智能
+series: AI 学习路线
 tags: [深度学习, PyTorch, 学习路线]
 ---
 

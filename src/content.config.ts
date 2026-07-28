@@ -33,6 +33,7 @@ const notes = defineCollection({
   loader: glob({ base: './src/content/notes', pattern: '**/*.{md,mdx}' }),
   schema: commonSchema.extend({
     category: z.enum(['算法', '人工智能', '计算机基础', '工具与实践', 'Agent', 'DataWhale','LLM','具身智能','AMD','Codeforces']),
+    series: z.string().default('独立笔记'),
   }),
 });
 
@@ -46,4 +47,18 @@ const experiences = defineCollection({
   }),
 });
 
-export const collections = { notes, experiences };
+const projects = defineCollection({
+  loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}' }),
+  schema: commonSchema.extend({
+    status: z.enum(['持续迭代', '进行中', '实验项目', '已完成']),
+    role: z.string(),
+    stack: z.array(z.string()).default([]),
+    highlights: z.array(z.string()).default([]),
+    links: z.array(z.object({
+      label: z.string(),
+      href: z.string(),
+    })).default([]),
+  }),
+});
+
+export const collections = { notes, experiences, projects };

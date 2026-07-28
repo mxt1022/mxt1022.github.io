@@ -6,14 +6,16 @@ export async function GET(context) {
   const site = new URL(base, context.site);
   const notes = await getCollection('notes', ({ data }) => !data.draft);
   const experiences = await getCollection('experiences', ({ data }) => !data.draft);
+  const projects = await getCollection('projects', ({ data }) => !data.draft);
   const items = [
     ...notes.map((entry) => ({ ...entry.data, link: `/notes/${entry.id}/` })),
     ...experiences.map((entry) => ({ ...entry.data, link: `/contests/${entry.id}/` })),
+    ...projects.map((entry) => ({ ...entry.data, link: `/projects/${entry.id}/` })),
   ].sort((a, b) => b.date.valueOf() - a.date.valueOf());
 
   return rss({
     title: 'mxt.log',
-    description: '学习记录、算法竞赛与 AI 竞赛实践笔记。',
+    description: '学习记录、项目案例、算法竞赛与 AI 竞赛实践笔记。',
     site,
     items: items.map((item) => ({
       title: item.title,

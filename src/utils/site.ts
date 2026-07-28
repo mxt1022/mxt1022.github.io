@@ -14,6 +14,6 @@ export function formatDate(date: Date) {
 
 export const siteMeta = {
   title: 'mxt.log',
-  description: 'mxt 的学习记录、算法竞赛与 AI 竞赛实践笔记。',
+  description: 'mxt 的学习记录、项目案例、算法竞赛与 AI 竞赛实践笔记。',
   author: 'mxt',
 };

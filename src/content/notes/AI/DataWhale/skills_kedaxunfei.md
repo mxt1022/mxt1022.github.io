@@ -1,9 +1,10 @@
 ---
-title: skills生成及其相关内容
-description: skills生成及其相关内容
+title: Agent Skills：概念、结构与生成实践
+description: 从 Skill 的基本概念出发，整理 Agent Skills 的目录结构、描述方式与生成实践。
 date: 2026-07-20
 updated: 2026-07-20
 category: Agent
+series: Datawhale 实践
 tags: [Agent, skills]
 featured: true
 ---

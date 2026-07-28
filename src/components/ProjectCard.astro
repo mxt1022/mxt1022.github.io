@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, withBase } from '../utils/site';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  index?: number;
+}
+
+const { project, index = 0 } = Astro.props;
+---
+
+<article class="project-card">
+  <div class="project-card__top">
+    <span>{String(index + 1).padStart(2, '0')}</span>
+    <small><i></i>{project.data.status}</small>
+  </div>
+  <div>
+    <span class="eyebrow">{project.data.role}</span>
+    <h3><a href={withBase(`/projects/${project.id}/`)}>{project.data.title}</a></h3>
+    <p>{project.data.description}</p>
+  </div>
+  <ul aria-label={`${project.data.title} 技术栈`}>
+    {project.data.stack.slice(0, 4).map((item) => <li>{item}</li>)}
+  </ul>
+  <div class="project-card__footer">
+    <time datetime={(project.data.updated ?? project.data.date).toISOString()}>{formatDate(project.data.updated ?? project.data.date)}</time>
+    <a href={withBase(`/projects/${project.id}/`)}>查看案例 →</a>
+  </div>
+</article>
+
+<style>
+  .project-card { display: flex; flex-direction: column; min-height: 330px; padding: 27px; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 5%, var(--surface)), var(--surface)); transition: transform .2s, border-color .2s; }
+  .project-card:hover { border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); transform: translateY(-3px); }
+  .project-card__top { display: flex; align-items: center; justify-content: space-between; color: var(--muted); font: .66rem 'DM Mono', monospace; }
+  .project-card__top small { display: flex; align-items: center; gap: 7px; font: inherit; letter-spacing: .05em; }
+  .project-card__top i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 12%, transparent); }
+  .project-card > div:nth-child(2) { margin-top: 42px; }
+  .project-card h3 { margin: 8px 0 12px; font-size: 1.3rem; }
+  .project-card h3 a { text-decoration: none; }
+  .project-card h3 a:hover { color: var(--accent); }
+  .project-card p { margin: 0; color: var(--muted); font-size: .84rem; }
+  .project-card ul { display: flex; flex-wrap: wrap; gap: 7px; margin: 22px 0; padding: 0; list-style: none; }
+  .project-card li { padding: 5px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font: .6rem 'DM Mono', monospace; }
+  .project-card__footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--line); }
+  .project-card__footer time { color: var(--muted); font: .62rem 'DM Mono', monospace; }
+  .project-card__footer a { color: var(--accent); font: .7rem 'DM Mono', monospace; text-decoration: none; }
+</style>

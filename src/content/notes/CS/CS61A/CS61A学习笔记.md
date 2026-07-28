@@ -4,6 +4,7 @@ description: 从高阶函数、递归与数据抽象出发，重新理解程序�
 date: 2024-03-10
 updated: 2026-07-17
 category: 计算机基础
+series: CS61A
 tags: [CS61A, Python, 函数式编程]
 featured: true
 ---
