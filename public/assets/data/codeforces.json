@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-27T06:11:42.398192+00:00",
+  "updated_at": "2026-07-28T03:43:50.275901+00:00",
   "profile": {
     "handle": "InsaneArrogant",
     "rank": "newbie",
@@ -7,15 +7,15 @@
     "max_rank": "newbie",
     "max_rating": 863,
     "organization": "Jiangly Fan Club",
-    "last_online": "2026-07-24T02:21:59+00:00",
+    "last_online": "2026-07-28T02:56:33+00:00",
     "profile_url": "https://codeforces.com/profile/InsaneArrogant"
   },
   "stats": {
-    "solved_count": 231,
-    "accepted_submissions": 262,
-    "submissions_scanned": 524,
+    "solved_count": 232,
+    "accepted_submissions": 263,
+    "submissions_scanned": 526,
     "rated_contests": 22,
-    "active_days": 126
+    "active_days": 127
   },
   "top_tags": [
     {
@@ -24,11 +24,11 @@
     },
     {
       "name": "greedy",
-      "count": 61
+      "count": 62
     },
     {
       "name": "math",
-      "count": 60
+      "count": 61
     },
     {
       "name": "brute force",
@@ -40,7 +40,7 @@
     },
     {
       "name": "sortings",
-      "count": 33
+      "count": 34
     },
     {
       "name": "constructive algorithms",
@@ -305,6 +305,20 @@
   ],
   "recent_accepted": [
     {
+      "name": "Nikita and Books",
+      "contest_id": 2244,
+      "index": "B",
+      "rating": null,
+      "tags": [
+        "greedy",
+        "math",
+        "sortings"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2026-07-27T08:07:34+00:00",
+      "url": "https://codeforces.com/contest/2244/problem/B"
+    },
+    {
       "name": "Iskander and Drawings",
       "contest_id": 2244,
       "index": "A",
@@ -432,19 +446,6 @@
       "language": "C++14 (GCC 6-32)",
       "submitted_at": "2024-04-19T08:34:28+00:00",
       "url": "https://codeforces.com/contest/1549/problem/B"
-    },
-    {
-      "name": "Road To Zero",
-      "contest_id": 1342,
-      "index": "A",
-      "rating": 1000,
-      "tags": [
-        "greedy",
-        "math"
-      ],
-      "language": "C++14 (GCC 6-32)",
-      "submitted_at": "2024-04-18T11:05:38+00:00",
-      "url": "https://codeforces.com/contest/1342/problem/A"
     }
   ]
 }
