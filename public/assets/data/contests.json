@@ -1,6 +1,6 @@
 [
   {
-    "name": "Codeforces Round (Div. 3)",
+    "name": "Codeforces Round 1114 (Div. 3)",
     "platform": "Codeforces",
     "start_time": "2026-08-04T14:35:00+00:00",
     "duration": "2h",
@@ -19,5 +19,19 @@
     "start_time": "2026-08-07T14:35:00+00:00",
     "duration": "2h",
     "url": "https://codeforces.com/contests/2253"
+  },
+  {
+    "name": "Codeforces Round (Div. 1)",
+    "platform": "Codeforces",
+    "start_time": "2026-08-09T14:35:00+00:00",
+    "duration": "2h",
+    "url": "https://codeforces.com/contests/2255"
+  },
+  {
+    "name": "Codeforces Round (Div. 2)",
+    "platform": "Codeforces",
+    "start_time": "2026-08-09T14:35:00+00:00",
+    "duration": "2h",
+    "url": "https://codeforces.com/contests/2256"
   }
 ]
