@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { formatDate, withBase } from '../../utils/site';
+import { absoluteSiteUrl, createBreadcrumbSchema } from '../../utils/structured-data';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects', ({ data }) => !data.draft);
@@ -12,9 +13,36 @@ interface Props { project: CollectionEntry<'projects'>; }
 const { project } = Astro.props;
 const { Content } = await render(project);
 const resolveHref = (href: string) => href.startsWith('http') || href.startsWith('mailto:') ? href : withBase(href);
+const projectPath = `/projects/${project.id}/`;
+const repository = project.data.links.find((link) => link.href.includes('github.com'))?.href;
+const projectSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareSourceCode',
+  name: project.data.title,
+  description: project.data.description,
+  dateCreated: project.data.date.toISOString(),
+  dateModified: (project.data.updated ?? project.data.date).toISOString(),
+  url: absoluteSiteUrl(projectPath, Astro.site),
+  codeRepository: repository,
+  programmingLanguage: project.data.stack,
+  author: {
+    '@type': 'Person',
+    name: 'mxt',
+    url: absoluteSiteUrl('/profile/', Astro.site),
+  },
+};
+const projectBreadcrumbs = createBreadcrumbSchema([
+  { name: '首页', path: '/' },
+  { name: '项目案例', path: '/projects/' },
+  { name: project.data.title, path: projectPath },
+], Astro.site);
 ---
 
-<Layout title={project.data.title} description={project.data.description}>
+<Layout
+  title={project.data.title}
+  description={project.data.description}
+  structuredData={[projectSchema, projectBreadcrumbs]}
+>
   <header class="article-header project-header">
     <div class="shell">
       <a class="back-link" href={withBase('/projects/')}>← 返回项目案例</a>

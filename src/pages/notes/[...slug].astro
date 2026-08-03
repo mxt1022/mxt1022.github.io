@@ -2,7 +2,9 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import PostCard from '../../components/PostCard.astro';
+import { siteImages } from '../../utils/images';
 import { formatDate, withBase } from '../../utils/site';
+import { absoluteSiteUrl, createBreadcrumbSchema } from '../../utils/structured-data';
 
 export async function getStaticPaths() {
   const notes = await getCollection('notes', ({ data }) => !data.draft);
@@ -29,9 +31,36 @@ const related = allNotes
   .sort((a, b) => b.score - a.score || b.entry.data.date.valueOf() - a.entry.data.date.valueOf())
   .slice(0, 3)
   .map((item) => item.entry);
+const notePath = `/notes/${note.id}/`;
+const noteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: note.data.title,
+  description: note.data.description,
+  datePublished: note.data.date.toISOString(),
+  dateModified: (note.data.updated ?? note.data.date).toISOString(),
+  mainEntityOfPage: absoluteSiteUrl(notePath, Astro.site),
+  image: siteImages.og,
+  keywords: note.data.tags,
+  articleSection: note.data.category,
+  author: {
+    '@type': 'Person',
+    name: 'mxt',
+    url: absoluteSiteUrl('/profile/', Astro.site),
+  },
+};
+const noteBreadcrumbs = createBreadcrumbSchema([
+  { name: '首页', path: '/' },
+  { name: '学习记录', path: '/notes/' },
+  { name: note.data.title, path: notePath },
+], Astro.site);
 ---
 
-<Layout title={note.data.title} description={note.data.description}>
+<Layout
+  title={note.data.title}
+  description={note.data.description}
+  structuredData={[noteSchema, noteBreadcrumbs]}
+>
   <div class="reading-progress" aria-hidden="true"><i id="reading-progress-bar"></i></div>
   <header class="article-header">
     <div class="narrow">

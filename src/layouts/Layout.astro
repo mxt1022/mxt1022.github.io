@@ -8,14 +8,37 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title = siteMeta.title, description = siteMeta.description, image = siteImages.og } = Astro.props;
+const {
+  title = siteMeta.title,
+  description = siteMeta.description,
+  image = siteImages.og,
+  structuredData = [],
+} = Astro.props;
 const usesDefaultOgImage = image === siteImages.og;
 const pageTitle = title === siteMeta.title ? title : `${title} · ${siteMeta.title}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const siteUrl = new URL(withBase('/'), Astro.site);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const currentPath = Astro.url.pathname.replace(base, '') || '/';
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteMeta.title,
+  url: siteUrl.href,
+  description: siteMeta.description,
+  author: {
+    '@type': 'Person',
+    name: siteMeta.author,
+    url: new URL(withBase('/profile/'), Astro.site).href,
+  },
+};
+const pageSchemas = Array.isArray(structuredData) ? structuredData : [structuredData];
+const schemas = [websiteSchema, ...pageSchemas];
+const serializeSchema = (schema: Record<string, unknown>) =>
+  JSON.stringify(schema).replace(/</g, '\\u003c');
 const nav = [
   { href: '/', label: '首页' },
   { href: '/profile/', label: '个人主页' },
@@ -47,6 +70,13 @@ const pageTransition = {
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/png" sizes="64x64" href={siteImages.logo.favicon} />
     <link rel="alternate" type="application/rss+xml" title={siteMeta.title} href={withBase('/rss.xml')} />
+    <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Homemade+Apple&family=Manrope:wght@400;500;600;700;800&display=swap"
+    />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -60,6 +90,10 @@ const pageTransition = {
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:image:alt" content="mxt.log：把学习过程编译成记录" />
+    {schemas.map((schema) => (
+      <script type="application/ld+json" is:inline set:html={serializeSchema(schema)}></script>
+    ))}
     <title>{pageTitle}</title>
     <ClientRouter fallback="animate" />
     <script is:inline>
@@ -76,7 +110,11 @@ const pageTransition = {
         </a>
         <nav aria-label="主导航">
           {nav.map((item) => (
-            <a class:list={{ active: currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href)) }} href={withBase(item.href)}>
+            <a
+              class:list={{ active: currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href)) }}
+              href={withBase(item.href)}
+              aria-current={currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href)) ? 'page' : undefined}
+            >
               {item.label}
             </a>
           ))}

@@ -128,3 +128,53 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
 
   document.addEventListener('astro:page-load', setupAiCompetitionFilters);
 </script>
+
+<style>
+  .ai-experience-list { display: grid; gap: clamp(34px, 6vw, 58px); }
+  .ai-overview { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 0 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
+  .ai-overview div { padding: 20px; border-right: 1px solid var(--line); }
+  .ai-overview div:last-child { border-right: 0; }
+  .ai-overview dt { color: var(--text); font: 500 clamp(1.4rem, 3vw, 2rem) 'DM Mono', monospace; }
+  .ai-overview dd { margin: 4px 0 0; color: var(--muted); font-size: .72rem; }
+  .ai-filter-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 24px; }
+  .ai-filter-bar button { padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--muted); font: .68rem 'DM Mono', monospace; cursor: pointer; }
+  .ai-filter-bar button:hover, .ai-filter-bar button:focus-visible, .ai-filter-bar button.active { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface)); color: var(--text); outline: none; }
+  .ai-filter-bar > span { margin-left: auto; color: var(--muted); font: .68rem 'DM Mono', monospace; }
+  .ai-experience { display: block; width: 100%; min-width: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
+  .ai-experience[hidden] { display: none; }
+  .ai-experience-intro { position: relative; display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(250px, .52fr); gap: clamp(24px, 4vw, 54px); align-items: start; padding: clamp(26px, 4vw, 42px); cursor: pointer; list-style: none; }
+  .ai-experience-intro::-webkit-details-marker { display: none; }
+  .ai-experience-copy { min-width: 0; }
+  .ai-experience-intro h2 { margin: 12px 0 14px; font-size: clamp(1.45rem, 3vw, 2rem); }
+  .ai-experience-intro h2 a { text-decoration: none; }
+  .ai-experience-intro h2 a:hover { color: var(--accent); }
+  .ai-experience-intro p { margin: 0; color: var(--muted); }
+  .ai-summary-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-self: center; margin: 0; }
+  .ai-summary-metrics div { min-width: 0; padding: 8px 12px; border-left: 1px solid var(--line); }
+  .ai-summary-metrics dt { overflow: hidden; color: var(--text); font: 500 .85rem 'DM Mono', monospace; text-overflow: ellipsis; white-space: nowrap; }
+  .ai-summary-metrics dd { margin: 4px 0 0; color: var(--muted); font-size: .62rem; }
+  .ai-expand-label { position: absolute; right: 20px; bottom: 12px; color: var(--muted); font: .62rem 'DM Mono', monospace; }
+  .ai-expand-label .when-open { display: none; }
+  .ai-experience[open] .ai-expand-label .when-closed { display: none; }
+  .ai-experience[open] .ai-expand-label .when-open { display: inline; }
+  .ai-experience[open] .ai-expand-label { color: var(--accent); }
+  .ai-experience-progress, .ai-practice-note { width: 100%; margin: 16px 0 0; }
+  .ai-practice-note { display: flex; justify-content: space-between; gap: 24px; align-items: center; padding: 20px 24px; border-left: 2px solid var(--accent); background: var(--surface); }
+  .ai-practice-note p { margin: 0; color: var(--muted); font-size: .84rem; }
+
+  @media (max-width: 820px) {
+    .ai-experience-intro { grid-template-columns: 130px minmax(0, 1fr); }
+    .ai-summary-metrics { grid-column: 1 / -1; }
+    .ai-summary-metrics div:first-child { border-left: 0; }
+  }
+
+  @media (max-width: 560px) {
+    .ai-experience-intro { grid-template-columns: 1fr; gap: 14px; }
+    .ai-overview { grid-template-columns: repeat(2, 1fr); }
+    .ai-overview div:nth-child(2) { border-right: 0; }
+    .ai-overview div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .ai-filter-bar > span { width: 100%; margin-left: 0; }
+    .ai-summary-metrics { margin: 6px 0 18px; }
+    .ai-practice-note { align-items: flex-start; flex-direction: column; }
+  }
+</style>

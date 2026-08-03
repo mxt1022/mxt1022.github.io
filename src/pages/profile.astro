@@ -4,6 +4,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import Layout from '../layouts/Layout.astro';
 import { siteImages } from '../utils/images';
 import { formatDate, withBase } from '../utils/site';
+import { absoluteSiteUrl } from '../utils/structured-data';
 
 const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const experiences = (await getCollection('experiences', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -55,9 +56,24 @@ const competitionItems = [
     description: '用时间轴还原每次实验为什么发生、带来了什么变化，并保留失败路径，形成下一次竞赛可以直接复用的经验。',
   },
 ];
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'mxt1022',
+  alternateName: 'mxt',
+  url: absoluteSiteUrl('/profile/', Astro.site),
+  image: siteImages.avatar.profile,
+  sameAs: ['https://github.com/mxt1022'],
+  jobTitle: 'Engineer',
+  knowsAbout: ['Algorithms', 'Artificial Intelligence', 'Machine Learning', 'Computer Science'],
+};
 ---
 
-<Layout title="个人主页" description="mxt1022 的个人主页：学术学习、项目实践、算法与 AI 竞赛经历，以及持续技术输出。">
+<Layout
+  title="个人主页"
+  description="mxt1022 的个人主页：学术学习、项目实践、算法与 AI 竞赛经历，以及持续技术输出。"
+  structuredData={personSchema}
+>
   <div class="personal-home">
     <section class="personal-hero">
       <aside class="personal-sidebar" aria-label="个人主页目录">

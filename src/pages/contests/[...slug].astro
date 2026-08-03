@@ -2,7 +2,9 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import CompetitionProgress from '../../components/CompetitionProgress.astro';
 import Layout from '../../layouts/Layout.astro';
+import { siteImages } from '../../utils/images';
 import { formatDate, withBase } from '../../utils/site';
+import { absoluteSiteUrl, createBreadcrumbSchema } from '../../utils/structured-data';
 
 export async function getStaticPaths() {
   const entries = await getCollection('experiences', ({ data }) => !data.draft);
@@ -12,9 +14,36 @@ export async function getStaticPaths() {
 interface Props { entry: CollectionEntry<'experiences'>; }
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const entryPath = `/contests/${entry.id}/`;
+const contestSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.data.title,
+  description: entry.data.description,
+  datePublished: entry.data.date.toISOString(),
+  dateModified: (entry.data.updated ?? entry.data.date).toISOString(),
+  mainEntityOfPage: absoluteSiteUrl(entryPath, Astro.site),
+  image: siteImages.og,
+  keywords: entry.data.tags,
+  about: [entry.data.type, entry.data.platform],
+  author: {
+    '@type': 'Person',
+    name: 'mxt',
+    url: absoluteSiteUrl('/profile/', Astro.site),
+  },
+};
+const contestBreadcrumbs = createBreadcrumbSchema([
+  { name: '首页', path: '/' },
+  { name: '竞赛经历', path: '/contests/' },
+  { name: entry.data.title, path: entryPath },
+], Astro.site);
 ---
 
-<Layout title={entry.data.title} description={entry.data.description}>
+<Layout
+  title={entry.data.title}
+  description={entry.data.description}
+  structuredData={[contestSchema, contestBreadcrumbs]}
+>
   <header class="article-header">
     <div class="narrow">
       <a class="back-link" href={withBase('/contests/')}>← 返回竞赛经历</a>
