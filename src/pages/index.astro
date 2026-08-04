@@ -6,7 +6,9 @@ import { withBase } from '../utils/site';
 
 const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const experiences = (await getCollection('experiences', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const featured = [...notes, ...experiences].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 4);
+const standaloneNotes = notes.filter((note) => !note.data.relatedExperience);
+const recentNotes = standaloneNotes.slice(0, 2);
+const recentExperiences = experiences.slice(0, 2);
 const noteCount = notes.length;
 const tagCount = new Set(notes.flatMap((note) => note.data.tags)).size;
 ---
@@ -47,20 +49,49 @@ const tagCount = new Set(notes.flatMap((note) => note.data.tags)).size;
     <div class="shell">
       <div class="section-heading">
         <div><span class="eyebrow">01 / RECENT OUTPUT</span><h2>最近写下的内容</h2></div>
-        <p>从课堂笔记到竞赛复盘，把“我好像懂了”变成可检索、可复用、可继续修正的文字。</p>
+        <p>学习记录沉淀知识与方法，竞赛复盘保留提交、分数和策略；关联内容不在聚合区重复展示。</p>
       </div>
-      <div class="post-grid">
-        {featured.map((entry, index) => (
-          <PostCard
-            title={entry.data.title}
-            description={entry.data.description}
-            date={entry.data.date}
-            tags={entry.data.tags}
-            label={'category' in entry.data ? entry.data.category : entry.data.type}
-            href={'category' in entry.data ? `/notes/${entry.id}/` : `/contests/${entry.id}/`}
-            featured={index === 0}
-          />
-        ))}
+      <div class="recent-output-groups">
+        <section class="recent-output-group" aria-labelledby="recent-notes-title">
+          <div class="recent-output-heading">
+            <span class="eyebrow">KNOWLEDGE NOTES</span>
+            <h3 id="recent-notes-title">学习记录</h3>
+            <a href={withBase('/notes/')}>查看全部 →</a>
+          </div>
+          <div class="post-grid">
+            {recentNotes.map((note, index) => (
+              <PostCard
+                title={note.data.title}
+                description={note.data.description}
+                date={note.data.updated ?? note.data.date}
+                tags={note.data.tags}
+                label={`${note.data.category} · 学习笔记`}
+                href={`/notes/${note.id}/`}
+                featured={index === 0}
+              />
+            ))}
+          </div>
+        </section>
+        <section class="recent-output-group" aria-labelledby="recent-contests-title">
+          <div class="recent-output-heading">
+            <span class="eyebrow">COMPETITION REVIEWS</span>
+            <h3 id="recent-contests-title">竞赛复盘</h3>
+            <a href={withBase('/contests/')}>查看全部 →</a>
+          </div>
+          <div class="post-grid">
+            {recentExperiences.map((entry, index) => (
+              <PostCard
+                title={entry.data.title}
+                description={entry.data.description}
+                date={entry.data.updated ?? entry.data.date}
+                tags={entry.data.tags}
+                label={`${entry.data.type} · 结果记录`}
+                href={`/contests/${entry.id}/`}
+                featured={index === 0}
+              />
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   </section>
@@ -92,3 +123,18 @@ const tagCount = new Set(notes.flatMap((note) => note.data.tags)).size;
     </div>
   </section>
 </Layout>
+
+<style>
+  .recent-output-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+  .recent-output-group { min-width: 0; }
+  .recent-output-heading { display: grid; grid-template-columns: 1fr auto; gap: 4px 18px; align-items: end; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .recent-output-heading .eyebrow { grid-column: 1 / -1; }
+  .recent-output-heading h3 { margin: 0; font-size: 1.25rem; }
+  .recent-output-heading a { color: var(--muted); font-size: .76rem; text-decoration: none; }
+  .recent-output-heading a:hover { color: var(--accent); }
+  .recent-output-group .post-grid { grid-template-columns: 1fr; }
+
+  @media (max-width: 820px) {
+    .recent-output-groups { grid-template-columns: 1fr; gap: 42px; }
+  }
+</style>

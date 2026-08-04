@@ -30,40 +30,86 @@ const algorithmExperiences = experiences.filter((entry) => entry.data.type === '
         <div><span class="eyebrow">03 / ALGORITHM COMPETITIONS</span><h2>算法竞赛经历</h2></div>
         <p>集中记录 Codeforces、LeetCode 等算法训练、赛后补题与题型归纳，不与 AI 实验提交时间轴混排。</p>
       </div>
+      <div class="contest-fold-toolbar" aria-label="算法竞赛折叠操作">
+        <span>点击记录可查看复盘摘要</span>
+        <button type="button" data-algorithm-action="expand">全部展开</button>
+        <button type="button" data-algorithm-action="collapse">全部折叠</button>
+      </div>
       <div class="timeline">
         {algorithmExperiences.map((entry) => (
-          <article class="timeline-item">
-            <div class="timeline-meta">
-              <div>{formatDate(entry.data.date)}</div>
-              <div>{entry.data.type}</div>
-              <div>{entry.data.platform}</div>
-            </div>
-            <div>
-              <span class="eyebrow">{entry.data.status}</span>
-              <h2><a href={withBase(`/contests/${entry.id}/`)}>{entry.data.title}</a></h2>
+          <details class="timeline-entry">
+            <summary class="timeline-item">
+              <div class="timeline-meta">
+                <div>{formatDate(entry.data.date)}</div>
+                <div>{entry.data.type}</div>
+                <div>{entry.data.platform}</div>
+              </div>
+              <div>
+                <span class="eyebrow">{entry.data.status}</span>
+                <h2>{entry.data.title}</h2>
+              </div>
+              <span class="timeline-fold-label">
+                <span class="when-closed">展开复盘</span>
+                <span class="when-open">收起复盘</span> ↓
+              </span>
+            </summary>
+            <div class="timeline-detail">
               <p>{entry.data.description}</p>
               <div class="tag-list">
                 {entry.data.tags.map((tag: string) => <span class="tag">#{tag}</span>)}
               </div>
+              <a class="text-link" href={withBase(`/contests/${entry.id}/`)}>阅读完整复盘 ↗</a>
             </div>
-          </article>
+          </details>
         ))}
       </div>
     </div>
   </section>
 
   <UpcomingContests contests={upcomingContests} />
+
+  <script>
+    const setupAlgorithmFolds = () => {
+      const entries = [...document.querySelectorAll<HTMLDetailsElement>('.timeline-entry')];
+      document.querySelectorAll<HTMLButtonElement>('[data-algorithm-action]').forEach((button) => {
+        button.onclick = () => {
+          const shouldOpen = button.dataset.algorithmAction === 'expand';
+          entries.forEach((entry) => {
+            entry.open = shouldOpen;
+          });
+        };
+      });
+    };
+
+    document.addEventListener('astro:page-load', setupAlgorithmFolds);
+  </script>
 </Layout>
 
 <style>
   .timeline { border-top: 1px solid var(--line); }
-  .timeline-item { display: grid; grid-template-columns: 180px 1fr; gap: 40px; padding: 34px 0; border-bottom: 1px solid var(--line); }
+  .contest-fold-toolbar { display: flex; justify-content: flex-end; gap: 8px; align-items: center; margin: -22px 0 18px; }
+  .contest-fold-toolbar span { margin-right: auto; color: var(--muted); font: .68rem 'DM Mono', monospace; }
+  .contest-fold-toolbar button { padding: 7px 11px; border: 1px dashed var(--line); border-radius: 999px; background: transparent; color: var(--muted); font: .66rem 'DM Mono', monospace; cursor: pointer; }
+  .contest-fold-toolbar button:hover, .contest-fold-toolbar button:focus-visible { border-color: var(--accent); color: var(--text); outline: none; }
+  .timeline-entry { border-bottom: 1px solid var(--line); }
+  .timeline-item { position: relative; display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 40px; padding: 34px 130px 34px 0; cursor: pointer; list-style: none; }
+  .timeline-item::-webkit-details-marker { display: none; }
   .timeline-meta { color: var(--muted); font: .8rem/1.8 'DM Mono', monospace; }
   .timeline-item h2 { margin: 0 0 10px; font-size: clamp(1.35rem, 3vw, 2rem); }
-  .timeline-item h2 a { text-decoration: none; }
-  .timeline-item p { margin: 0; color: var(--muted); }
+  .timeline-fold-label { position: absolute; right: 0; bottom: 36px; color: var(--muted); font: .64rem 'DM Mono', monospace; }
+  .timeline-fold-label .when-open { display: none; }
+  .timeline-entry[open] .when-open { display: inline; }
+  .timeline-entry[open] .when-closed { display: none; }
+  .timeline-entry[open] .timeline-fold-label { color: var(--accent); }
+  .timeline-detail { margin-left: 220px; padding: 0 0 34px; }
+  .timeline-detail p { max-width: 760px; margin: 0 0 16px; color: var(--muted); }
+  .timeline-detail .text-link { display: inline-flex; margin-top: 18px; }
 
   @media (max-width: 560px) {
-    .timeline-item { grid-template-columns: 1fr; gap: 10px; }
+    .contest-fold-toolbar { flex-wrap: wrap; justify-content: flex-start; margin-top: -18px; }
+    .contest-fold-toolbar span { width: 100%; }
+    .timeline-item { grid-template-columns: 1fr; gap: 10px; padding-right: 0; padding-bottom: 58px; }
+    .timeline-fold-label { right: auto; bottom: 28px; left: 0; }
+    .timeline-detail { margin-left: 0; }
   }
 </style>

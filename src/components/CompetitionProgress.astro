@@ -8,9 +8,10 @@ interface Props {
   platform: string;
   progress: Progress;
   href?: string;
+  compact?: boolean;
 }
 
-const { title, platform, progress, href } = Astro.props;
+const { title, platform, progress, href, compact = false } = Astro.props;
 const submissions = [...progress.submissions].sort((a, b) => a.time.valueOf() - b.time.valueOf());
 const firstScore = submissions[0].score;
 const latestScore = submissions.at(-1)?.score ?? firstScore;
@@ -29,25 +30,37 @@ const formatTime = (date: Date) => new Intl.DateTimeFormat('zh-CN', {
 }).format(date);
 ---
 
-<article class="progress-card" style={`--contest-accent: ${progress.accent}`}>
-  <header class="progress-header">
-    <div>
+<article class:list={['progress-card', { compact }]} style={`--contest-accent: ${progress.accent}`}>
+  {compact ? (
+    <header class="progress-compact-header">
       <div class="progress-kicker">
-        <span class="eyebrow">{progress.label}</span>
+        <span class="eyebrow">提交明细 / {progress.metric}</span>
         {progress.demo && <span class="demo-badge">示例数据</span>}
       </div>
-      <h3>{href ? <a href={href}>{title}</a> : title}</h3>
-      <p>{platform} · {progress.metric} · {progress.goal === 'higher' ? '分数越高越好' : '分数越低越好'}</p>
-    </div>
-    {href && <a class="progress-link" href={href} aria-label={`查看 ${title} 的完整复盘`}>完整复盘 →</a>}
-  </header>
+      {href && <a class="progress-link" href={href} aria-label={`查看 ${title} 的完整复盘`}>完整复盘 →</a>}
+    </header>
+  ) : (
+    <header class="progress-header">
+      <div>
+        <div class="progress-kicker">
+          <span class="eyebrow">{progress.label}</span>
+          {progress.demo && <span class="demo-badge">示例数据</span>}
+        </div>
+        <h3>{href ? <a href={href}>{title}</a> : title}</h3>
+        <p>{platform} · {progress.metric} · {progress.goal === 'higher' ? '分数越高越好' : '分数越低越好'}</p>
+      </div>
+      {href && <a class="progress-link" href={href} aria-label={`查看 ${title} 的完整复盘`}>完整复盘 →</a>}
+    </header>
+  )}
 
-  <dl class="progress-stats" aria-label={`${title} 提交统计`}>
-    <div><dt>{submissions.length}</dt><dd>提交次数</dd></div>
-    <div><dt>{formatScore(bestScore)}</dt><dd>最佳 {progress.metric}</dd></div>
-    <div><dt>{formatScore(latestScore)}</dt><dd>最新 {progress.metric}</dd></div>
-    <div><dt>+{formatScore(improvement)}</dt><dd>相对首提交提升</dd></div>
-  </dl>
+  {!compact && (
+    <dl class="progress-stats" aria-label={`${title} 提交统计`}>
+      <div><dt>{submissions.length}</dt><dd>提交次数</dd></div>
+      <div><dt>{formatScore(bestScore)}</dt><dd>最佳 {progress.metric}</dd></div>
+      <div><dt>{formatScore(latestScore)}</dt><dd>最新 {progress.metric}</dd></div>
+      <div><dt>+{formatScore(improvement)}</dt><dd>相对首提交提升</dd></div>
+    </dl>
+  )}
 
   <ol class="submission-timeline">
     {submissions.map((submission, index) => {
@@ -83,7 +96,9 @@ const formatTime = (date: Date) => new Intl.DateTimeFormat('zh-CN', {
 
 <style>
   .progress-card { border: 1px solid var(--line); border-radius: 16px; background: var(--surface); overflow: hidden; }
+  .progress-card.compact { border: 0; border-radius: 0; background: var(--surface-2); }
   .progress-header { display: flex; justify-content: space-between; gap: 28px; align-items: start; padding: clamp(24px, 4vw, 36px); border-bottom: 1px solid var(--line); background: linear-gradient(135deg, color-mix(in srgb, var(--contest-accent) 11%, var(--surface)), var(--surface) 58%); }
+  .progress-compact-header { display: flex; justify-content: space-between; gap: 20px; align-items: center; padding: 16px clamp(24px, 4vw, 36px); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .progress-kicker { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
   .progress-card .eyebrow { color: var(--contest-accent); }
   .demo-badge { padding: 3px 8px; border: 1px solid color-mix(in srgb, var(--contest-accent) 42%, var(--line)); border-radius: 999px; color: var(--muted); font: .65rem 'DM Mono', monospace; }

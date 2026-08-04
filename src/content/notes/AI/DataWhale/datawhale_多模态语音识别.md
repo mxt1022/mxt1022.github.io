@@ -1,16 +1,22 @@
 ---
-title: Datawhale 多模态语音识别实践
-description: 围绕关键词检测挑战赛，记录任务背景、数据理解与多模态语音识别实践。
+title: 多模态语音识别：关键词检测的数据与特征拆解
+description: 从注册语音、测试音频与关键词匹配关系出发，整理数据理解、特征设计和验证方法。
 date: 2026-07-16
 updated: 2026-07-21
-category: DataWhale
-series: Datawhale 实践
-tags: [DataWhale, 人工智能, 竞赛]
+category: 人工智能
+series: 语音识别实践
+tags: [DataWhale, 多模态, 语音识别, 特征工程]
 featured: true
+relatedExperience: datawhale_kedaxunfei_多模态语音_2026
 ---
 
 
-基于用户注册信息的关键词检测挑战赛
-举办方：
-科大讯飞股份有限公司
-https://challenge.xfyun.cn/topic/info?type=KDBURI&option=tjjg&ch=2026dsDW2
+这篇学习记录只整理可以复用的数据理解与建模方法；比赛提交、排行榜分数和阶段性策略统一保存在对应的竞赛复盘中。
+
+## 问题抽象
+
+关键词检测需要比较注册语音与测试语音是否表达相同文本。学习重点是如何组织成对样本、提取稳定的语音表示，以及设计能够反映真实泛化能力的验证集。
+
+## 数据与特征
+
+注册信息可以作为先验条件，声学特征负责描述测试音频。建模时需要重点关注噪声、相似发音、说话人差异与正负样本比例，而不是在学习笔记中重复记录每次线上提交。

@@ -34,9 +34,13 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
       <button type="button" data-ai-filter="practice">实践记录</button>
       <button type="button" data-ai-filter="demo">示例数据</button>
       <span id="ai-filter-count">{experiences.length} 条记录</span>
+      <div class="ai-fold-actions" aria-label="批量折叠操作">
+        <button type="button" data-ai-action="expand">全部展开</button>
+        <button type="button" data-ai-action="collapse">全部折叠</button>
+      </div>
     </div>
     <div class="ai-experience-list">
-      {experiences.map((entry, index) => {
+      {experiences.map((entry) => {
         const progress = entry.data.progress;
         const submissions = progress
           ? [...progress.submissions].sort((a, b) => a.time.valueOf() - b.time.valueOf())
@@ -54,7 +58,6 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
             class="ai-experience"
             data-ai-kind={progress ? 'tracked' : 'practice'}
             data-ai-demo={progress?.demo ? 'true' : 'false'}
-            open={index === 0}
           >
             <summary class="ai-experience-intro">
               <div class="timeline-meta">
@@ -85,6 +88,7 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
                   platform={entry.data.platform}
                   progress={progress}
                   href={withBase(`/contests/${entry.id}/`)}
+                  compact
                 />
               </div>
             )}
@@ -105,6 +109,7 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
 <script>
   const setupAiCompetitionFilters = () => {
     const buttons = [...document.querySelectorAll<HTMLButtonElement>('[data-ai-filter]')];
+    const actionButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-ai-action]')];
     const entries = [...document.querySelectorAll<HTMLDetailsElement>('.ai-experience[data-ai-kind]')];
     const count = document.querySelector<HTMLElement>('#ai-filter-count');
     const empty = document.querySelector<HTMLElement>('#ai-filter-empty');
@@ -124,6 +129,15 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
         if (empty) empty.hidden = visible > 0;
       };
     });
+
+    actionButtons.forEach((button) => {
+      button.onclick = () => {
+        const shouldOpen = button.dataset.aiAction === 'expand';
+        entries.filter((entry) => !entry.hidden).forEach((entry) => {
+          entry.open = shouldOpen;
+        });
+      };
+    });
   };
 
   document.addEventListener('astro:page-load', setupAiCompetitionFilters);
@@ -140,6 +154,8 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
   .ai-filter-bar button { padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--muted); font: .68rem 'DM Mono', monospace; cursor: pointer; }
   .ai-filter-bar button:hover, .ai-filter-bar button:focus-visible, .ai-filter-bar button.active { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface)); color: var(--text); outline: none; }
   .ai-filter-bar > span { margin-left: auto; color: var(--muted); font: .68rem 'DM Mono', monospace; }
+  .ai-fold-actions { display: flex; gap: 6px; padding-left: 8px; border-left: 1px solid var(--line); }
+  .ai-fold-actions button { border-style: dashed; }
   .ai-experience { display: block; width: 100%; min-width: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
   .ai-experience[hidden] { display: none; }
   .ai-experience-intro { position: relative; display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(250px, .52fr); gap: clamp(24px, 4vw, 54px); align-items: start; padding: clamp(26px, 4vw, 42px); cursor: pointer; list-style: none; }
@@ -174,6 +190,7 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
     .ai-overview div:nth-child(2) { border-right: 0; }
     .ai-overview div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
     .ai-filter-bar > span { width: 100%; margin-left: 0; }
+    .ai-fold-actions { width: 100%; padding: 8px 0 0; border: 0; }
     .ai-summary-metrics { margin: 6px 0 18px; }
     .ai-practice-note { align-items: flex-start; flex-direction: column; }
   }

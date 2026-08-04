@@ -77,6 +77,12 @@ const noteBreadcrumbs = createBreadcrumbSchema([
       <div class="article-tags" aria-label="文章标签">
         {note.data.tags.map((tag: string) => <a class="tag" href={withBase(`/notes/?tag=${encodeURIComponent(tag)}`)}>#{tag}</a>)}
       </div>
+      {note.data.relatedExperience && (
+        <aside class="content-boundary" aria-label="关联竞赛记录">
+          <div><span class="eyebrow">METHOD NOTE</span><strong>本页只整理可复用的方法与知识。</strong></div>
+          <a href={withBase(`/contests/${note.data.relatedExperience}/`)}>查看对应的提交、分数与竞赛复盘 →</a>
+        </aside>
+      )}
     </div>
   </header>
 
@@ -145,4 +151,14 @@ const noteBreadcrumbs = createBreadcrumbSchema([
     document.addEventListener('astro:page-load', setupReadingProgress);
     document.addEventListener('astro:before-swap', () => readingProgressCleanup?.());
   </script>
+
+  <style>
+    .content-boundary { display: flex; justify-content: space-between; gap: 28px; align-items: center; margin-top: 24px; padding: 16px 18px; border-left: 2px solid var(--accent); background: var(--surface); }
+    .content-boundary div { display: grid; gap: 5px; }
+    .content-boundary strong { font-size: .82rem; }
+    .content-boundary a { flex: 0 0 auto; color: var(--accent); font-size: .76rem; text-decoration: none; }
+    @media (max-width: 680px) {
+      .content-boundary { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
 </Layout>

@@ -12,7 +12,8 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
   (b.data.updated ?? b.data.date).valueOf() - (a.data.updated ?? a.data.date).valueOf()
   || b.data.date.valueOf() - a.data.date.valueOf()
 );
-const outputs = [...notes, ...experiences].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 6);
+const recentNoteOutputs = notes.filter((note) => !note.data.relatedExperience).slice(0, 3);
+const recentExperienceOutputs = experiences.slice(0, 3);
 const tagCount = new Set([...notes, ...experiences].flatMap((entry) => entry.data.tags)).size;
 
 const academicAreas = [
@@ -173,24 +174,47 @@ const personSchema = {
       <header>
         <span class="eyebrow">05 / SELECTED OUTPUT</span>
         <h2>近期输出</h2>
-        <p>从笔记到竞赛复盘，保留能够继续修正与复用的过程。</p>
+        <p>学习笔记与竞赛结果分组展示；对应同一比赛的方法笔记不在这里重复出现。</p>
       </header>
-      <div class="personal-output-list">
-        {outputs.map((entry, index) => {
-          const isNote = 'category' in entry.data;
-          const outputLabel = 'category' in entry.data ? entry.data.category : entry.data.type;
-          return (
-            <article class="personal-output">
-              <span class="personal-output-index">{String(index + 1).padStart(2, '0')}</span>
-              <div>
-                <span class="eyebrow">{outputLabel}</span>
-                <h3><a href={withBase(isNote ? `/notes/${entry.id}/` : `/contests/${entry.id}/`)}>{entry.data.title}</a></h3>
-                <p>{entry.data.description}</p>
-              </div>
-              <time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time>
-            </article>
-          );
-        })}
+      <div class="personal-output-groups">
+        <section class="personal-output-group" aria-labelledby="profile-note-outputs">
+          <div class="personal-output-group-heading">
+            <span class="eyebrow">KNOWLEDGE NOTES</span>
+            <h3 id="profile-note-outputs">学习记录</h3>
+          </div>
+          <div class="personal-output-list">
+            {recentNoteOutputs.map((entry, index) => (
+              <article class="personal-output">
+                <span class="personal-output-index">N{String(index + 1).padStart(2, '0')}</span>
+                <div>
+                  <span class="eyebrow">{entry.data.category} · 学习笔记</span>
+                  <h3><a href={withBase(`/notes/${entry.id}/`)}>{entry.data.title}</a></h3>
+                  <p>{entry.data.description}</p>
+                </div>
+                <time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.updated ?? entry.data.date)}</time>
+              </article>
+            ))}
+          </div>
+        </section>
+        <section class="personal-output-group" aria-labelledby="profile-contest-outputs">
+          <div class="personal-output-group-heading">
+            <span class="eyebrow">COMPETITION REVIEWS</span>
+            <h3 id="profile-contest-outputs">竞赛复盘</h3>
+          </div>
+          <div class="personal-output-list">
+            {recentExperienceOutputs.map((entry, index) => (
+              <article class="personal-output">
+                <span class="personal-output-index">C{String(index + 1).padStart(2, '0')}</span>
+                <div>
+                  <span class="eyebrow">{entry.data.type} · 结果记录</span>
+                  <h3><a href={withBase(`/contests/${entry.id}/`)}>{entry.data.title}</a></h3>
+                  <p>{entry.data.description}</p>
+                </div>
+                <time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.updated ?? entry.data.date)}</time>
+              </article>
+            ))}
+          </div>
+        </section>
       </div>
     </section>
 
@@ -247,6 +271,9 @@ const personSchema = {
   .personal-experience-marker span, .personal-experience-meta { color: var(--muted); font: .64rem 'DM Mono', monospace; letter-spacing: .06em; }
   .personal-experience h3 { margin: 0 0 3px; font-size: 1.1rem; }
   .personal-experience p { margin: 11px 0 0; color: var(--muted); font-size: .85rem; }
+  .personal-output-groups { display: grid; gap: 38px; }
+  .personal-output-group-heading { display: flex; justify-content: space-between; gap: 20px; align-items: end; margin-bottom: 10px; }
+  .personal-output-group-heading h3 { margin: 0; font-size: 1rem; }
   .personal-output-list { border-top: 1px solid var(--line); }
   .personal-output { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 20px; padding: 27px 0; border-bottom: 1px solid var(--line); }
   .personal-output-index { padding-top: 4px; color: var(--muted); font: .68rem 'DM Mono', monospace; }

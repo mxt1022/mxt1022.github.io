@@ -15,7 +15,7 @@ const searchIndexUrl = withBase('/search-index.json');
   <header class="page-hero shell">
     <span class="eyebrow">KNOWLEDGE BASE / {notes.length} ENTRIES</span>
     <h1>学习记录</h1>
-    <p>不追求一次写对，而是持续把概念、代码与踩坑过程整理成可以搜索、串联和继续修正的知识库。</p>
+    <p>这里只整理概念、代码和可复用方法；参赛阶段、提交策略与排行榜分数统一归入“竞赛经历”。</p>
   </header>
 
   <section class="section notes-library">
@@ -56,6 +56,7 @@ const searchIndexUrl = withBase('/search-index.json');
             note.data.description,
             note.data.category,
             note.data.series,
+            note.data.relatedExperience ? '方法笔记' : '学习记录',
             ...note.data.tags,
           ].join(' ').toLocaleLowerCase('zh-CN');
           return (
@@ -68,13 +69,20 @@ const searchIndexUrl = withBase('/search-index.json');
               data-tags={note.data.tags.join('|')}
               data-search-meta={searchMetadata}
             >
-              <span class="note-series mono">{note.data.series}</span>
+              <div class="note-result-head mono">
+                <span class="note-series">{note.data.series}</span>
+                {note.data.relatedExperience ? (
+                  <a href={withBase(`/contests/${note.data.relatedExperience}/`)}>对应竞赛复盘 ↗</a>
+                ) : (
+                  <span>独立学习记录</span>
+                )}
+              </div>
               <PostCard
                 title={note.data.title}
                 description={note.data.description}
                 date={note.data.updated ?? note.data.date}
                 tags={note.data.tags}
-                label={note.data.category}
+                label={`${note.data.category} · ${note.data.relatedExperience ? '方法笔记' : '学习记录'}`}
                 href={`/notes/${note.id}/`}
                 featured={note.data.featured}
               />
@@ -205,8 +213,11 @@ const searchIndexUrl = withBase('/search-index.json');
     .notes-filter-row > p { flex: 0 0 auto; margin: 7px 0 0; color: var(--muted); font-size: .68rem; }
     .note-result[hidden] { display: none; }
     .note-result { min-width: 0; }
-    .note-result :global(.post-card) { height: calc(100% - 26px); }
-    .note-series { display: block; margin: 0 0 8px 4px; color: var(--accent); font-size: .62rem; letter-spacing: .06em; }
+    .note-result :global(.post-card) { height: calc(100% - 27px); }
+    .note-result-head { display: flex; justify-content: space-between; gap: 12px; margin: 0 4px 8px; color: var(--muted); font-size: .62rem; letter-spacing: .06em; }
+    .note-series { color: var(--accent); }
+    .note-result-head a { color: var(--muted); text-decoration: none; }
+    .note-result-head a:hover { color: var(--accent); }
 
     @media (max-width: 820px) {
       .knowledge-toolbar { grid-template-columns: 1fr 1fr; }

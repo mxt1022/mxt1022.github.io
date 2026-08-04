@@ -14,6 +14,8 @@ export async function getStaticPaths() {
 interface Props { entry: CollectionEntry<'experiences'>; }
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const relatedNotes = (await getCollection('notes', ({ data }) => !data.draft))
+  .filter((note) => note.data.relatedExperience === entry.id);
 const entryPath = `/contests/${entry.id}/`;
 const contestSchema = {
   '@context': 'https://schema.org',
@@ -53,6 +55,20 @@ const contestBreadcrumbs = createBreadcrumbSchema([
       <div class="article-meta"><time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time><span>{entry.data.status}</span><span>{entry.data.tags.map((tag: string) => `#${tag}`).join(' · ')}</span></div>
     </div>
   </header>
+  {relatedNotes.length > 0 && (
+    <aside class="related-learning narrow" aria-label="相关学习记录">
+      <div>
+        <span class="eyebrow">KNOWLEDGE NOTES</span>
+        <strong>比赛结果与方法沉淀已分开整理</strong>
+        <p>本页保留提交、分数和复盘；可复用的数据、特征与建模方法请前往学习记录。</p>
+      </div>
+      <div class="related-learning-links">
+        {relatedNotes.map((note) => (
+          <a href={withBase(`/notes/${note.id}/`)}>{note.data.title} →</a>
+        ))}
+      </div>
+    </aside>
+  )}
   {entry.data.progress && (
     <section class="contest-progress-section shell">
       <CompetitionProgress
@@ -63,4 +79,17 @@ const contestBreadcrumbs = createBreadcrumbSchema([
     </section>
   )}
   <article class="prose narrow"><Content /></article>
+
+  <style>
+    .related-learning { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: center; margin-top: 34px; padding: 20px 22px; border-left: 2px solid var(--accent); background: var(--surface); }
+    .related-learning strong { display: block; margin-top: 6px; }
+    .related-learning p { margin: 7px 0 0; color: var(--muted); font-size: .82rem; }
+    .related-learning-links { display: grid; gap: 8px; justify-items: end; }
+    .related-learning-links a { color: var(--accent); font-size: .76rem; text-align: right; text-decoration: none; }
+    @media (max-width: 680px) {
+      .related-learning { grid-template-columns: 1fr; }
+      .related-learning-links { justify-items: start; }
+      .related-learning-links a { text-align: left; }
+    }
+  </style>
 </Layout>
