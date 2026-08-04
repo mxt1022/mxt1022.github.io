@@ -30,7 +30,7 @@ const competitionProgressSchema = z.object({
 });
 
 const notes = defineCollection({
-  loader: glob({ base: './src/content/notes', pattern: '**/*.{md,mdx}' }),
+  loader: glob({ base: './src/content/notes', pattern: '**/*.md' }),
   schema: commonSchema.extend({
     category: z.enum(['算法', '人工智能', '计算机基础', '工具与实践', 'Agent', 'DataWhale','LLM','具身智能','AMD','Codeforces']),
     series: z.string().default('独立笔记'),
@@ -38,7 +38,7 @@ const notes = defineCollection({
 });
 
 const experiences = defineCollection({
-  loader: glob({ base: './src/content/experiences', pattern: '**/*.{md,mdx}' }),
+  loader: glob({ base: './src/content/experiences', pattern: '**/*.md' }),
   schema: commonSchema.extend({
     type: z.enum(['算法竞赛', 'AI 竞赛']),
     platform: z.string(),
@@ -48,7 +48,7 @@ const experiences = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}' }),
+  loader: glob({ base: './src/content/projects', pattern: '**/*.md' }),
   schema: commonSchema.extend({
     status: z.enum(['持续迭代', '进行中', '实验项目', '已完成']),
     role: z.string(),

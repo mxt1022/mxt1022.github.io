@@ -8,17 +8,15 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "fetch:contests": "python fetch_contests.py"
+    "fetch:contests": "python scripts/codeforces/fetch.py"
   },
   "dependencies": {
-    "@astrojs/mdx": "^7.0.3",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.1.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "code-inspector-plugin": "^2.0.4",
     "typescript": "^6.0.3"
   }
 }

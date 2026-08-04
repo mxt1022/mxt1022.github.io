@@ -23,7 +23,7 @@ const contestSchema = {
   datePublished: entry.data.date.toISOString(),
   dateModified: (entry.data.updated ?? entry.data.date).toISOString(),
   mainEntityOfPage: absoluteSiteUrl(entryPath, Astro.site),
-  image: siteImages.og,
+  image: new URL(siteImages.og, Astro.site).href,
   keywords: entry.data.tags,
   about: [entry.data.type, entry.data.platform],
   author: {

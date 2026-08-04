@@ -62,7 +62,7 @@ const personSchema = {
   name: 'mxt1022',
   alternateName: 'mxt',
   url: absoluteSiteUrl('/profile/', Astro.site),
-  image: siteImages.avatar.profile,
+  image: new URL(siteImages.avatar.profile, Astro.site).href,
   sameAs: ['https://github.com/mxt1022'],
   jobTitle: 'Engineer',
   knowsAbout: ['Algorithms', 'Artificial Intelligence', 'Machine Learning', 'Computer Science'],

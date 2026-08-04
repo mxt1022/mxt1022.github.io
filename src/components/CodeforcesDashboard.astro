@@ -1,5 +1,6 @@
 ---
 import type { CodeforcesData } from '../utils/contest-data';
+import { withBase } from '../utils/site';
 
 interface Props {
   data: CodeforcesData;
@@ -59,7 +60,7 @@ const chartHistory = history.map(({ contest_name, rank, new_rating, delta, updat
         </div>
       </div>
       <div class="cf-sync-actions">
-        <button id="cf-refresh-page" type="button">刷新页面</button>
+        <a id="cf-refresh-page" href={withBase('/contests/')}>刷新页面</a>
         <a href="https://github.com/mxt1022/mxt1022.github.io/actions/workflows/update-codeforces.yml" target="_blank" rel="noreferrer">运行更新 ↗</a>
       </div>
     </div>
@@ -341,8 +342,6 @@ const chartHistory = history.map(({ contest_name, rank, new_rating, delta, updat
   const setupCodeforcesDashboard = () => {
     codeforcesChartCleanup?.();
     codeforcesChartCleanup = undefined;
-    const refreshButton = document.querySelector<HTMLButtonElement>('#cf-refresh-page');
-    if (refreshButton) refreshButton.onclick = () => window.location.reload();
     const canvas = document.querySelector<HTMLCanvasElement>('.cf-rating-chart[data-history]');
     if (!canvas) return;
     try {

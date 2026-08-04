@@ -40,7 +40,7 @@ const noteSchema = {
   datePublished: note.data.date.toISOString(),
   dateModified: (note.data.updated ?? note.data.date).toISOString(),
   mainEntityOfPage: absoluteSiteUrl(notePath, Astro.site),
-  image: siteImages.og,
+  image: new URL(siteImages.og, Astro.site).href,
   keywords: note.data.tags,
   articleSection: note.data.category,
   author: {

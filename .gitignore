@@ -1,6 +1,11 @@
 node_modules/
 dist/
 .astro/
+.agents/
+.vscode/
+__pycache__/
+.venv/
+*.py[cod]
 .DS_Store
 *.log
 .env

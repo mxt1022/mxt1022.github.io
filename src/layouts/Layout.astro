@@ -1,4 +1,5 @@
 ---
+import '../styles/fonts.css';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import { siteImages } from '../utils/images';
@@ -71,12 +72,6 @@ const pageTransition = {
     <link rel="icon" type="image/png" sizes="64x64" href={siteImages.logo.favicon} />
     <link rel="alternate" type="application/rss+xml" title={siteMeta.title} href={withBase('/rss.xml')} />
     <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Homemade+Apple&family=Manrope:wght@400;500;600;700;800&display=swap"
-    />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />

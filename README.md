@@ -18,6 +18,28 @@ npm run check
 npm run build
 ```
 
+## 项目结构
+
+```text
+.
+├─ .github/workflows/       # GitHub Pages 部署与数据更新
+├─ public/assets/
+│  ├─ data/                 # Codeforces 与近期比赛快照
+│  ├─ icons/                # 本地技术栈图标
+│  └─ images/               # Logo、头像与 OG 图片
+├─ scripts/codeforces/      # Codeforces 数据抓取脚本及依赖
+└─ src/
+   ├─ assets/fonts/         # 本地字体
+   ├─ components/           # 页面组件
+   ├─ content/              # 学习、竞赛和项目内容集合
+   ├─ layouts/              # 全站布局
+   ├─ pages/                # Astro 路由与静态接口
+   ├─ styles/               # 全局样式与字体声明
+   └─ utils/                # 图片、数据和结构化数据工具
+```
+
+`dist/`、`.astro/` 和 `node_modules/` 都是可重新生成的本地目录，不属于源码结构。
+
 ## 写一篇新文章
 
 - 学习记录：在 `src/content/notes/` 中新增 Markdown；
@@ -55,6 +77,12 @@ progress:
 仓库推送到 `main` 后，`.github/workflows/deploy.yml` 会自动构建并部署。首次使用时，需要在 GitHub 仓库的 **Settings → Pages → Source** 中选择 **GitHub Actions**。
 
 ### Codeforces 数据更新
+
+本地手动更新可运行：
+
+```bash
+npm run fetch:contests
+```
 
 Codeforces 数据与站点源码使用两个互不合并的分支：
 

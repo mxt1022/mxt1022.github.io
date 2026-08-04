@@ -40,16 +40,16 @@ jobs:
         with:
           python-version: '3.13'
           cache: pip
-          cache-dependency-path: source/requirements-codeforces.txt
+          cache-dependency-path: source/scripts/codeforces/requirements.txt
 
       - name: Install fetch dependency
-        run: python -m pip install -r source/requirements-codeforces.txt
+        run: python -m pip install -r source/scripts/codeforces/requirements.txt
 
       - name: Fetch Codeforces data
         env:
           CODEFORCES_HANDLE: InsaneArrogant
           CODEFORCES_OUTPUT_DIR: ${{ github.workspace }}/data/public/assets/data
-        run: python source/fetch_contests.py
+        run: python source/scripts/codeforces/fetch.py
 
       - name: Commit data branch when changed
         working-directory: data
