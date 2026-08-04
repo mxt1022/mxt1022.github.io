@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-03T04:04:08.036464+00:00",
+  "updated_at": "2026-08-04T09:15:41.241892+00:00",
   "profile": {
     "handle": "InsaneArrogant",
     "rank": "newbie",
@@ -54,7 +54,7 @@
   "difficulty": [
     {
       "label": "800–999",
-      "count": 129
+      "count": 131
     },
     {
       "label": "1000–1199",
@@ -308,7 +308,7 @@
       "name": "Nikita and Books",
       "contest_id": 2244,
       "index": "B",
-      "rating": null,
+      "rating": 800,
       "tags": [
         "greedy",
         "math",
@@ -322,7 +322,7 @@
       "name": "Iskander and Drawings",
       "contest_id": 2244,
       "index": "A",
-      "rating": null,
+      "rating": 800,
       "tags": [
         "dp",
         "games",

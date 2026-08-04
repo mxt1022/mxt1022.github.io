@@ -33,5 +33,12 @@
     "start_time": "2026-08-09T14:35:00+00:00",
     "duration": "2h",
     "url": "https://codeforces.com/contests/2256"
+  },
+  {
+    "name": "ICPC 2026 Online Challenge 1 powered by Huawei",
+    "platform": "Codeforces",
+    "start_time": "2026-08-14T11:00:00+00:00",
+    "duration": "336h",
+    "url": "https://codeforces.com/contests/2251"
   }
 ]
