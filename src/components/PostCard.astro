@@ -1,5 +1,6 @@
 ---
 import { formatDate, withBase } from '../utils/site';
+import { getActiveContentStatus } from '../utils/content-status';
 
 interface Props {
   title: string;
@@ -9,14 +10,19 @@ interface Props {
   label: string;
   tags?: string[];
   featured?: boolean;
+  status?: string;
 }
 
-const { title, description, date, href, label, tags = [], featured = false } = Astro.props;
+const { title, description, date, href, label, tags = [], featured = false, status } = Astro.props;
+const activeStatus = getActiveContentStatus(status);
 ---
 
 <article class:list={['post-card', { featured }]}>
   <div class="post-card__meta">
-    <span class="eyebrow">{label}</span>
+    <div class="post-card__meta-label">
+      <span class="eyebrow">{label}</span>
+      {activeStatus && <span class="content-status">{activeStatus}</span>}
+    </div>
     <time datetime={date.toISOString()}>{formatDate(date)}</time>
   </div>
   <h3><a href={withBase(href)}>{title}</a></h3>

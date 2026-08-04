@@ -7,6 +7,7 @@ import UpcomingContests from '../components/UpcomingContests.astro';
 import Layout from '../layouts/Layout.astro';
 import { loadContestData } from '../utils/contest-data';
 import { formatDate, withBase } from '../utils/site';
+import { getActiveContentStatus } from '../utils/content-status';
 
 const [codeforcesData, upcomingContests] = await loadContestData();
 const experiences = (await getCollection('experiences', ({ data }) => !data.draft))
@@ -34,8 +35,9 @@ const algorithmExperiences = experiences.filter((entry) => entry.data.type === '
     countLabel="条记录"
   >
       <div class="timeline">
-        {algorithmExperiences.map((entry) => (
-          <details class="timeline-entry">
+        {algorithmExperiences.map((entry) => {
+          const activeStatus = getActiveContentStatus(entry.data.status);
+          return <details class="timeline-entry">
             <summary class="timeline-item">
               <div class="timeline-meta">
                 <div>{formatDate(entry.data.date)}</div>
@@ -43,8 +45,8 @@ const algorithmExperiences = experiences.filter((entry) => entry.data.type === '
                 <div>{entry.data.platform}</div>
               </div>
               <div>
-                <span class="eyebrow">{entry.data.status}</span>
-                <h2>{entry.data.title}</h2>
+                {activeStatus && <span class="content-status">{activeStatus}</span>}
+                <h3>{entry.data.title}</h3>
               </div>
               <span class="timeline-fold-label">
                 <span class="when-closed">展开复盘</span>
@@ -58,8 +60,8 @@ const algorithmExperiences = experiences.filter((entry) => entry.data.type === '
               </div>
               <a class="text-link" href={withBase(`/contests/${entry.id}/`)}>阅读完整复盘 ↗</a>
             </div>
-          </details>
-        ))}
+          </details>;
+        })}
       </div>
   </CollapsibleContestSection>
 
@@ -72,7 +74,7 @@ const algorithmExperiences = experiences.filter((entry) => entry.data.type === '
   .timeline-item { position: relative; display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 40px; padding: 34px 130px 34px 0; cursor: pointer; list-style: none; }
   .timeline-item::-webkit-details-marker { display: none; }
   .timeline-meta { color: var(--muted); font: .8rem/1.8 'DM Mono', monospace; }
-  .timeline-item h2 { margin: 0 0 10px; font-size: clamp(1.35rem, 3vw, 2rem); }
+  .timeline-item h3 { margin: 0 0 10px; font-size: clamp(1.35rem, 3vw, 2rem); }
   .timeline-fold-label { position: absolute; right: 0; bottom: 36px; color: var(--muted); font: .64rem 'DM Mono', monospace; }
   .timeline-fold-label .when-open { display: none; }
   .timeline-entry[open] .when-open { display: inline; }

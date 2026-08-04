@@ -27,13 +27,43 @@ jobs:
           path: source
           persist-credentials: false
 
+      - name: Check whether the data branch exists
+        id: data_branch
+        shell: bash
+        run: |
+          if git ls-remote --exit-code --heads "https://github.com/${GITHUB_REPOSITORY}.git" data > /dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::The data branch will be created from the bundled snapshot."
+          fi
+
       # data 是独立的数据分支；这里只更新其中的 JSON 文件。
       - name: Checkout data branch
+        if: steps.data_branch.outputs.exists == 'true'
         uses: actions/checkout@v7
         with:
           ref: data
           path: data
+          fetch-depth: 0
+
+      - name: Checkout main for data branch bootstrap
+        if: steps.data_branch.outputs.exists == 'false'
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          path: data
           fetch-depth: 1
+
+      - name: Initialize missing data branch
+        if: steps.data_branch.outputs.exists == 'false'
+        working-directory: data
+        shell: bash
+        run: |
+          git checkout --orphan data
+          git rm -rf .
+          mkdir -p public/assets/data
+          cp ../source/public/assets/data/*.json public/assets/data/
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -66,7 +96,12 @@ jobs:
           fi
 
           git commit -m "data: update Codeforces snapshot"
-          git push origin HEAD:data
+          if ! git push origin HEAD:data; then
+            echo "The data branch moved during this run; rebasing once before retrying."
+            git fetch origin data
+            git rebase origin/data
+            git push origin HEAD:data
+          fi
 
   # GITHUB_TOKEN 推送不会再次触发 push 工作流，因此显式调用部署。
   deploy:

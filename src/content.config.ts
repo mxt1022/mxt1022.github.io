@@ -34,6 +34,7 @@ const notes = defineCollection({
   schema: commonSchema.extend({
     category: z.enum(['算法', '人工智能', '计算机基础', '工具与实践', 'Agent', 'DataWhale','LLM','具身智能','AMD','Codeforces']),
     series: z.string().default('独立笔记'),
+    status: z.enum(['编写中', '持续记录', '已完成']).default('已完成'),
     relatedExperience: z.string().optional(),
   }),
 });

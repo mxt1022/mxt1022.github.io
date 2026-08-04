@@ -42,6 +42,9 @@ const projectBreadcrumbs = createBreadcrumbSchema([
   title={project.data.title}
   description={project.data.description}
   structuredData={[projectSchema, projectBreadcrumbs]}
+  ogType="article"
+  publishedTime={project.data.date}
+  modifiedTime={project.data.updated ?? project.data.date}
 >
   <header class="article-header project-header">
     <div class="shell">

@@ -5,6 +5,7 @@ import PostCard from '../../components/PostCard.astro';
 import { siteImages } from '../../utils/images';
 import { formatDate, withBase } from '../../utils/site';
 import { absoluteSiteUrl, createBreadcrumbSchema } from '../../utils/structured-data';
+import { getActiveContentStatus } from '../../utils/content-status';
 
 export async function getStaticPaths() {
   const notes = await getCollection('notes', ({ data }) => !data.draft);
@@ -17,6 +18,7 @@ const { Content, headings } = await render(note);
 const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
 const contentLength = (note.body ?? '').replace(/\s+/g, '').length;
 const readingMinutes = Math.max(1, Math.ceil(contentLength / 450));
+const activeStatus = getActiveContentStatus(note.data.status);
 const allNotes = await getCollection('notes', ({ data }) => !data.draft);
 const related = allNotes
   .filter((entry) => entry.id !== note.id)
@@ -60,12 +62,16 @@ const noteBreadcrumbs = createBreadcrumbSchema([
   title={note.data.title}
   description={note.data.description}
   structuredData={[noteSchema, noteBreadcrumbs]}
+  ogType="article"
+  publishedTime={note.data.date}
+  modifiedTime={note.data.updated ?? note.data.date}
 >
   <div class="reading-progress" aria-hidden="true"><i id="reading-progress-bar"></i></div>
   <header class="article-header">
     <div class="narrow">
       <a class="back-link" href={withBase('/notes/')}>← 返回学习记录</a>
       <span class="eyebrow">{note.data.category} / {note.data.series}</span>
+      {activeStatus && <span class="content-status article-status">{activeStatus}</span>}
       <h1>{note.data.title}</h1>
       <p>{note.data.description}</p>
       <div class="article-meta">
@@ -116,6 +122,7 @@ const noteBreadcrumbs = createBreadcrumbSchema([
               tags={entry.data.tags}
               label={entry.data.series}
               href={`/notes/${entry.id}/`}
+              status={entry.data.status}
             />
           ))}
         </div>

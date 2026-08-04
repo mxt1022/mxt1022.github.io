@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import CollapsibleContestSection from './CollapsibleContestSection.astro';
 import CompetitionProgress from './CompetitionProgress.astro';
 import { formatDate, withBase } from '../utils/site';
+import { getActiveContentStatus } from '../utils/content-status';
 
 interface Props {
   experiences: CollectionEntry<'experiences'>[];
@@ -49,6 +50,7 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
           ? (progress.goal === 'lower' ? Math.min(...scores) : Math.max(...scores))
           : null;
         const latestScore = submissions.at(-1)?.score ?? null;
+        const activeStatus = getActiveContentStatus(entry.data.status);
         const formatScore = (score: number | null) =>
           score === null || !progress ? '—' : `${score.toFixed(progress.precision)}${progress.scoreSuffix}`;
 
@@ -62,11 +64,11 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
               <div class="timeline-meta">
                 <div>{formatDate(entry.data.date)}</div>
                 <div>{entry.data.platform}</div>
-                <div>{entry.data.status}</div>
+                {activeStatus && <span class="content-status">{activeStatus}</span>}
               </div>
               <div class="ai-experience-copy">
                 <span class="eyebrow">{progress ? 'SUBMISSION TRACKED' : 'PRACTICE LOG'}</span>
-                <h2><a href={withBase(`/contests/${entry.id}/`)}>{entry.data.title}</a></h2>
+                <h3><a href={withBase(`/contests/${entry.id}/`)}>{entry.data.title}</a></h3>
                 <p>{entry.data.description}</p>
                 <div class="tag-list">{entry.data.tags.map((tag: string) => <span class="tag">#{tag}</span>)}</div>
               </div>
@@ -147,9 +149,9 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
   .ai-experience-intro { position: relative; display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(250px, .52fr); gap: clamp(24px, 4vw, 54px); align-items: start; padding: clamp(26px, 4vw, 42px); cursor: pointer; list-style: none; }
   .ai-experience-intro::-webkit-details-marker { display: none; }
   .ai-experience-copy { min-width: 0; }
-  .ai-experience-intro h2 { margin: 12px 0 14px; font-size: clamp(1.45rem, 3vw, 2rem); }
-  .ai-experience-intro h2 a { text-decoration: none; }
-  .ai-experience-intro h2 a:hover { color: var(--accent); }
+  .ai-experience-intro h3 { margin: 12px 0 14px; font-size: clamp(1.45rem, 3vw, 2rem); }
+  .ai-experience-intro h3 a { text-decoration: none; }
+  .ai-experience-intro h3 a:hover { color: var(--accent); }
   .ai-experience-intro p { margin: 0; color: var(--muted); }
   .ai-summary-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-self: center; margin: 0; }
   .ai-summary-metrics div { min-width: 0; padding: 8px 12px; border-left: 1px solid var(--line); }

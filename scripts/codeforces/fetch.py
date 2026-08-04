@@ -64,15 +64,29 @@ def difficulty_label(rating):
     return "2000+"
 
 
+def fetch_all_submissions(handle):
+    submissions = []
+    page_size = 10000
+    offset = 1
+
+    while True:
+        page = codeforces_request(
+            "user.status", {"handle": handle, "from": offset, "count": page_size}
+        )
+        submissions.extend(page)
+        if len(page) < page_size:
+            return submissions
+        offset += len(page)
+        time.sleep(2.1)
+
+
 def fetch_codeforces_activity(handle):
     try:
         profile = codeforces_request("user.info", {"handles": handle})[0]
         time.sleep(2.1)
         rating_history = codeforces_request("user.rating", {"handle": handle})
         time.sleep(2.1)
-        submissions = codeforces_request(
-            "user.status", {"handle": handle, "from": 1, "count": 10000}
-        )
+        submissions = fetch_all_submissions(handle)
 
         accepted = [item for item in submissions if item.get("verdict") == "OK"]
         solved = {}

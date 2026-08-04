@@ -3,6 +3,7 @@ title: 机器学习：从任务定义到模型评估
 description: 用一条完整工作流串起监督学习、无监督学习、特征工程与评估指标。
 date: 2024-01-15
 updated: 2026-07-17
+status: 持续记录
 category: 人工智能
 series: AI 学习路线
 tags: [机器学习, 特征工程, 模型评估]

@@ -5,6 +5,7 @@ import Layout from '../layouts/Layout.astro';
 import { siteImages } from '../utils/images';
 import { formatDate, withBase } from '../utils/site';
 import { absoluteSiteUrl } from '../utils/structured-data';
+import { getActiveContentStatus } from '../utils/content-status';
 
 const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const experiences = (await getCollection('experiences', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -188,6 +189,7 @@ const personSchema = {
                 <span class="personal-output-index">N{String(index + 1).padStart(2, '0')}</span>
                 <div>
                   <span class="eyebrow">{entry.data.category} · 学习笔记</span>
+                  {getActiveContentStatus(entry.data.status) && <span class="content-status">{getActiveContentStatus(entry.data.status)}</span>}
                   <h3><a href={withBase(`/notes/${entry.id}/`)}>{entry.data.title}</a></h3>
                   <p>{entry.data.description}</p>
                 </div>
@@ -207,6 +209,7 @@ const personSchema = {
                 <span class="personal-output-index">C{String(index + 1).padStart(2, '0')}</span>
                 <div>
                   <span class="eyebrow">{entry.data.type} · 结果记录</span>
+                  {getActiveContentStatus(entry.data.status) && <span class="content-status">{getActiveContentStatus(entry.data.status)}</span>}
                   <h3><a href={withBase(`/contests/${entry.id}/`)}>{entry.data.title}</a></h3>
                   <p>{entry.data.description}</p>
                 </div>

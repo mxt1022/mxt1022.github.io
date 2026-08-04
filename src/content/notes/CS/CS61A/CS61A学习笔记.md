@@ -3,6 +3,7 @@ title: CS61A 学习笔记：抽象、函数与递归
 description: 从高阶函数、递归与数据抽象出发，重新理解程序是如何组合起来的。
 date: 2024-03-10
 updated: 2026-07-17
+status: 持续记录
 category: 计算机基础
 series: CS61A
 tags: [CS61A, Python, 函数式编程]

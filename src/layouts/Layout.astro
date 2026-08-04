@@ -2,6 +2,8 @@
 import '../styles/fonts.css';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
+import manropeFont from '../assets/fonts/manrope-latin.woff2?url';
+import signatureFont from '../assets/fonts/homemade-apple-400.woff2?url';
 import { siteImages } from '../utils/images';
 import { siteMeta, withBase } from '../utils/site';
 
@@ -10,6 +12,9 @@ interface Props {
   description?: string;
   image?: string;
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  ogType?: 'website' | 'article';
+  publishedTime?: Date;
+  modifiedTime?: Date;
 }
 
 const {
@@ -17,6 +22,9 @@ const {
   description = siteMeta.description,
   image = siteImages.og,
   structuredData = [],
+  ogType = 'website',
+  publishedTime,
+  modifiedTime,
 } = Astro.props;
 const usesDefaultOgImage = image === siteImages.og;
 const pageTitle = title === siteMeta.title ? title : `${title} · ${siteMeta.title}`;
@@ -68,11 +76,14 @@ const pageTransition = {
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0b0d0e" />
+    <link rel="preload" href={manropeFont} as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href={signatureFont} as="font" type="font/woff2" crossorigin="anonymous" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/png" sizes="64x64" href={siteImages.logo.favicon} />
     <link rel="alternate" type="application/rss+xml" title={siteMeta.title} href={withBase('/rss.xml')} />
     <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={siteMeta.title} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -81,6 +92,9 @@ const pageTransition = {
     {usesDefaultOgImage && <meta property="og:image:type" content="image/jpeg" />}
     {usesDefaultOgImage && <meta property="og:image:width" content="1200" />}
     {usesDefaultOgImage && <meta property="og:image:height" content="630" />}
+    {ogType === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+    {ogType === 'article' && modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+    {ogType === 'article' && <meta property="article:author" content={siteMeta.author} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
@@ -92,7 +106,14 @@ const pageTransition = {
     <title>{pageTitle}</title>
     <ClientRouter fallback="animate" />
     <script is:inline>
-      document.documentElement.dataset.theme = localStorage.getItem('theme') || 'dark';
+      (() => {
+        let theme = 'dark';
+        try {
+          theme = localStorage.getItem('theme') || 'dark';
+        } catch {}
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#f3f2ec' : '#0b0d0e');
+      })();
     </script>
   </head>
   <body>
@@ -185,12 +206,21 @@ const pageTransition = {
         button?.addEventListener('click', () => {
           const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
           document.documentElement.dataset.theme = next;
-          localStorage.setItem('theme', next);
+          document.querySelector('meta[name="theme-color"]')?.setAttribute('content', next === 'light' ? '#f3f2ec' : '#0b0d0e');
+          try {
+            localStorage.setItem('theme', next);
+          } catch {}
         });
       };
 
       document.addEventListener('astro:before-swap', (event) => {
-        event.newDocument.documentElement.dataset.theme = document.documentElement.dataset.theme || localStorage.getItem('theme') || 'dark';
+        let storedTheme = 'dark';
+        try {
+          storedTheme = localStorage.getItem('theme') || 'dark';
+        } catch {}
+        const theme = document.documentElement.dataset.theme || storedTheme;
+        event.newDocument.documentElement.dataset.theme = theme;
+        event.newDocument.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#f3f2ec' : '#0b0d0e');
       });
       document.addEventListener('astro:page-load', setupThemeToggle);
       document.addEventListener('astro:page-load', setupCodeCopyButtons);

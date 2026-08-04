@@ -11,6 +11,7 @@ export async function GET() {
       note.data.description,
       note.data.category,
       note.data.series,
+      note.data.status,
       ...note.data.tags,
       note.body,
     ].join(' ').toLocaleLowerCase('zh-CN'),
@@ -19,7 +20,7 @@ export async function GET() {
   return new Response(JSON.stringify(index), {
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'public, max-age=0, must-revalidate',
+      'Cache-Control': 'public, max-age=31536000, immutable',
     },
   });
 }

@@ -5,6 +5,7 @@ import Layout from '../../layouts/Layout.astro';
 import { siteImages } from '../../utils/images';
 import { formatDate, withBase } from '../../utils/site';
 import { absoluteSiteUrl, createBreadcrumbSchema } from '../../utils/structured-data';
+import { getActiveContentStatus } from '../../utils/content-status';
 
 export async function getStaticPaths() {
   const entries = await getCollection('experiences', ({ data }) => !data.draft);
@@ -14,6 +15,7 @@ export async function getStaticPaths() {
 interface Props { entry: CollectionEntry<'experiences'>; }
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const activeStatus = getActiveContentStatus(entry.data.status);
 const relatedNotes = (await getCollection('notes', ({ data }) => !data.draft))
   .filter((note) => note.data.relatedExperience === entry.id);
 const entryPath = `/contests/${entry.id}/`;
@@ -45,6 +47,9 @@ const contestBreadcrumbs = createBreadcrumbSchema([
   title={entry.data.title}
   description={entry.data.description}
   structuredData={[contestSchema, contestBreadcrumbs]}
+  ogType="article"
+  publishedTime={entry.data.date}
+  modifiedTime={entry.data.updated ?? entry.data.date}
 >
   <header class="article-header">
     <div class="narrow">
@@ -52,7 +57,7 @@ const contestBreadcrumbs = createBreadcrumbSchema([
       <span class="eyebrow">{entry.data.type} / {entry.data.platform}</span>
       <h1>{entry.data.title}</h1>
       <p>{entry.data.description}</p>
-      <div class="article-meta"><time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time><span>{entry.data.status}</span><span>{entry.data.tags.map((tag: string) => `#${tag}`).join(' · ')}</span></div>
+      <div class="article-meta"><time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time>{activeStatus && <span class="content-status">{activeStatus}</span>}<span>{entry.data.tags.map((tag: string) => `#${tag}`).join(' · ')}</span></div>
     </div>
   </header>
   {relatedNotes.length > 0 && (

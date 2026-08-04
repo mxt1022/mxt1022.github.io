@@ -3,6 +3,7 @@ title: 深度学习学习路线：从张量到完整项目
 description: 一条以动手实践为主线的深度学习路线，覆盖基础、模型、训练与项目复盘。
 date: 2024-02-20
 updated: 2026-07-17
+status: 持续记录
 category: 人工智能
 series: AI 学习路线
 tags: [深度学习, PyTorch, 学习路线]

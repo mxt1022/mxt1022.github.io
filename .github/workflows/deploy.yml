@@ -30,7 +30,19 @@ jobs:
         with:
           ref: main
 
+      - name: Check whether the data branch exists
+        id: data_branch
+        shell: bash
+        run: |
+          if git ls-remote --exit-code --heads origin data > /dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::The data branch does not exist; using the snapshot bundled with main."
+          fi
+
       - name: Checkout latest data snapshot
+        if: steps.data_branch.outputs.exists == 'true'
         uses: actions/checkout@v7
         with:
           ref: data
@@ -38,6 +50,7 @@ jobs:
           fetch-depth: 1
 
       - name: Overlay generated data
+        if: steps.data_branch.outputs.exists == 'true'
         shell: bash
         run: |
           mkdir -p public/assets/data
@@ -45,8 +58,6 @@ jobs:
           if compgen -G "temp_data/public/assets/data/*.json" > /dev/null; then
             rm -f public/assets/data/*.json
             cp temp_data/public/assets/data/*.json public/assets/data/
-          else
-            echo "::warning::The data branch has not been populated yet; using the snapshot bundled with main."
           fi
 
           rm -rf temp_data

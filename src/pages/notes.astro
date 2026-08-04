@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { createHash } from 'node:crypto';
 import Layout from '../layouts/Layout.astro';
 import PostCard from '../components/PostCard.astro';
 import { withBase } from '../utils/site';
@@ -8,7 +9,11 @@ const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort((a,
 const categories = ['全部', ...new Set(notes.map((note) => note.data.category))];
 const series = ['全部系列', ...new Set(notes.map((note) => note.data.series))];
 const tags = ['全部标签', ...new Set(notes.flatMap((note) => note.data.tags))].sort((a, b) => a === '全部标签' ? -1 : b === '全部标签' ? 1 : a.localeCompare(b, 'zh-CN'));
-const searchIndexUrl = withBase('/search-index.json');
+const searchIndexVersion = createHash('sha256')
+  .update(notes.map((note) => `${note.id}:${(note.data.updated ?? note.data.date).toISOString()}:${note.body}`).join('|'))
+  .digest('hex')
+  .slice(0, 12);
+const searchIndexUrl = `${withBase('/search-index.json')}?v=${searchIndexVersion}`;
 ---
 
 <Layout title="学习记录" description="可搜索、按系列与标签组织的算法、人工智能和计算机基础学习笔记。">
@@ -56,6 +61,7 @@ const searchIndexUrl = withBase('/search-index.json');
             note.data.description,
             note.data.category,
             note.data.series,
+            note.data.status,
             note.data.relatedExperience ? '方法笔记' : '学习记录',
             ...note.data.tags,
           ].join(' ').toLocaleLowerCase('zh-CN');
@@ -85,6 +91,7 @@ const searchIndexUrl = withBase('/search-index.json');
                 label={`${note.data.category} · ${note.data.relatedExperience ? '方法笔记' : '学习记录'}`}
                 href={`/notes/${note.id}/`}
                 featured={note.data.featured}
+                status={note.data.status}
               />
             </div>
           );
@@ -105,7 +112,7 @@ const searchIndexUrl = withBase('/search-index.json');
 
     const loadNotesSearchIndex = (source: string) => {
       if (!notesSearchIndexPromise) {
-        notesSearchIndexPromise = fetch(source, { cache: 'no-cache' })
+        notesSearchIndexPromise = fetch(source, { cache: 'force-cache' })
           .then((response) => response.ok ? response.json() : Promise.reject(new Error('搜索索引读取失败')))
           .then((items: SearchIndexItem[]) => new Map(items.map((item) => [item.id, item.text])))
           .catch(() => new Map<string, string>());
