@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import CollapsibleContestSection from './CollapsibleContestSection.astro';
 import CompetitionProgress from './CompetitionProgress.astro';
 import { formatDate, withBase } from '../utils/site';
 
@@ -16,12 +17,14 @@ const submissionCount = trackedExperiences.reduce(
 const platformCount = new Set(experiences.map((entry) => entry.data.platform)).size;
 ---
 
-<section class="section">
-  <div class="shell">
-    <div class="section-heading">
-      <div><span class="eyebrow">02 / AI COMPETITIONS</span><h2>AI 竞赛经历</h2></div>
-      <p>每场比赛集中展示任务介绍、实践状态和提交时间轴；按时间保留改进策略、分数变化与实验结论。</p>
-    </div>
+<CollapsibleContestSection
+  id="ai-competitions"
+  eyebrow="02 / AI COMPETITIONS"
+  title="AI 竞赛经历"
+  description="每场比赛集中展示任务介绍、实践状态和提交时间轴；按时间保留改进策略、分数变化与实验结论。"
+  count={experiences.length}
+  countLabel="场竞赛"
+>
     <dl class="ai-overview" aria-label="AI 竞赛统计">
       <div><dt>{experiences.length}</dt><dd>AI 竞赛与实践</dd></div>
       <div><dt>{trackedExperiences.length}</dt><dd>包含提交时间轴</dd></div>
@@ -34,10 +37,6 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
       <button type="button" data-ai-filter="practice">实践记录</button>
       <button type="button" data-ai-filter="demo">示例数据</button>
       <span id="ai-filter-count">{experiences.length} 条记录</span>
-      <div class="ai-fold-actions" aria-label="批量折叠操作">
-        <button type="button" data-ai-action="expand">全部展开</button>
-        <button type="button" data-ai-action="collapse">全部折叠</button>
-      </div>
     </div>
     <div class="ai-experience-list">
       {experiences.map((entry) => {
@@ -103,13 +102,11 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
       })}
       <p id="ai-filter-empty" class="empty-state" hidden>当前筛选下没有对应的 AI 竞赛记录。</p>
     </div>
-  </div>
-</section>
+</CollapsibleContestSection>
 
 <script>
   const setupAiCompetitionFilters = () => {
     const buttons = [...document.querySelectorAll<HTMLButtonElement>('[data-ai-filter]')];
-    const actionButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-ai-action]')];
     const entries = [...document.querySelectorAll<HTMLDetailsElement>('.ai-experience[data-ai-kind]')];
     const count = document.querySelector<HTMLElement>('#ai-filter-count');
     const empty = document.querySelector<HTMLElement>('#ai-filter-empty');
@@ -129,22 +126,13 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
         if (empty) empty.hidden = visible > 0;
       };
     });
-
-    actionButtons.forEach((button) => {
-      button.onclick = () => {
-        const shouldOpen = button.dataset.aiAction === 'expand';
-        entries.filter((entry) => !entry.hidden).forEach((entry) => {
-          entry.open = shouldOpen;
-        });
-      };
-    });
   };
 
   document.addEventListener('astro:page-load', setupAiCompetitionFilters);
 </script>
 
 <style>
-  .ai-experience-list { display: grid; gap: clamp(34px, 6vw, 58px); }
+  .ai-experience-list { display: grid; gap: clamp(18px, 3vw, 28px); }
   .ai-overview { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 0 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
   .ai-overview div { padding: 20px; border-right: 1px solid var(--line); }
   .ai-overview div:last-child { border-right: 0; }
@@ -154,8 +142,6 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
   .ai-filter-bar button { padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--muted); font: .68rem 'DM Mono', monospace; cursor: pointer; }
   .ai-filter-bar button:hover, .ai-filter-bar button:focus-visible, .ai-filter-bar button.active { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface)); color: var(--text); outline: none; }
   .ai-filter-bar > span { margin-left: auto; color: var(--muted); font: .68rem 'DM Mono', monospace; }
-  .ai-fold-actions { display: flex; gap: 6px; padding-left: 8px; border-left: 1px solid var(--line); }
-  .ai-fold-actions button { border-style: dashed; }
   .ai-experience { display: block; width: 100%; min-width: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
   .ai-experience[hidden] { display: none; }
   .ai-experience-intro { position: relative; display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(250px, .52fr); gap: clamp(24px, 4vw, 54px); align-items: start; padding: clamp(26px, 4vw, 42px); cursor: pointer; list-style: none; }
@@ -190,7 +176,6 @@ const platformCount = new Set(experiences.map((entry) => entry.data.platform)).s
     .ai-overview div:nth-child(2) { border-right: 0; }
     .ai-overview div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
     .ai-filter-bar > span { width: 100%; margin-left: 0; }
-    .ai-fold-actions { width: 100%; padding: 8px 0 0; border: 0; }
     .ai-summary-metrics { margin: 6px 0 18px; }
     .ai-practice-note { align-items: flex-start; flex-direction: column; }
   }

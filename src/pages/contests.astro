@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import AiCompetitionList from '../components/AiCompetitionList.astro';
 import CodeforcesDashboard from '../components/CodeforcesDashboard.astro';
+import CollapsibleContestSection from '../components/CollapsibleContestSection.astro';
 import UpcomingContests from '../components/UpcomingContests.astro';
 import Layout from '../layouts/Layout.astro';
 import { loadContestData } from '../utils/contest-data';
@@ -24,17 +25,14 @@ const algorithmExperiences = experiences.filter((entry) => entry.data.type === '
   <CodeforcesDashboard data={codeforcesData} />
   <AiCompetitionList experiences={aiExperiences} />
 
-  <section class="section">
-    <div class="shell">
-      <div class="section-heading">
-        <div><span class="eyebrow">03 / ALGORITHM COMPETITIONS</span><h2>算法竞赛经历</h2></div>
-        <p>集中记录 Codeforces、LeetCode 等算法训练、赛后补题与题型归纳，不与 AI 实验提交时间轴混排。</p>
-      </div>
-      <div class="contest-fold-toolbar" aria-label="算法竞赛折叠操作">
-        <span>点击记录可查看复盘摘要</span>
-        <button type="button" data-algorithm-action="expand">全部展开</button>
-        <button type="button" data-algorithm-action="collapse">全部折叠</button>
-      </div>
+  <CollapsibleContestSection
+    id="algorithm-competitions"
+    eyebrow="03 / ALGORITHM COMPETITIONS"
+    title="算法竞赛经历"
+    description="集中记录 Codeforces、LeetCode 等算法训练、赛后补题与题型归纳，不与 AI 实验提交时间轴混排。"
+    count={algorithmExperiences.length}
+    countLabel="条记录"
+  >
       <div class="timeline">
         {algorithmExperiences.map((entry) => (
           <details class="timeline-entry">
@@ -63,34 +61,13 @@ const algorithmExperiences = experiences.filter((entry) => entry.data.type === '
           </details>
         ))}
       </div>
-    </div>
-  </section>
+  </CollapsibleContestSection>
 
   <UpcomingContests contests={upcomingContests} />
-
-  <script>
-    const setupAlgorithmFolds = () => {
-      const entries = [...document.querySelectorAll<HTMLDetailsElement>('.timeline-entry')];
-      document.querySelectorAll<HTMLButtonElement>('[data-algorithm-action]').forEach((button) => {
-        button.onclick = () => {
-          const shouldOpen = button.dataset.algorithmAction === 'expand';
-          entries.forEach((entry) => {
-            entry.open = shouldOpen;
-          });
-        };
-      });
-    };
-
-    document.addEventListener('astro:page-load', setupAlgorithmFolds);
-  </script>
 </Layout>
 
 <style>
   .timeline { border-top: 1px solid var(--line); }
-  .contest-fold-toolbar { display: flex; justify-content: flex-end; gap: 8px; align-items: center; margin: -22px 0 18px; }
-  .contest-fold-toolbar span { margin-right: auto; color: var(--muted); font: .68rem 'DM Mono', monospace; }
-  .contest-fold-toolbar button { padding: 7px 11px; border: 1px dashed var(--line); border-radius: 999px; background: transparent; color: var(--muted); font: .66rem 'DM Mono', monospace; cursor: pointer; }
-  .contest-fold-toolbar button:hover, .contest-fold-toolbar button:focus-visible { border-color: var(--accent); color: var(--text); outline: none; }
   .timeline-entry { border-bottom: 1px solid var(--line); }
   .timeline-item { position: relative; display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 40px; padding: 34px 130px 34px 0; cursor: pointer; list-style: none; }
   .timeline-item::-webkit-details-marker { display: none; }
@@ -106,8 +83,6 @@ const algorithmExperiences = experiences.filter((entry) => entry.data.type === '
   .timeline-detail .text-link { display: inline-flex; margin-top: 18px; }
 
   @media (max-width: 560px) {
-    .contest-fold-toolbar { flex-wrap: wrap; justify-content: flex-start; margin-top: -18px; }
-    .contest-fold-toolbar span { width: 100%; }
     .timeline-item { grid-template-columns: 1fr; gap: 10px; padding-right: 0; padding-bottom: 58px; }
     .timeline-fold-label { right: auto; bottom: 28px; left: 0; }
     .timeline-detail { margin-left: 0; }
