@@ -12,6 +12,9 @@ const commonSchema = z.object({
   featured: z.boolean().default(false),
 });
 
+const noteStatusSchema = z.enum(['编写中', '持续记录', '已完成']).default('已完成');
+const experienceStatusSchema = z.string().trim().min(1).default('已完成');
+
 const competitionProgressSchema = z.object({
   label: z.string().default('提交时间轴'),
   metric: z.string().default('Score'),
@@ -34,7 +37,7 @@ const notes = defineCollection({
   schema: commonSchema.extend({
     category: z.enum(['算法', '人工智能', '计算机基础', '工具与实践', 'Agent', 'DataWhale','LLM','具身智能','AMD','Codeforces']),
     series: z.string().default('独立笔记'),
-    status: z.enum(['编写中', '持续记录', '已完成']).default('已完成'),
+    status: noteStatusSchema,
     relatedExperience: z.string().optional(),
   }),
 });
@@ -44,7 +47,7 @@ const experiences = defineCollection({
   schema: commonSchema.extend({
     type: z.enum(['算法竞赛', 'AI 竞赛']),
     platform: z.string(),
-    status: z.enum(['编写中', '持续记录', '已完成']).default('已完成'),
+    status: experienceStatusSchema,
     progress: competitionProgressSchema.optional(),
   }),
 });

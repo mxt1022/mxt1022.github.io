@@ -5,14 +5,14 @@ date: 2026-07-16
 updated: 2026-07-19
 type: AI 竞赛
 platform: 科大讯飞 AI 开发者大赛
-status: 初赛实践
+status: 已完成
 tags: [Datawhale, 科大讯飞, LIBS, 回归]
 progress:
   label: SUBMISSION TIMELINE
   metric: RMSE
   precision: 5
   goal: lower
-  accent: "#2775a9"
+  accent: "#9064e6"
   submissions:
     - time: 2026-07-16T12:25:26+08:00
       title: 第一次提交

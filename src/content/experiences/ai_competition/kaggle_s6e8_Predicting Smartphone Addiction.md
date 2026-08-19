@@ -5,7 +5,7 @@ date: 2026-08-01
 updated: 2026-08-19
 type: AI 竞赛
 platform: Kaggle
-status: 入门学习
+status: 持续记录
 tags: [Kaggle, 分类, 预测]
 featured: true
 progress:

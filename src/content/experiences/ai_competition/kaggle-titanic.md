@@ -5,7 +5,7 @@ date: 2023-07-09
 updated: 2026-07-17
 type: AI 竞赛
 platform: Kaggle
-status: 实践复盘
+status: 已完成
 tags: [Kaggle, 特征工程, 分类]
 featured: true
 progress:
