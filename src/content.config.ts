@@ -44,7 +44,7 @@ const experiences = defineCollection({
   schema: commonSchema.extend({
     type: z.enum(['算法竞赛', 'AI 竞赛']),
     platform: z.string(),
-    status: z.string(),
+    status: z.enum(['编写中', '持续记录', '已完成']).default('已完成'),
     progress: competitionProgressSchema.optional(),
   }),
 });
@@ -52,7 +52,7 @@ const experiences = defineCollection({
 const projects = defineCollection({
   loader: glob({ base: './src/content/projects', pattern: '**/*.md' }),
   schema: commonSchema.extend({
-    status: z.enum(['持续迭代', '进行中', '实验项目', '已完成']),
+    status: z.enum(['持续迭代', '进行中', '实验项目', '已完成']).default('进行中'),
     role: z.string(),
     stack: z.array(z.string()).default([]),
     highlights: z.array(z.string()).default([]),
