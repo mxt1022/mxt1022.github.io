@@ -1,6 +1,6 @@
 [
   {
-    "name": "Codeforces Round (Div. 2)",
+    "name": "Codeforces Round 1118 (Div. 2)",
     "platform": "Codeforces",
     "start_time": "2026-08-29T14:35:00+00:00",
     "duration": "2h",
@@ -12,5 +12,12 @@
     "start_time": "2026-09-05T14:35:00+00:00",
     "duration": "2h",
     "url": "https://codeforces.com/contests/2259"
+  },
+  {
+    "name": "Educational Codeforces Round 194 (Rated for Div. 2)",
+    "platform": "Codeforces",
+    "start_time": "2026-09-08T14:35:00+00:00",
+    "duration": "2h",
+    "url": "https://codeforces.com/contests/2260"
   }
 ]
