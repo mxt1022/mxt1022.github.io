@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-27T10:02:38.776089+00:00",
+  "updated_at": "2026-08-28T11:34:02.470690+00:00",
   "profile": {
     "handle": "InsaneArrogant",
     "rank": "newbie",
@@ -7,15 +7,15 @@
     "max_rank": "newbie",
     "max_rating": 863,
     "organization": "Jiangly Fan Club",
-    "last_online": "2026-08-19T07:14:50+00:00",
+    "last_online": "2026-08-28T03:21:51+00:00",
     "profile_url": "https://codeforces.com/profile/InsaneArrogant"
   },
   "stats": {
-    "solved_count": 232,
-    "accepted_submissions": 263,
-    "submissions_scanned": 526,
+    "solved_count": 234,
+    "accepted_submissions": 265,
+    "submissions_scanned": 529,
     "rated_contests": 22,
-    "active_days": 127
+    "active_days": 128
   },
   "top_tags": [
     {
@@ -24,31 +24,31 @@
     },
     {
       "name": "greedy",
-      "count": 62
+      "count": 64
     },
     {
       "name": "math",
-      "count": 61
+      "count": 62
     },
     {
       "name": "brute force",
       "count": 46
     },
     {
+      "name": "sortings",
+      "count": 35
+    },
+    {
       "name": "strings",
       "count": 35
     },
     {
-      "name": "sortings",
-      "count": 34
-    },
-    {
       "name": "constructive algorithms",
-      "count": 25
+      "count": 26
     },
     {
       "name": "dp",
-      "count": 10
+      "count": 11
     }
   ],
   "difficulty": [
@@ -58,11 +58,11 @@
     },
     {
       "label": "1000–1199",
-      "count": 59
+      "count": 60
     },
     {
       "label": "1200–1399",
-      "count": 25
+      "count": 26
     },
     {
       "label": "1400–1599",
@@ -305,6 +305,39 @@
   ],
   "recent_accepted": [
     {
+      "name": "BerSU Ball",
+      "contest_id": 489,
+      "index": "B",
+      "rating": 1200,
+      "tags": [
+        "dfs and similar",
+        "dp",
+        "graph matchings",
+        "greedy",
+        "sortings",
+        "two pointers"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2026-08-28T08:59:17+00:00",
+      "url": "https://codeforces.com/contest/489/problem/B"
+    },
+    {
+      "name": "Division by Two and Permutation",
+      "contest_id": 1624,
+      "index": "C",
+      "rating": 1100,
+      "tags": [
+        "constructive algorithms",
+        "flows",
+        "graph matchings",
+        "greedy",
+        "math"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2026-08-28T08:32:23+00:00",
+      "url": "https://codeforces.com/contest/1624/problem/C"
+    },
+    {
       "name": "Nikita and Books",
       "contest_id": 2244,
       "index": "B",
@@ -413,39 +446,6 @@
       "language": "C++14 (GCC 6-32)",
       "submitted_at": "2024-04-20T03:43:02+00:00",
       "url": "https://codeforces.com/contest/1473/problem/B"
-    },
-    {
-      "name": "Computer Game",
-      "contest_id": 1598,
-      "index": "A",
-      "rating": 800,
-      "tags": [
-        "brute force",
-        "dfs and similar",
-        "dp",
-        "implementation"
-      ],
-      "language": "C++14 (GCC 6-32)",
-      "submitted_at": "2024-04-19T08:52:48+00:00",
-      "url": "https://codeforces.com/contest/1598/problem/A"
-    },
-    {
-      "name": "Gregor and the Pawn Game",
-      "contest_id": 1549,
-      "index": "B",
-      "rating": 800,
-      "tags": [
-        "dfs and similar",
-        "dp",
-        "flows",
-        "graph matchings",
-        "graphs",
-        "greedy",
-        "implementation"
-      ],
-      "language": "C++14 (GCC 6-32)",
-      "submitted_at": "2024-04-19T08:34:28+00:00",
-      "url": "https://codeforces.com/contest/1549/problem/B"
     }
   ]
 }
