@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-30T05:34:25.756096+00:00",
+  "updated_at": "2026-08-31T05:49:54.498701+00:00",
   "profile": {
     "handle": "InsaneArrogant",
     "rank": "newbie",
@@ -7,7 +7,7 @@
     "max_rank": "newbie",
     "max_rating": 1014,
     "organization": "Jiangly Fan Club",
-    "last_online": "2026-08-30T02:04:35+00:00",
+    "last_online": "2026-08-31T01:59:55+00:00",
     "profile_url": "https://codeforces.com/profile/InsaneArrogant"
   },
   "stats": {
@@ -321,6 +321,7 @@
       "rating": null,
       "tags": [
         "brute force",
+        "games",
         "math"
       ],
       "language": "C++20 (GCC 13-64)",
