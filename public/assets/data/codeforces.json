@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-01T05:22:41.661862+00:00",
+  "updated_at": "2026-09-02T04:48:43.754928+00:00",
   "profile": {
     "handle": "InsaneArrogant",
     "rank": "newbie",
@@ -7,15 +7,15 @@
     "max_rank": "newbie",
     "max_rating": 1014,
     "organization": "Jiangly Fan Club",
-    "last_online": "2026-08-31T07:07:29+00:00",
+    "last_online": "2026-09-02T01:15:13+00:00",
     "profile_url": "https://codeforces.com/profile/InsaneArrogant"
   },
   "stats": {
-    "solved_count": 236,
-    "accepted_submissions": 267,
-    "submissions_scanned": 531,
+    "solved_count": 237,
+    "accepted_submissions": 268,
+    "submissions_scanned": 534,
     "rated_contests": 23,
-    "active_days": 129
+    "active_days": 130
   },
   "top_tags": [
     {
@@ -24,7 +24,7 @@
     },
     {
       "name": "math",
-      "count": 64
+      "count": 65
     },
     {
       "name": "greedy",
@@ -48,7 +48,7 @@
     },
     {
       "name": "dp",
-      "count": 11
+      "count": 12
     }
   ],
   "difficulty": [
@@ -58,7 +58,7 @@
     },
     {
       "label": "1000–1199",
-      "count": 60
+      "count": 61
     },
     {
       "label": "1200–1399",
@@ -315,6 +315,22 @@
   ],
   "recent_accepted": [
     {
+      "name": "Huge Pile",
+      "contest_id": 2184,
+      "index": "C",
+      "rating": 1100,
+      "tags": [
+        "binary search",
+        "dfs and similar",
+        "dp",
+        "graphs",
+        "math"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2026-09-01T06:13:06+00:00",
+      "url": "https://codeforces.com/contest/2184/problem/C"
+    },
+    {
       "name": "Carrot Chopdown (Easy Version)",
       "contest_id": 2258,
       "index": "B1",
@@ -440,18 +456,6 @@
       "language": "C++20 (GCC 13-64)",
       "submitted_at": "2026-05-27T13:51:00+00:00",
       "url": "https://codeforces.com/contest/677/problem/A"
-    },
-    {
-      "name": "Three Decks",
-      "contest_id": 2104,
-      "index": "A",
-      "rating": 800,
-      "tags": [
-        "math"
-      ],
-      "language": "C++20 (GCC 13-64)",
-      "submitted_at": "2025-05-10T12:05:48+00:00",
-      "url": "https://codeforces.com/contest/2104/problem/A"
     }
   ]
 }
