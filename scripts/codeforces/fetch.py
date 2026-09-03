@@ -9,6 +9,7 @@ import requests
 CODEFORCES_API = "https://codeforces.com/api"
 CODEFORCES_HANDLE = os.getenv("CODEFORCES_HANDLE", "InsaneArrogant")
 OUTPUT_DIR = os.getenv("CODEFORCES_OUTPUT_DIR", "public/assets/data")
+MAX_REQUEST_RETRIES = 3
 
 
 def iso_time(timestamp):
@@ -16,14 +17,20 @@ def iso_time(timestamp):
 
 
 def codeforces_request(method, params=None):
-    response = requests.get(
-        f"{CODEFORCES_API}/{method}", params=params, timeout=30
-    )
-    response.raise_for_status()
-    payload = response.json()
-    if payload.get("status") != "OK":
-        raise ValueError(payload.get("comment", f"Codeforces {method} failed"))
-    return payload["result"]
+    for attempt in range(MAX_REQUEST_RETRIES):
+        try:
+            response = requests.get(
+                f"{CODEFORCES_API}/{method}", params=params, timeout=30
+            )
+            response.raise_for_status()
+            payload = response.json()
+            if payload.get("status") != "OK":
+                raise ValueError(payload.get("comment", f"Codeforces {method} failed"))
+            return payload["result"]
+        except requests.RequestException:
+            if attempt == MAX_REQUEST_RETRIES - 1:
+                raise
+            time.sleep(2.1 * (attempt + 1))
 
 
 def fetch_codeforces_contests():
