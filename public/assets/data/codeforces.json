@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-02T04:48:43.754928+00:00",
+  "updated_at": "2026-09-03T06:28:57.601834+00:00",
   "profile": {
     "handle": "InsaneArrogant",
     "rank": "newbie",
@@ -7,28 +7,28 @@
     "max_rank": "newbie",
     "max_rating": 1014,
     "organization": "Jiangly Fan Club",
-    "last_online": "2026-09-02T01:15:13+00:00",
+    "last_online": "2026-09-03T02:16:26+00:00",
     "profile_url": "https://codeforces.com/profile/InsaneArrogant"
   },
   "stats": {
-    "solved_count": 237,
-    "accepted_submissions": 268,
-    "submissions_scanned": 534,
+    "solved_count": 238,
+    "accepted_submissions": 269,
+    "submissions_scanned": 535,
     "rated_contests": 23,
-    "active_days": 130
+    "active_days": 131
   },
   "top_tags": [
     {
       "name": "implementation",
-      "count": 138
+      "count": 139
     },
     {
       "name": "math",
-      "count": 65
+      "count": 66
     },
     {
       "name": "greedy",
-      "count": 64
+      "count": 65
     },
     {
       "name": "brute force",
@@ -44,7 +44,7 @@
     },
     {
       "name": "constructive algorithms",
-      "count": 26
+      "count": 27
     },
     {
       "name": "dp",
@@ -58,7 +58,7 @@
     },
     {
       "label": "1000–1199",
-      "count": 61
+      "count": 62
     },
     {
       "label": "1200–1399",
@@ -315,6 +315,22 @@
   ],
   "recent_accepted": [
     {
+      "name": "Sum of Two Numbers",
+      "contest_id": 1788,
+      "index": "B",
+      "rating": 1100,
+      "tags": [
+        "constructive algorithms",
+        "greedy",
+        "implementation",
+        "math",
+        "probabilities"
+      ],
+      "language": "C++20 (GCC 13-64)",
+      "submitted_at": "2026-09-03T01:44:14+00:00",
+      "url": "https://codeforces.com/contest/1788/problem/B"
+    },
+    {
       "name": "Huge Pile",
       "contest_id": 2184,
       "index": "C",
@@ -444,18 +460,6 @@
       "language": "C++20 (GCC 13-64)",
       "submitted_at": "2026-05-27T13:54:16+00:00",
       "url": "https://codeforces.com/contest/734/problem/A"
-    },
-    {
-      "name": "Vanya and Fence",
-      "contest_id": 677,
-      "index": "A",
-      "rating": 800,
-      "tags": [
-        "implementation"
-      ],
-      "language": "C++20 (GCC 13-64)",
-      "submitted_at": "2026-05-27T13:51:00+00:00",
-      "url": "https://codeforces.com/contest/677/problem/A"
     }
   ]
 }
