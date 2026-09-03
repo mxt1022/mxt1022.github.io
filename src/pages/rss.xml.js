@@ -1,5 +1,6 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
+import { withBase } from '../utils/site';
 
 export async function GET(context) {
   const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
@@ -17,6 +18,7 @@ export async function GET(context) {
     title: 'mxt.log',
     description: '学习记录、项目案例、算法竞赛与 AI 竞赛实践笔记。',
     site,
+    stylesheet: withBase('/rss.xsl'),
     items: items.map((item) => ({
       title: item.title,
       description: item.description,
@@ -25,4 +27,5 @@ export async function GET(context) {
       categories: item.tags,
     })),
   });
+
 }
