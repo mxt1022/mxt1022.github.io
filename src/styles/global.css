@@ -187,6 +187,9 @@ main :is(.hero, .page-hero, .article-header) h1 {
 .code-copy.is-copied { border-color: color-mix(in srgb, var(--accent) 72%, var(--line)); background: color-mix(in srgb, var(--accent) 12%, var(--surface-2)); color: var(--accent); }
 .code-copy.is-error { border-color: color-mix(in srgb, var(--orange) 72%, var(--line)); color: var(--orange); }
 .prose :not(pre) > code { padding: 2px 6px; border-radius: 4px; background: var(--surface-2); color: var(--orange); }
+.prose .katex { color: var(--text); font-size: 1.08em; }
+.prose .katex-display { margin: 2em 0; padding: .75rem 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+.prose .katex-display > .katex { min-width: max-content; }
 .prose table { width: 100%; border-collapse: collapse; margin: 2em 0; }
 .prose th, .prose td { padding: 12px; border-bottom: 1px solid var(--line); text-align: left; }
 .related-notes { border-top: 1px solid var(--line); }

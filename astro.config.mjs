@@ -1,5 +1,8 @@
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 import sitemap from '@astrojs/sitemap';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
 
 export default defineConfig({
   site: process.env.SITE_URL || 'https://mxt1022.github.io',
@@ -12,6 +15,10 @@ export default defineConfig({
     }),
   ],
   markdown: {
+    processor: unified({
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [rehypeKatex],
+    }),
     shikiConfig: {
       theme: 'github-dark-high-contrast',
       wrap: true,

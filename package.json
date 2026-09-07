@@ -14,9 +14,13 @@
     "fetch:contests": "python scripts/codeforces/fetch.py"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^7.2.3",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.2.3"
+    "astro": "^7.2.3",
+    "katex": "^0.18.7",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
