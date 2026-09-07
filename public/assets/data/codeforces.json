@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-06T04:51:53.705751+00:00",
+  "updated_at": "2026-09-07T04:57:56.952928+00:00",
   "profile": {
     "handle": "InsaneArrogant",
     "rank": "newbie",
-    "rating": 1014,
+    "rating": 994,
     "max_rank": "newbie",
     "max_rating": 1014,
     "organization": "Jiangly Fan Club",
-    "last_online": "2026-09-06T00:01:10+00:00",
+    "last_online": "2026-09-07T00:50:59+00:00",
     "profile_url": "https://codeforces.com/profile/InsaneArrogant"
   },
   "stats": {
-    "solved_count": 241,
-    "accepted_submissions": 272,
-    "submissions_scanned": 538,
-    "rated_contests": 23,
-    "active_days": 133
+    "solved_count": 242,
+    "accepted_submissions": 274,
+    "submissions_scanned": 540,
+    "rated_contests": 24,
+    "active_days": 134
   },
   "top_tags": [
     {
@@ -23,12 +23,12 @@
       "count": 139
     },
     {
-      "name": "math",
+      "name": "greedy",
       "count": 67
     },
     {
-      "name": "greedy",
-      "count": 66
+      "name": "math",
+      "count": 67
     },
     {
       "name": "brute force",
@@ -44,7 +44,7 @@
     },
     {
       "name": "constructive algorithms",
-      "count": 27
+      "count": 28
     },
     {
       "name": "dp",
@@ -311,9 +311,32 @@
       "delta": 151,
       "updated_at": "2026-08-29T16:35:00+00:00",
       "url": "https://codeforces.com/contest/2258"
+    },
+    {
+      "contest_id": 2259,
+      "contest_name": "Codeforces Round 1119 (Div. 3)",
+      "rank": 11114,
+      "old_rating": 1014,
+      "new_rating": 994,
+      "delta": -20,
+      "updated_at": "2026-09-05T17:00:00+00:00",
+      "url": "https://codeforces.com/contest/2259"
     }
   ],
   "recent_accepted": [
+    {
+      "name": "101",
+      "contest_id": 2259,
+      "index": "C",
+      "rating": null,
+      "tags": [
+        "constructive algorithms",
+        "greedy"
+      ],
+      "language": "C++23 (GCC 14-64, msys2)",
+      "submitted_at": "2026-09-07T02:56:41+00:00",
+      "url": "https://codeforces.com/contest/2259/problem/C"
+    },
     {
       "name": "Minus Two",
       "contest_id": 2259,
@@ -444,20 +467,6 @@
       "language": "C++20 (GCC 13-64)",
       "submitted_at": "2026-08-28T08:32:23+00:00",
       "url": "https://codeforces.com/contest/1624/problem/C"
-    },
-    {
-      "name": "Nikita and Books",
-      "contest_id": 2244,
-      "index": "B",
-      "rating": 800,
-      "tags": [
-        "greedy",
-        "math",
-        "sortings"
-      ],
-      "language": "C++20 (GCC 13-64)",
-      "submitted_at": "2026-07-27T08:07:34+00:00",
-      "url": "https://codeforces.com/contest/2244/problem/B"
     }
   ]
 }
