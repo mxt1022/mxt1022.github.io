@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-08T04:54:15.151080+00:00",
+  "updated_at": "2026-09-09T04:55:22.543156+00:00",
   "profile": {
     "handle": "InsaneArrogant",
     "rank": "newbie",
@@ -7,7 +7,7 @@
     "max_rank": "newbie",
     "max_rating": 1014,
     "organization": "Jiangly Fan Club",
-    "last_online": "2026-09-07T04:34:10+00:00",
+    "last_online": "2026-09-09T02:50:37+00:00",
     "profile_url": "https://codeforces.com/profile/InsaneArrogant"
   },
   "stats": {
@@ -54,11 +54,11 @@
   "difficulty": [
     {
       "label": "800–999",
-      "count": 131
+      "count": 135
     },
     {
       "label": "1000–1199",
-      "count": 63
+      "count": 64
     },
     {
       "label": "1200–1399",
@@ -328,7 +328,7 @@
       "name": "101",
       "contest_id": 2259,
       "index": "C",
-      "rating": null,
+      "rating": 1000,
       "tags": [
         "constructive algorithms",
         "greedy"
@@ -341,7 +341,7 @@
       "name": "Minus Two",
       "contest_id": 2259,
       "index": "B",
-      "rating": null,
+      "rating": 800,
       "tags": [
         "math",
         "number theory"
@@ -354,7 +354,7 @@
       "name": "Moo Language School",
       "contest_id": 2259,
       "index": "A",
-      "rating": null,
+      "rating": 800,
       "tags": [
         "brute force",
         "greedy",
@@ -413,7 +413,7 @@
       "name": "Carrot Chopdown (Easy Version)",
       "contest_id": 2258,
       "index": "B1",
-      "rating": null,
+      "rating": 900,
       "tags": [
         "brute force",
         "games",
@@ -427,7 +427,7 @@
       "name": "Odd Eraser",
       "contest_id": 2258,
       "index": "A",
-      "rating": null,
+      "rating": 800,
       "tags": [
         "math"
       ],
