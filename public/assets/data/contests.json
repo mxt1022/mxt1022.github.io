@@ -42,11 +42,18 @@
     "url": "https://codeforces.com/contests/2272"
   },
   {
+    "name": "Codeforces Round (Div. 1)",
+    "platform": "Codeforces",
+    "start_time": "2026-10-11T18:35:00+00:00",
+    "duration": "2h",
+    "url": "https://codeforces.com/contests/2273"
+  },
+  {
     "name": "Codeforces Round (Div. 2)",
     "platform": "Codeforces",
     "start_time": "2026-10-11T18:35:00+00:00",
     "duration": "2h",
-    "url": "https://codeforces.com/contests/2270"
+    "url": "https://codeforces.com/contests/2274"
   },
   {
     "name": "Codeforces Round (Div. 1 + Div. 2)",
