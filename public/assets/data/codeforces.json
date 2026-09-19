@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-09-18T04:55:33.325619+00:00",
+  "updated_at": "2026-09-19T04:47:16.808797+00:00",
   "profile": {
     "handle": "InsaneArrogant",
     "rank": "newbie",
-    "rating": 994,
+    "rating": 995,
     "max_rank": "newbie",
-    "max_rating": 1014,
+    "max_rating": 1015,
     "organization": "Jiangly Fan Club",
     "last_online": "2026-09-09T08:08:37+00:00",
     "profile_url": "https://codeforces.com/profile/InsaneArrogant"
@@ -305,19 +305,19 @@
     {
       "contest_id": 2258,
       "contest_name": "Codeforces Round 1118 (Div. 2)",
-      "rank": 4356,
+      "rank": 4279,
       "old_rating": 863,
-      "new_rating": 1014,
-      "delta": 151,
+      "new_rating": 1015,
+      "delta": 152,
       "updated_at": "2026-08-29T16:35:00+00:00",
       "url": "https://codeforces.com/contest/2258"
     },
     {
       "contest_id": 2259,
       "contest_name": "Codeforces Round 1119 (Div. 3)",
-      "rank": 11114,
-      "old_rating": 1014,
-      "new_rating": 994,
+      "rank": 10941,
+      "old_rating": 1015,
+      "new_rating": 995,
       "delta": -20,
       "updated_at": "2026-09-05T17:00:00+00:00",
       "url": "https://codeforces.com/contest/2259"
