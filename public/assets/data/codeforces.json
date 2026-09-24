@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-23T04:55:52.829668+00:00",
+  "updated_at": "2026-09-24T05:05:50.661254+00:00",
   "profile": {
     "handle": "InsaneArrogant",
     "rank": "newbie",
@@ -54,11 +54,11 @@
   "difficulty": [
     {
       "label": "800–999",
-      "count": 135
+      "count": 129
     },
     {
       "label": "1000–1199",
-      "count": 64
+      "count": 63
     },
     {
       "label": "1200–1399",
@@ -328,7 +328,7 @@
       "name": "101",
       "contest_id": 2259,
       "index": "C",
-      "rating": 1000,
+      "rating": null,
       "tags": [
         "constructive algorithms",
         "greedy"
@@ -341,7 +341,7 @@
       "name": "Minus Two",
       "contest_id": 2259,
       "index": "B",
-      "rating": 800,
+      "rating": null,
       "tags": [
         "math",
         "number theory"
@@ -354,7 +354,7 @@
       "name": "Moo Language School",
       "contest_id": 2259,
       "index": "A",
-      "rating": 800,
+      "rating": null,
       "tags": [
         "brute force",
         "greedy",
@@ -413,7 +413,7 @@
       "name": "Carrot Chopdown (Easy Version)",
       "contest_id": 2258,
       "index": "B1",
-      "rating": 900,
+      "rating": null,
       "tags": [
         "brute force",
         "games",
@@ -427,7 +427,7 @@
       "name": "Odd Eraser",
       "contest_id": 2258,
       "index": "A",
-      "rating": 800,
+      "rating": null,
       "tags": [
         "math"
       ],
