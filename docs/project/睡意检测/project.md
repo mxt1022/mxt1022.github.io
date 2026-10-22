@@ -7,7 +7,7 @@
 
 需要注意的事项是，如果需要安装dlib库，需要提前安装`cmake`库和`boost`库，同时也需要有VS（并且在模块安装时选择C++桌面开发里面的用于windows的C++ CMake工具），具体如下：
 
-![image-20230523152200924](https://unlome.oss-cn-beijing.aliyuncs.com/img/image-20230523152200924.png)
+![image-20230523152200924](https://b7b37014.cloudflare-imgbed-bwy.pages.dev/file/blog/imports/image-20230523152200924-af628929190c3eb8.png)
 
 以下是参考blog：
 
@@ -88,11 +88,11 @@ cv2.destroyAllWindows()
 
 #### 睁眼：
 
-![image-20230523153343350](https://unlome.oss-cn-beijing.aliyuncs.com/img/image-20230523153343350.png)
+![image-20230523153343350](https://b7b37014.cloudflare-imgbed-bwy.pages.dev/file/blog/imports/image-20230523153343350-da5c52849839e02b.png)
 
 #### 闭眼：
 
-![image-20230523153423417](https://unlome.oss-cn-beijing.aliyuncs.com/img/image-20230523153423417.png)
+![image-20230523153423417](https://b7b37014.cloudflare-imgbed-bwy.pages.dev/file/blog/imports/image-20230523153423417-f004afddffe4d63f.png)
 
 ### 项目反馈：
 

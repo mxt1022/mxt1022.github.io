@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { siteImages } from '../utils/images';
+import { imageUrl, siteImages } from '../utils/images';
 import { withBase } from '../utils/site';
 
 const techStack = [
@@ -81,7 +81,7 @@ const contentMap = [
               <article class="tech-item" style={`--tech-color: #${tech.color}`}>
                 <div class="tech-icon">
                   <img
-                    src={withBase(`/assets/icons/${tech.slug}.svg`)}
+                    src={imageUrl(`/assets/icons/${tech.slug}.svg`)}
                     alt=""
                     width="28"
                     height="28"

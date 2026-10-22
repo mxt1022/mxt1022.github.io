@@ -11,7 +11,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "fetch:contests": "python scripts/codeforces/fetch.py"
+    "fetch:contests": "python scripts/codeforces/fetch.py",
+    "images:check": "node scripts/images/migrate.mjs --check",
+    "images:migrate": "node scripts/images/migrate.mjs",
+    "images:verify": "node scripts/images/migrate.mjs --verify"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.3",

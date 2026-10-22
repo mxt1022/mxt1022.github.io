@@ -1,11 +1,12 @@
 import type { APIRoute } from 'astro';
 import { withBase } from '../utils/site';
+import { siteImages } from '../utils/images';
 
 export const prerender = true;
 
 export const GET: APIRoute = ({ site }) => {
   const origin = site ?? new URL('https://mxt1022.github.io/');
-  const favicon = new URL(withBase('/assets/images/logo-64.png'), origin).href;
+  const favicon = new URL(siteImages.logo.favicon, origin).href;
   const home = new URL(withBase('/'), origin).href;
 
   const stylesheet = `<?xml version="1.0" encoding="UTF-8"?>

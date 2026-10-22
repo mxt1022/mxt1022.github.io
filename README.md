@@ -18,6 +18,27 @@ npm run check
 npm run build
 ```
 
+## 图片图床与迁移
+
+站点图片通过 CloudFlare-ImgBed 的 `/upload` API 上传到 R2 渠道，头像、Logo、分享封面、RSS 图标和技术栈图标统一读取 `src/data/image-manifest.json`。清单只包含公开访问地址、对象路径、大小、类型和 SHA-256，不包含上传密钥；GitHub Pages 构建直接读取清单，无需配置上传凭证。
+
+本地使用时，将 `.env.example` 复制为 `.env.local` 并填写图床应用地址、图片访问前缀和 R2 渠道名称。如果应用开启上传认证，再填写具备 `upload` 权限的 `IMGBED_API_TOKEN` 或上传认证码 `IMGBED_AUTH_CODE`。这套应用 API 不需要向图床发送 R2 Access Key 或 Secret Access Key。
+
+```bash
+# 预览迁移范围，不进行上传
+npm run images:migrate -- --dry-run
+# 用一张实际 Logo 测试上传和公开读取
+npm run images:check
+# 批量迁移本地图片与文档中的 HTTPS 图片外链
+npm run images:migrate
+# 根据清单逐张校验公开图片的类型、大小及 SHA-256
+npm run images:verify
+```
+
+新增图片可先放入 `public/assets/images/` 或 `public/assets/icons/`，再运行迁移命令。脚本使用包含内容哈希的文件名，跳过已存在且校验一致的图片，并拒绝覆盖同路径下的不同内容；全部图片校验通过后才更新清单和 Markdown 外链。本地原图继续保留，未收入清单的站点图片仍使用本地路径。站点代码中通过 `src/utils/images.ts` 的 `imageUrl()` 引用图片。
+
+迁移后需要连同清单、代码和 Markdown 变更一起提交。`.env.local` 已被 Git 忽略；`PUBLIC_IMAGE_BASE_URL` 可在构建时覆盖清单中的公开访问前缀，应填写图床域名加 `/file`，不包含某张图片的文件名。
+
 ## 项目结构
 
 ```text

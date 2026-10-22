@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "publicBaseUrl": "https://b7b37014.cloudflare-imgbed-bwy.pages.dev/file",
+  "assets": {
+    "/assets/icons/astro.svg": {
+      "key": "blog/icons/astro-fe8e943b26bf9668.svg",
+      "sha256": "fe8e943b26bf966824341377875056270af186e500bdf4732c803b51c0b4f674",
+      "bytes": 779,
+      "contentType": "image/svg+xml"
+    },
+    "/assets/icons/cplusplus.svg": {
+      "key": "blog/icons/cplusplus-adf33f5026f3f70d.svg",
+      "sha256": "adf33f5026f3f70d54f1068cb5d1a790c37b2105cbe728edd170251759d13f18",
+      "bytes": 764,
+      "contentType": "image/svg+xml"
+    },
+    "/assets/icons/git.svg": {
+      "key": "blog/icons/git-95724d436215d483.svg",
+      "sha256": "95724d436215d483de82288610c3c144854138f49945424697fcdf8be66e17d6",
+      "bytes": 426,
+      "contentType": "image/svg+xml"
+    },
+    "/assets/icons/linux.svg": {
+      "key": "blog/icons/linux-7e55f2779ae11a83.svg",
+      "sha256": "7e55f2779ae11a83c9dad2d0414a65d8ca7867d0716ce58bfe41ed299ae1447f",
+      "bytes": 5463,
+      "contentType": "image/svg+xml"
+    },
+    "/assets/icons/openjdk.svg": {
+      "key": "blog/icons/openjdk-31c94bd8f864b018.svg",
+      "sha256": "31c94bd8f864b018d9733c251df186f36e9a0036e43f78d0656895108d438bb3",
+      "bytes": 1774,
+      "contentType": "image/svg+xml"
+    },
+    "/assets/icons/python.svg": {
+      "key": "blog/icons/python-ad9468e1c4903f73.svg",
+      "sha256": "ad9468e1c4903f73ae7eebfbe980f0f727a10db695be3d914e7d8bd25356a862",
+      "bytes": 1518,
+      "contentType": "image/svg+xml"
+    },
+    "/assets/icons/pytorch.svg": {
+      "key": "blog/icons/pytorch-4dd3f3d3e4102f3b.svg",
+      "sha256": "4dd3f3d3e4102f3bee391fcb3d8ac960a14c48e6655d43b23f7b386d5da36d01",
+      "bytes": 451,
+      "contentType": "image/svg+xml"
+    },
+    "/assets/icons/scikitlearn.svg": {
+      "key": "blog/icons/scikitlearn-ebaf97475ff5e6af.svg",
+      "sha256": "ebaf97475ff5e6af3d6a4799a164a3a385e902e442d012cc19c47237cecb2be8",
+      "bytes": 4940,
+      "contentType": "image/svg+xml"
+    },
+    "/assets/icons/tensorflow.svg": {
+      "key": "blog/icons/tensorflow-4c828afb17cd3578.svg",
+      "sha256": "4c828afb17cd35786d7dd336f78d3111a7c730af54011cc2b20988866bdd8665",
+      "bytes": 285,
+      "contentType": "image/svg+xml"
+    },
+    "/assets/icons/typescript.svg": {
+      "key": "blog/icons/typescript-7f023e8d1e767370.svg",
+      "sha256": "7f023e8d1e767370306ec9437d2de5d5af97491d6208dd7799a3808a7c10a36a",
+      "bytes": 1294,
+      "contentType": "image/svg+xml"
+    },
+    "/assets/images/avatar-240.webp": {
+      "key": "blog/images/avatar-240-a977fb4c3a420a4c.webp",
+      "sha256": "a977fb4c3a420a4ccba7b94bb3a2f645f61068bd5dbe15e02ed036f3c40ad6f1",
+      "bytes": 11306,
+      "contentType": "image/webp"
+    },
+    "/assets/images/avatar-360.webp": {
+      "key": "blog/images/avatar-360-316a431de0c84bca.webp",
+      "sha256": "316a431de0c84bca40f88ef304aaddd4ca48b09d9e77e775a7d0a518db189f8d",
+      "bytes": 24232,
+      "contentType": "image/webp"
+    },
+    "/assets/images/avatar-540.webp": {
+      "key": "blog/images/avatar-540-64b29fdedda894c4.webp",
+      "sha256": "64b29fdedda894c4adb942f9cb5237f721991de4e38f747cf834c9f027bd0848",
+      "bytes": 50610,
+      "contentType": "image/webp"
+    },
+    "/assets/images/logo-140.webp": {
+      "key": "blog/images/logo-140-caeb54589f96cb60.webp",
+      "sha256": "caeb54589f96cb6019f12e9b027c5ba4817c3a930cb5bbac2d3dfd3c6d2376c9",
+      "bytes": 2582,
+      "contentType": "image/webp"
+    },
+    "/assets/images/logo-280.webp": {
+      "key": "blog/images/logo-280-826e23e8d41579c5.webp",
+      "sha256": "826e23e8d41579c51b9d4f4f0f470f05cf69ea2959a6c53c064b2dba7a1f94e5",
+      "bytes": 6488,
+      "contentType": "image/webp"
+    },
+    "/assets/images/logo-420.webp": {
+      "key": "blog/images/logo-420-a52d6786950d712a.webp",
+      "sha256": "a52d6786950d712a7d017db82dc1041dd98948100c949ca34aade580e2dd5c95",
+      "bytes": 11290,
+      "contentType": "image/webp"
+    },
+    "/assets/images/logo-64.png": {
+      "key": "blog/images/logo-64-9312a3b92732ef19.png",
+      "sha256": "9312a3b92732ef19fdfda312682c8177cc046c7fd87e09ba4bd0f88eb617139d",
+      "bytes": 5612,
+      "contentType": "image/png"
+    },
+    "/assets/images/logo-96.webp": {
+      "key": "blog/images/logo-96-31721664a404d464.webp",
+      "sha256": "31721664a404d464b83b0ce866fc63add0a656cc1132b101166a7b96112a5440",
+      "bytes": 1478,
+      "contentType": "image/webp"
+    },
+    "/assets/images/og.jpg": {
+      "key": "blog/images/og-fcff901f80c4b966.jpg",
+      "sha256": "fcff901f80c4b96648533a2e2f90a516cd989b9e7496125430d99fdfd25d2211",
+      "bytes": 75146,
+      "contentType": "image/jpeg"
+    },
+    "https://unlome.oss-cn-beijing.aliyuncs.com/img/image-20230523152200924.png": {
+      "key": "blog/imports/image-20230523152200924-af628929190c3eb8.png",
+      "sha256": "af628929190c3eb808b60ae008c8c2e93bae8fee14d888e6a2db8904b752b329",
+      "bytes": 183520,
+      "contentType": "image/png"
+    },
+    "https://unlome.oss-cn-beijing.aliyuncs.com/img/image-20230523153343350.png": {
+      "key": "blog/imports/image-20230523153343350-da5c52849839e02b.png",
+      "sha256": "da5c52849839e02b85b43b903164a80faf2ea7a117d6954d4a3e9b724593dc6e",
+      "bytes": 360764,
+      "contentType": "image/png"
+    },
+    "https://unlome.oss-cn-beijing.aliyuncs.com/img/image-20230523153423417.png": {
+      "key": "blog/imports/image-20230523153423417-f004afddffe4d63f.png",
+      "sha256": "f004afddffe4d63f43d118bc976c1c56b9d24e68f7f1d6690c9318478f8c72cd",
+      "bytes": 467804,
+      "contentType": "image/png"
+    }
+  }
+}
