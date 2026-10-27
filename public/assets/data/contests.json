@@ -1,12 +1,5 @@
 [
   {
-    "name": "Codeforces Round 1130 (Div. 2)",
-    "platform": "Codeforces",
-    "start_time": "2026-10-26T14:35:00+00:00",
-    "duration": "2h",
-    "url": "https://codeforces.com/contests/2272"
-  },
-  {
     "name": "Codeforces Round 1131 (Div. 3)",
     "platform": "Codeforces",
     "start_time": "2026-10-31T14:35:00+00:00",
@@ -14,11 +7,25 @@
     "url": "https://codeforces.com/contests/2278"
   },
   {
+    "name": "Educational Codeforces Round 196 (Rated for Div. 2)",
+    "platform": "Codeforces",
+    "start_time": "2026-11-04T14:35:00+00:00",
+    "duration": "2h",
+    "url": "https://codeforces.com/contests/2283"
+  },
+  {
     "name": "ICPC 2026 Online Challenge 2 powered by Huawei",
     "platform": "Codeforces",
     "start_time": "2026-11-05T11:00:00+00:00",
     "duration": "336h",
     "url": "https://codeforces.com/contests/2281"
+  },
+  {
+    "name": "Codeforces Round (Div. 2)",
+    "platform": "Codeforces",
+    "start_time": "2026-11-06T14:35:00+00:00",
+    "duration": "2h",
+    "url": "https://codeforces.com/contests/2284"
   },
   {
     "name": "Codeforces Round (Div. 1)",
@@ -33,6 +40,13 @@
     "start_time": "2026-11-07T14:35:00+00:00",
     "duration": "2h",
     "url": "https://codeforces.com/contests/2280"
+  },
+  {
+    "name": "Codeforces Round (Div. 2)",
+    "platform": "Codeforces",
+    "start_time": "2026-11-15T14:35:00+00:00",
+    "duration": "2h",
+    "url": "https://codeforces.com/contests/2285"
   },
   {
     "name": "Kotlin Heroes: Episode 15",
