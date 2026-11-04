@@ -35,6 +35,20 @@
     "url": "https://codeforces.com/contests/2285"
   },
   {
+    "name": "Codeforces Round (Div. 1)",
+    "platform": "Codeforces",
+    "start_time": "2026-11-21T14:35:00+00:00",
+    "duration": "2h",
+    "url": "https://codeforces.com/contests/2287"
+  },
+  {
+    "name": "Codeforces Round (Div. 2)",
+    "platform": "Codeforces",
+    "start_time": "2026-11-21T14:35:00+00:00",
+    "duration": "2h",
+    "url": "https://codeforces.com/contests/2288"
+  },
+  {
     "name": "Kotlin Heroes: Practice 15",
     "platform": "Codeforces",
     "start_time": "2026-12-01T14:30:00+00:00",
